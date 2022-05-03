@@ -20,6 +20,10 @@
 # RStudio files
 .Rproj.user/
 
+# Big data files
+.csv
+
+
 # produced vignettes
 vignettes/*.html
 vignettes/*.pdf
