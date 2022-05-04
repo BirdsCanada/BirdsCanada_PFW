@@ -1,3 +1,8 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
 # Zero-fill Matrix {#Zero3}
 
 
@@ -63,6 +68,8 @@ For reporting purposes, we will zero-fill the data matrix based on Province (or 
 
 First, lets create the zero-fill range file for each Province. First, we creating a master list that links all `loc_id` from PFW to Province, the we determine if a species was detected >=10 times. This is done using a loop, which creates a Range output table. Note that we use the `REPORT_AS` for the species ID field, *not* `species_code` (which would at first glance seems to make sense, but in the long run it doesn't work out. Trust me!).
 
+### Provinical Range Matrix {#Zero3.2.1}
+
 
 ```r
 # Using the past 10 years of data to assign range limits for species
@@ -87,8 +94,8 @@ for(m in 1:length(sp.list)) {
 
 # Count number of observation in each Atlas Block  
   sp.data<-sp.data %>% group_by(Prov) %>%
-    dplyr::summarize(nobs=sum(how_many)) %>% 
-    mutate(count=ifelse(nobs>=10, 1, 0)) %>% 
+    dplyr::summarize(nobs=length(how_many)) %>% 
+    mutate(count=ifelse(nobs>=5, 1, 0)) %>% 
    dplyr::select(-nobs)
 
   colnames(sp.data)[colnames(sp.data) == "count"] <- sp.list[m]
@@ -110,6 +117,8 @@ write.table(master, file = paste(out.dir, "Range_prov.csv", sep=""), row.names =
 ```
 
 The output table you just created contains location information `loc_id`, `latitude`, `logitude`, `Prov`, and `region` and a column for each species id (i.e., `REPORT_AS`). Each row under the species id indicates if the Atlas Block is within range (1) or is out of range (0). 
+
+### Atlas Block Range Matrix {#Zero3.2.2}
 
 Now lets create the zero-fill range matrix in a more biologically meaningful way. We will define the species range a little more precisely using the Canadian Breeding Bird Atlas blocks (100 × 100 km). This file is located in the `Data` folder on GitHub or can be requested directly from Birds Canada. If a species has been detected in an Atlas Block >10 times in the past 10 years it will be considered in range. 
 
@@ -143,12 +152,56 @@ master$BlockCode<-pts_blk$BLOCK_ID_e
 
 # Make distinct again, first time may not have worked.
 master<-master %>% distinct(loc_id, .keep_all=TRUE)
+```
+
+Next we assign the BCR codes to the `master` table for future use.  
+
+
+```r
+# Loading the bcr polygon 
+bcr <- readOGR(dsn="Data", layer="bcrPolygon")
+
+# Remove duplicated
+coords<-data %>% dplyr::select(loc_id, latitude, longitude) %>% distinct(loc_id, .keep_all = TRUE) 
+
+# Remove NAs
+coords<-coords %>% filter(latitude != "NA") %>% filter(longitude != "NA")
+
+# Make list into spatial coordinates
+points <- SpatialPoints(coords = cbind(coords$longitude, coords$latitude))
+
+# Project to the appropriate datum
+proj4string(points) <- CRS("+proj=longlat +datum=WGS84 +no_defs") 
+
+#Because some points fall outside the bcr polygon, we need to assign them to the nearest polygon
+
+# transform to sf objects
+psf <- sf::st_as_sf(points) %>% 
+    dplyr::mutate(ID_point = coords$loc_id)
+polsf <- sf::st_as_sf(bcr)
+
+# remove points inside polygons
+sf::sf_use_s2(FALSE)
+
+# find nearest poly
+nearest <- polsf[sf::st_nearest_feature(psf, polsf) ,] %>% dplyr::mutate(id_point = psf$ID_point)
+
+# Assign the Atlas Block code back to the lat/long coordinate list
+coords$bcr<-nearest$bcr
+
+# Merge back with the main data file 
+coords<-coords %>% dplyr::select(-latitude, -longitude)
+master<-left_join(master, coords, by=c("loc_id"))
+
+master<-master %>% mutate(bcr=ifelse(bcr==22|bcr==23, 13, bcr))
 
 # Write table to your output director for safe keeping. You will use the master list later. 
 write.table(master, file = paste(out.dir, "master_blockcode.csv", sep=""), row.names = FALSE, sep = ",")
 ```
 
 Now we will use PFW data from the past 10 years to determine the species range. This is done in several steps which are annotated in the code. 
+
+First we assign the National Atlas Block Codes. 
 
 
 ```r
@@ -184,10 +237,14 @@ coords$BlockCode<-points_blk$BLOCK_ID_e
 dat<-merge(dat, coords, by=c("latitude", "longitude"))
 ```
 
+
 Now that we have merged the PFW location data from the past 10 years with the Atlas Block codes, we can determine if a species was detected in a block >=10 times. As before, this is done using a loop, which creates a Range output table. 
 
 
 ```r
+master<-NULL
+master<- read.csv("Output/master_blockcode.csv")
+
 sp.list<-unique(data$REPORT_AS) # n = 303 in this example
 
 # Create a species loop
@@ -198,11 +255,12 @@ for(m in 1:length(sp.list)) {
   sp.data <-NULL 
   sp.data <- filter(dat, REPORT_AS == sp.list[m]) %>%
       droplevels()
-
+  
+# Change to length
 # Count number of observation in each Atlas Block  
   sp.data<-sp.data %>% group_by(BlockCode) %>%
-    dplyr::summarize(nobs=sum(how_many)) %>% 
-    mutate(count=ifelse(nobs>=10, 1, 0)) %>% 
+    dplyr::summarize(nobs=length(how_many)) %>% 
+    mutate(count=ifelse(nobs>=5, 1, 0)) %>% 
    dplyr::select(-nobs)
 
   colnames(sp.data)[colnames(sp.data) == "count"] <- sp.list[m]
@@ -223,7 +281,7 @@ master[is.na(master)]=0
 write.table(master, file = paste(out.dir, "Range_blockcode.csv", sep=""), row.names = FALSE, sep = ",")
 ```
 
-The output table you just created contains location information `loc_id`, `latitude`, `logitude`, `Prov`, `region`, and `BlockCode` and a column for each species id (i.e., `REPORT_AS`). Each row under the species id indicates if the Atlas Block is within range (1) or is out of range (0). 
+The output table you just created contains location information `loc_id`, `latitude`, `logitude`, `Prov`, `region`, `BlockCode` and `bcr` and a column for each species id (i.e., `REPORT_AS`). Each row under the species id indicates if the Atlas Block is within range (1) or is out of range (0). 
 
 ## Sampling Events {#Zero3.3}
 
@@ -233,7 +291,7 @@ First we create new effort fields. The first sums the number of half days the fe
 
 
 ```r
-# Create the full data table. This step is repetative. 
+# Create the full data table. This step is repetitive. 
 data<-rbind(dat1, dat2, dat3, dat4, dat5, dat6, dat7)
 
 # Create effort days field (max = 4)
@@ -249,8 +307,8 @@ Now we are ready to create the full sampling events layer using the filtered Can
 
 ```r
 event.data <- data %>%
-  dplyr::select(loc_id, sub_id, latitude, longitude, month, day, year, Period, Effort_days, Effort_hrs) %>%
-  group_by(loc_id, sub_id, latitude, longitude, month, day, year, Period, Effort_days, Effort_hrs) %>%
+  dplyr::select(loc_id, sub_id, latitude, longitude, month, day, year, Period, Effort_days, Effort_hrs, Prov) %>%
+  group_by(loc_id, sub_id, latitude, longitude, month, day, year, Period, Effort_days, Effort_hrs, Prov) %>%
   distinct() %>%
   ungroup() %>%
   as.data.frame()

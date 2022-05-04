@@ -1,3 +1,8 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
 # Summary Statistics {#Sum4}
 
 
@@ -152,7 +157,7 @@ write.table(format(tot.sp.nat, digits=3), file = paste(out.dir,"Average number o
 
 Now we will do something a little more complicated: calculate the percent of sites with species (`REPORT_AS`) at least once in a season and mean group size. This is calculated for species that occur at > 10 feeder sites.  
 
-This summary statistics needs to be done on a zero-fill data matrix to correct for the number of sites an individual could have been seen but was not. To do this, we will use the `Range_prov` or `Range_blockcode` table, wand the sampling `Events` table (see [Chapter 3](#Zero3)). 
+This summary statistics needs to be done on a zero-fill data matrix to correct for the number of sites an individual could have been seen but was not. To do this, we will use the `Range_prov` or `Range_blockcode` table, and the sampling `Events` table (see [Chapter 3](#Zero3)). 
 
 
 ```r
@@ -228,7 +233,6 @@ write.table(format(per.site.region, digits=3), file = paste(out.dir,"% sites wit
 ########################################
 
 # Province
-
 # Create provincial table outside loop
 per.site.prov<- as.data.frame(matrix(data = NA, nrow = 1, ncol = 5, byrow = FALSE, dimnames = NULL))
 names(per.site.prov) <- c("Prov", "Period", "MeanGroup", "PercentSite", "Species")
@@ -246,7 +250,7 @@ for(n in 1:length(sp.list)) {
    # n<-1 #for testing each species
 
 events1<-NULL #clear previous dataframe
-events1<-events %>% dplyr::select(loc_id, sub_id, day, month, year, Period)%>% filter(year!="NA")
+events1<-events %>% dplyr::select(loc_id, sub_id, day, month, year, Period)%>% filter(year!="NA") %>% filter(month %in% c(12, 1, 2))
 
   sp.data <-NULL 
   sp.data <- filter(data, REPORT_AS == sp.list[n]) %>%
@@ -299,7 +303,6 @@ write.table(format(per.site.prov, digits=3), file = paste(out.dir,"% sites with 
     } #end species loop
 
 ########################################
-
 # National
 
 # Create provincial table outside loop
@@ -392,7 +395,7 @@ top10.per.reg<-as.data.frame(top10.per.reg)
 write.table(format(top10.per.reg, digits=3), file = paste(out.dir,"Top 10 species percent feeders_region.csv"), row.names = FALSE, col.name = TRUE, append = FALSE, quote = FALSE, sep = ",")
 
 # Prov
-top10.per.prov<-per.site.prov %>% dplyr::select(-MeanGroup) %>% group_by(Period, Prov) %>% slice_max(order_by = PercentSite, n = 10) 
+top10.per.prov<-per.site.prov %>% dplyr::select(-MeanGroup) %>% group_by(Period, Prov) %>% slice_max(order_by = PercentSite, n = 25) 
 top10.per.prov<-as.data.frame(top10.per.prov)
 
 write.table(format(top10.per.prov, digits=3), file = paste(out.dir,"Top 10 species percent feeders_prov.csv"), row.names = FALSE, col.name = TRUE, append = FALSE, quote = FALSE, sep = ",")
