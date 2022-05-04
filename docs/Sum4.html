@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 4 Summary Statistics | Project FeederWatch: A Data Users Guide</title>
+  <meta name="description" content="PWF data maniputations and statical summaries" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 4 Summary Statistics | Project FeederWatch: A Data Users Guide" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://github.com/DMEthier/PFW.git" />
+  <meta property="og:image" content="https://github.com/DMEthier/PFW.git/PFWbanner.png" />
+  <meta property="og:description" content="PWF data maniputations and statical summaries" />
+  <meta name="github-repo" content="DMEthier/PFW" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 4 Summary Statistics | Project FeederWatch: A Data Users Guide" />
+  
+  <meta name="twitter:description" content="PWF data maniputations and statical summaries" />
+  <meta name="twitter:image" content="https://github.com/DMEthier/PFW.git/PFWbanner.png" />
+
+<meta name="author" content="Danielle Ethier" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="Zero3.html"/>
+<link rel="next" href="Effort5.html"/>
+<script src="libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="mystyles.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Project FeederWatch: A Data Users Guide</a></li>
+
+<li class="divider"></li>
+<li><a href="index.html#section"></a></li>
+<li class="chapter" data-level="1" data-path="Intro1.html"><a href="Intro1.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="Intro1.html"><a href="Intro1.html#intro1.1"><i class="fa fa-check"></i><b>1.1</b> Project FeederWatch</a></li>
+<li class="chapter" data-level="1.2" data-path="Intro1.html"><a href="Intro1.html#intro1.2"><i class="fa fa-check"></i><b>1.2</b> Goal</a></li>
+<li class="chapter" data-level="1.3" data-path="Intro1.html"><a href="Intro1.html#intro1.3"><i class="fa fa-check"></i><b>1.3</b> Getting Involved</a></li>
+<li class="chapter" data-level="1.4" data-path="Intro1.html"><a href="Intro1.html#intro1.4"><i class="fa fa-check"></i><b>1.4</b> Prerequisites</a></li>
+<li class="chapter" data-level="1.5" data-path="Intro1.html"><a href="Intro1.html#intro1.5"><i class="fa fa-check"></i><b>1.5</b> Acknowledgements</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="Start2.html"><a href="Start2.html"><i class="fa fa-check"></i><b>2</b> Data Manipulation</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="Start2.html"><a href="Start2.html#Start2.1"><i class="fa fa-check"></i><b>2.1</b> Installing packages</a></li>
+<li class="chapter" data-level="2.2" data-path="Start2.html"><a href="Start2.html#Start2.2"><i class="fa fa-check"></i><b>2.2</b> Working Directory</a></li>
+<li class="chapter" data-level="2.3" data-path="Start2.html"><a href="Start2.html#Start2.3"><i class="fa fa-check"></i><b>2.3</b> Data download and filtering</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="Zero3.html"><a href="Zero3.html"><i class="fa fa-check"></i><b>3</b> Zero-fill Matrix</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="Zero3.html"><a href="Zero3.html#Zero3.1"><i class="fa fa-check"></i><b>3.1</b> Load Filtered Data</a></li>
+<li class="chapter" data-level="3.2" data-path="Zero3.html"><a href="Zero3.html#Zero3.2"><i class="fa fa-check"></i><b>3.2</b> Species Range</a></li>
+<li class="chapter" data-level="3.3" data-path="Zero3.html"><a href="Zero3.html#Zero3.3"><i class="fa fa-check"></i><b>3.3</b> Sampling Events</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="Sum4.html"><a href="Sum4.html"><i class="fa fa-check"></i><b>4</b> Summary Statistics</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="Sum4.html"><a href="Sum4.html#Sum4.1"><i class="fa fa-check"></i><b>4.1</b> Average number of birds per week</a></li>
+<li class="chapter" data-level="4.2" data-path="Sum4.html"><a href="Sum4.html#Sum4.2"><i class="fa fa-check"></i><b>4.2</b> Average number of species per week</a></li>
+<li class="chapter" data-level="4.3" data-path="Sum4.html"><a href="Sum4.html#Sum4.3"><i class="fa fa-check"></i><b>4.3</b> Average number of species per site</a></li>
+<li class="chapter" data-level="4.4" data-path="Sum4.html"><a href="Sum4.html#Sum4.4"><i class="fa fa-check"></i><b>4.4</b> Percent of sites with species at least once and mean group size</a></li>
+<li class="chapter" data-level="4.5" data-path="Sum4.html"><a href="Sum4.html#Sum4.5"><i class="fa fa-check"></i><b>4.5</b> Top 10 Species</a></li>
+<li class="chapter" data-level="4.6" data-path="Sum4.html"><a href="Sum4.html#Sum4.6"><i class="fa fa-check"></i><b>4.6</b> Plot Species Means</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="Effort5.html"><a href="Effort5.html"><i class="fa fa-check"></i><b>5</b> Effort Statistics</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="Effort5.html"><a href="Effort5.html#Effort5.1"><i class="fa fa-check"></i><b>5.1</b> Number of Sites Monitored</a></li>
+<li class="chapter" data-level="5.2" data-path="Effort5.html"><a href="Effort5.html#Effort5.2"><i class="fa fa-check"></i><b>5.2</b> Number of Effort Days Monitored</a></li>
+<li class="chapter" data-level="5.3" data-path="Effort5.html"><a href="Effort5.html#Effort5.3"><i class="fa fa-check"></i><b>5.3</b> Seasonal Effort</a></li>
+<li class="chapter" data-level="5.4" data-path="Effort5.html"><a href="Effort5.html#Effort5.4"><i class="fa fa-check"></i><b>5.4</b> Supplemental Information</a></li>
+<li class="chapter" data-level="5.5" data-path="Effort5.html"><a href="Effort5.html#Effort5.5"><i class="fa fa-check"></i><b>5.5</b> Housing and Population Denisty</a></li>
+<li class="chapter" data-level="5.6" data-path="Effort5.html"><a href="Effort5.html#Effort5.6"><i class="fa fa-check"></i><b>5.6</b> Feeder Type</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Project FeederWatch: A Data Users Guide</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="Sum4" class="section level1" number="4">
+<h1><span class="header-section-number">Chapter 4</span> Summary Statistics</h1>
+<p>Now that we have filtered and cleaned the data, and created the <code>Range</code> and sampling <code>Events</code> tables for zero-filling the data matrix, we are ready to start generating summary statistics. These summary statistics are generated annually to support Birds Canada’s reporting for Canadian PFW participants.</p>
+<blockquote>
+<p>Let’s start this Chapter by reloading our libraries and resetting our working directories in the event you took a break and are starting a new session with your newly filtered and cleaned data set.</p>
+</blockquote>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="Sum4.html#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(tidyverse)</span>
+<span id="cb26-2"><a href="Sum4.html#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(data.table)</span>
+<span id="cb26-3"><a href="Sum4.html#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="Sum4.html#cb26-4" aria-hidden="true" tabindex="-1"></a>out.dir <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">&quot;Output/&quot;</span>)</span>
+<span id="cb26-5"><a href="Sum4.html#cb26-5" aria-hidden="true" tabindex="-1"></a>dat.dir <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">&quot;Data/&quot;</span>)</span>
+<span id="cb26-6"><a href="Sum4.html#cb26-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-7"><a href="Sum4.html#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Load full dataset</span></span>
+<span id="cb26-8"><a href="Sum4.html#cb26-8" aria-hidden="true" tabindex="-1"></a>data<span class="ot">&lt;-</span><span class="fu">fread</span>(<span class="st">&quot;Data/PFW_Canada_All.csv&quot;</span>)</span></code></pre></div>
+<p>Before we proceed we are going to add one more filter to the data. Specifically, there are some <code>CATEGORY</code> types that are not useful for our summary purposes (e.g., hybrids = <code>slash</code> &amp; <code>integrade</code>, unknown = <code>spuh</code>, undescribed = <code>form</code>, and domestic = <code>domestic</code>).</p>
+<blockquote>
+<p>If you want to keep all records, then skip this step.</p>
+</blockquote>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="Sum4.html#cb27-1" aria-hidden="true" tabindex="-1"></a>data<span class="ot">&lt;-</span>data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(CATEGORY <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;species&quot;</span>, <span class="st">&quot;issf&quot;</span>)) <span class="sc">%&gt;%</span> <span class="fu">droplevels</span>() </span></code></pre></div>
+<div id="Sum4.1" class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> Average number of birds per week</h2>
+<p>Calculate the average number of individual birds per week at each station, summarized by region, province and nationally.</p>
+<blockquote>
+<p>Note that this is not a zero-filled data matrix. I assume that all checklists have a minimum of one bird recorded. This is likely a true assumption.</p>
+</blockquote>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="Sum4.html#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Region</span></span>
+<span id="cb28-2"><a href="Sum4.html#cb28-2" aria-hidden="true" tabindex="-1"></a>ind.week.reg<span class="ot">&lt;-</span>data <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(region, Period, floor.week, loc_id) <span class="sc">%&gt;%</span> </span>
+<span id="cb28-3"><a href="Sum4.html#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">loc.sum=</span><span class="fu">sum</span>(how_many))</span>
+<span id="cb28-4"><a href="Sum4.html#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-5"><a href="Sum4.html#cb28-5" aria-hidden="true" tabindex="-1"></a>ind.week.reg<span class="ot">&lt;-</span>ind.week.reg <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(region, Period) <span class="sc">%&gt;%</span> </span>
+<span id="cb28-6"><a href="Sum4.html#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">reg.ave=</span><span class="fu">mean</span>(loc.sum))  </span>
+<span id="cb28-7"><a href="Sum4.html#cb28-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb28-8"><a href="Sum4.html#cb28-8" aria-hidden="true" tabindex="-1"></a>ind.week.region<span class="ot">&lt;-</span><span class="fu">cast</span>(ind.week.reg, Period<span class="sc">~</span>region, <span class="at">value=</span><span class="st">&quot;reg.ave&quot;</span>)</span>
+<span id="cb28-9"><a href="Sum4.html#cb28-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-10"><a href="Sum4.html#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(<span class="fu">format</span>(ind.week.region, <span class="at">digits=</span><span class="dv">4</span>), <span class="at">file =</span> <span class="fu">paste</span>(out.dir,<span class="st">&quot;Average number of individual birds per week_region.csv&quot;</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">col.name =</span> <span class="cn">TRUE</span>, <span class="at">append =</span> <span class="cn">FALSE</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">sep =</span> <span class="st">&quot;,&quot;</span>)</span>
+<span id="cb28-11"><a href="Sum4.html#cb28-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-12"><a href="Sum4.html#cb28-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Province</span></span>
+<span id="cb28-13"><a href="Sum4.html#cb28-13" aria-hidden="true" tabindex="-1"></a>ind.week.prov<span class="ot">&lt;-</span>data <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Prov, Period, floor.week, loc_id) <span class="sc">%&gt;%</span>   <span class="fu">summarize</span>(<span class="at">loc.sum=</span><span class="fu">sum</span>(how_many))</span>
+<span id="cb28-14"><a href="Sum4.html#cb28-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-15"><a href="Sum4.html#cb28-15" aria-hidden="true" tabindex="-1"></a>ind.week.prov<span class="ot">&lt;-</span>ind.week.prov <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Prov, Period) <span class="sc">%&gt;%</span> </span>
+<span id="cb28-16"><a href="Sum4.html#cb28-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">prov.ave=</span><span class="fu">mean</span>(loc.sum))  </span>
+<span id="cb28-17"><a href="Sum4.html#cb28-17" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb28-18"><a href="Sum4.html#cb28-18" aria-hidden="true" tabindex="-1"></a>ind.week.province<span class="ot">&lt;-</span><span class="fu">cast</span>(ind.week.prov, Period<span class="sc">~</span>Prov, <span class="at">value=</span><span class="st">&quot;prov.ave&quot;</span>)</span>
+<span id="cb28-19"><a href="Sum4.html#cb28-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-20"><a href="Sum4.html#cb28-20" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(<span class="fu">format</span>(ind.week.province, <span class="at">digits=</span><span class="dv">4</span>), <span class="at">file =</span> <span class="fu">paste</span>(out.dir,<span class="st">&quot;Average number of individual birds per week_province.csv&quot;</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">col.name =</span> <span class="cn">TRUE</span>, <span class="at">append =</span> <span class="cn">FALSE</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">sep =</span> <span class="st">&quot;,&quot;</span>)</span>
+<span id="cb28-21"><a href="Sum4.html#cb28-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-22"><a href="Sum4.html#cb28-22" aria-hidden="true" tabindex="-1"></a><span class="co"># National</span></span>
+<span id="cb28-23"><a href="Sum4.html#cb28-23" aria-hidden="true" tabindex="-1"></a>ind.week.nat <span class="ot">&lt;-</span>data <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Period, floor.week, loc_id) <span class="sc">%&gt;%</span> <span class="fu">summarize</span>(<span class="at">loc.sum=</span><span class="fu">sum</span>(how_many))</span>
+<span id="cb28-24"><a href="Sum4.html#cb28-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-25"><a href="Sum4.html#cb28-25" aria-hidden="true" tabindex="-1"></a>ind.week.nat<span class="ot">&lt;-</span>ind.week.nat <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Period) <span class="sc">%&gt;%</span> </span>
+<span id="cb28-26"><a href="Sum4.html#cb28-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">nat.ave=</span><span class="fu">mean</span>(loc.sum))</span>
+<span id="cb28-27"><a href="Sum4.html#cb28-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-28"><a href="Sum4.html#cb28-28" aria-hidden="true" tabindex="-1"></a>ind.week.nat<span class="ot">&lt;-</span><span class="fu">as.data.frame</span>((ind.week.nat))</span>
+<span id="cb28-29"><a href="Sum4.html#cb28-29" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb28-30"><a href="Sum4.html#cb28-30" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(<span class="fu">format</span>(ind.week.nat, <span class="at">digits=</span><span class="dv">4</span>), <span class="at">file =</span> <span class="fu">paste</span>(out.dir,<span class="st">&quot;Average number of individual birds per week_national.csv&quot;</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">col.name =</span> <span class="cn">TRUE</span>, <span class="at">append =</span> <span class="cn">FALSE</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">sep =</span> <span class="st">&quot;,&quot;</span>)</span></code></pre></div>
+</div>
+<div id="Sum4.2" class="section level2" number="4.2">
+<h2><span class="header-section-number">4.2</span> Average number of species per week</h2>
+<p>Calculate the average number of species (<code>REPORT_AS</code>) per week at each station, summarized by region, province and nationally.</p>
+<blockquote>
+<p>Note that this is not a zero-filled data matrix. I assume that all checklists have a minimum of one bird recorded. This is likely a true assumption.</p>
+</blockquote>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="Sum4.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Region</span></span>
+<span id="cb29-2"><a href="Sum4.html#cb29-2" aria-hidden="true" tabindex="-1"></a>sp.week.reg<span class="ot">&lt;-</span>data <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(region, Period, floor.week, loc_id) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-3"><a href="Sum4.html#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">loc.sp=</span><span class="fu">n_distinct</span>(REPORT_AS))</span>
+<span id="cb29-4"><a href="Sum4.html#cb29-4" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb29-5"><a href="Sum4.html#cb29-5" aria-hidden="true" tabindex="-1"></a>sp.week.reg<span class="ot">&lt;-</span>sp.week.reg <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(region, Period) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-6"><a href="Sum4.html#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">reg.ave=</span><span class="fu">mean</span>(loc.sp))</span>
+<span id="cb29-7"><a href="Sum4.html#cb29-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-8"><a href="Sum4.html#cb29-8" aria-hidden="true" tabindex="-1"></a>sp.week.reg<span class="ot">&lt;-</span><span class="fu">cast</span>(sp.week.reg, Period<span class="sc">~</span>region, <span class="at">value=</span><span class="st">&quot;reg.ave&quot;</span>)</span>
+<span id="cb29-9"><a href="Sum4.html#cb29-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-10"><a href="Sum4.html#cb29-10" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(<span class="fu">format</span>(sp.week.reg, <span class="at">digits=</span><span class="dv">3</span>), <span class="at">file =</span> <span class="fu">paste</span>(out.dir,<span class="st">&quot;Average number of species per week_region.csv&quot;</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">col.name =</span> <span class="cn">TRUE</span>, <span class="at">append =</span> <span class="cn">FALSE</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">sep =</span> <span class="st">&quot;,&quot;</span>)</span>
+<span id="cb29-11"><a href="Sum4.html#cb29-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-12"><a href="Sum4.html#cb29-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Province</span></span>
+<span id="cb29-13"><a href="Sum4.html#cb29-13" aria-hidden="true" tabindex="-1"></a>sp.week.prov<span class="ot">&lt;-</span>data <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Prov, Period, floor.week, loc_id) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-14"><a href="Sum4.html#cb29-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">loc.sp=</span><span class="fu">n_distinct</span>(REPORT_AS))</span>
+<span id="cb29-15"><a href="Sum4.html#cb29-15" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb29-16"><a href="Sum4.html#cb29-16" aria-hidden="true" tabindex="-1"></a>sp.week.prov<span class="ot">&lt;-</span>sp.week.prov <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Prov, Period) <span class="sc">%&gt;%</span> <span class="fu">summarize</span>(<span class="at">prov.ave=</span><span class="fu">mean</span>(loc.sp))</span>
+<span id="cb29-17"><a href="Sum4.html#cb29-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-18"><a href="Sum4.html#cb29-18" aria-hidden="true" tabindex="-1"></a>sp.week.prov<span class="ot">&lt;-</span><span class="fu">cast</span>(sp.week.prov, Period<span class="sc">~</span>Prov, <span class="at">value=</span><span class="st">&quot;prov.ave&quot;</span>)</span>
+<span id="cb29-19"><a href="Sum4.html#cb29-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-20"><a href="Sum4.html#cb29-20" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(<span class="fu">format</span>(sp.week.prov, <span class="at">digits=</span><span class="dv">3</span>), <span class="at">file =</span> <span class="fu">paste</span>(out.dir,<span class="st">&quot;Average number of species per week_province.csv&quot;</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">col.name =</span> <span class="cn">TRUE</span>, <span class="at">append =</span> <span class="cn">FALSE</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">sep =</span> <span class="st">&quot;,&quot;</span>)</span>
+<span id="cb29-21"><a href="Sum4.html#cb29-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-22"><a href="Sum4.html#cb29-22" aria-hidden="true" tabindex="-1"></a><span class="co"># National</span></span>
+<span id="cb29-23"><a href="Sum4.html#cb29-23" aria-hidden="true" tabindex="-1"></a>sp.week.nat<span class="ot">&lt;-</span>data <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Period, floor.week, loc_id) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-24"><a href="Sum4.html#cb29-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">loc.sp=</span><span class="fu">n_distinct</span>(REPORT_AS))</span>
+<span id="cb29-25"><a href="Sum4.html#cb29-25" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb29-26"><a href="Sum4.html#cb29-26" aria-hidden="true" tabindex="-1"></a>sp.week.nat<span class="ot">&lt;-</span>sp.week.nat <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Period) <span class="sc">%&gt;%</span> <span class="fu">summarize</span>(<span class="at">nat.ave=</span><span class="fu">mean</span>(loc.sp))</span>
+<span id="cb29-27"><a href="Sum4.html#cb29-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-28"><a href="Sum4.html#cb29-28" aria-hidden="true" tabindex="-1"></a>sp.week.nat<span class="ot">&lt;-</span><span class="fu">as.data.frame</span>((sp.week.nat))</span>
+<span id="cb29-29"><a href="Sum4.html#cb29-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-30"><a href="Sum4.html#cb29-30" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(<span class="fu">format</span>(sp.week.nat, <span class="at">digits=</span><span class="dv">3</span>), <span class="at">file =</span> <span class="fu">paste</span>(out.dir,<span class="st">&quot;Average number of species per week_national.csv&quot;</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">col.name =</span> <span class="cn">TRUE</span>, <span class="at">append =</span> <span class="cn">FALSE</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">sep =</span> <span class="st">&quot;,&quot;</span>)</span></code></pre></div>
+<blockquote>
+<p>These number are inflated because there are species in the list that are not strictly feeder birds.</p>
+</blockquote>
+</div>
+<div id="Sum4.3" class="section level2" number="4.3">
+<h2><span class="header-section-number">4.3</span> Average number of species per site</h2>
+<p>Calculate the average number of species (<code>REPORT_AS</code>) per site in total years (all weeks combined) summarized by region, province and nationally.</p>
+<blockquote>
+<p>Note that this is not a zero-filled data matrix. I assume that all checklists have a minimum of one bird recorded. This is likely a true assumption.</p>
+</blockquote>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="Sum4.html#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Region</span></span>
+<span id="cb30-2"><a href="Sum4.html#cb30-2" aria-hidden="true" tabindex="-1"></a>tot.sp<span class="ot">&lt;-</span>data <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(loc_id, Period, region) <span class="sc">%&gt;%</span> </span>
+<span id="cb30-3"><a href="Sum4.html#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean.sp.site=</span><span class="fu">n_distinct</span>(REPORT_AS)) <span class="sc">%&gt;%</span> </span>
+<span id="cb30-4"><a href="Sum4.html#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Period, region) <span class="sc">%&gt;%</span> </span>
+<span id="cb30-5"><a href="Sum4.html#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean.sp=</span><span class="fu">mean</span>(mean.sp.site))</span>
+<span id="cb30-6"><a href="Sum4.html#cb30-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-7"><a href="Sum4.html#cb30-7" aria-hidden="true" tabindex="-1"></a>tot.sp<span class="ot">&lt;-</span><span class="fu">cast</span>(tot.sp, Period<span class="sc">~</span>region, <span class="at">value=</span><span class="st">&quot;mean.sp&quot;</span>)</span>
+<span id="cb30-8"><a href="Sum4.html#cb30-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-9"><a href="Sum4.html#cb30-9" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(<span class="fu">format</span>(tot.sp, <span class="at">digits=</span><span class="dv">3</span>), <span class="at">file =</span> <span class="fu">paste</span>(out.dir,<span class="st">&quot;Average number of species per site in total years_region.csv&quot;</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">col.name =</span> <span class="cn">TRUE</span>, <span class="at">append =</span> <span class="cn">FALSE</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">sep =</span> <span class="st">&quot;,&quot;</span>)</span>
+<span id="cb30-10"><a href="Sum4.html#cb30-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-11"><a href="Sum4.html#cb30-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Province</span></span>
+<span id="cb30-12"><a href="Sum4.html#cb30-12" aria-hidden="true" tabindex="-1"></a>tot.sp.prov<span class="ot">&lt;-</span>data <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(loc_id, Period, Prov) <span class="sc">%&gt;%</span> </span>
+<span id="cb30-13"><a href="Sum4.html#cb30-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean.sp.site=</span><span class="fu">n_distinct</span>(REPORT_AS)) <span class="sc">%&gt;%</span> </span>
+<span id="cb30-14"><a href="Sum4.html#cb30-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Period, Prov) <span class="sc">%&gt;%</span> </span>
+<span id="cb30-15"><a href="Sum4.html#cb30-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean.sp=</span><span class="fu">mean</span>(mean.sp.site))</span>
+<span id="cb30-16"><a href="Sum4.html#cb30-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-17"><a href="Sum4.html#cb30-17" aria-hidden="true" tabindex="-1"></a>tot.sp.prov<span class="ot">&lt;-</span><span class="fu">cast</span>(tot.sp.prov, Period<span class="sc">~</span>Prov, <span class="at">value=</span><span class="st">&quot;mean.sp&quot;</span>)</span>
+<span id="cb30-18"><a href="Sum4.html#cb30-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-19"><a href="Sum4.html#cb30-19" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(<span class="fu">format</span>(tot.sp.prov, <span class="at">digits=</span><span class="dv">3</span>), <span class="at">file =</span> <span class="fu">paste</span>(out.dir,<span class="st">&quot;Average number of species per site in total years_province.csv&quot;</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">col.name =</span> <span class="cn">TRUE</span>, <span class="at">append =</span> <span class="cn">FALSE</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">sep =</span> <span class="st">&quot;,&quot;</span>)</span>
+<span id="cb30-20"><a href="Sum4.html#cb30-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-21"><a href="Sum4.html#cb30-21" aria-hidden="true" tabindex="-1"></a><span class="co"># National</span></span>
+<span id="cb30-22"><a href="Sum4.html#cb30-22" aria-hidden="true" tabindex="-1"></a>tot.sp.nat<span class="ot">&lt;-</span>data <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(loc_id, Period) <span class="sc">%&gt;%</span> </span>
+<span id="cb30-23"><a href="Sum4.html#cb30-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean.sp.site=</span><span class="fu">n_distinct</span>(REPORT_AS)) <span class="sc">%&gt;%</span> </span>
+<span id="cb30-24"><a href="Sum4.html#cb30-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Period) <span class="sc">%&gt;%</span> </span>
+<span id="cb30-25"><a href="Sum4.html#cb30-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean.sp=</span><span class="fu">mean</span>(mean.sp.site))</span>
+<span id="cb30-26"><a href="Sum4.html#cb30-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-27"><a href="Sum4.html#cb30-27" aria-hidden="true" tabindex="-1"></a>tot.sp.nat<span class="ot">&lt;-</span><span class="fu">as.data.frame</span>((tot.sp.nat))</span>
+<span id="cb30-28"><a href="Sum4.html#cb30-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-29"><a href="Sum4.html#cb30-29" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(<span class="fu">format</span>(tot.sp.nat, <span class="at">digits=</span><span class="dv">3</span>), <span class="at">file =</span> <span class="fu">paste</span>(out.dir,<span class="st">&quot;Average number of species per site in total years_national.csv&quot;</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">col.name =</span> <span class="cn">TRUE</span>, <span class="at">append =</span> <span class="cn">FALSE</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">sep =</span> <span class="st">&quot;,&quot;</span>)</span></code></pre></div>
+<blockquote>
+<p>These numbers may be slightly inflated because there are species in the list that are not strictly feeder birds.</p>
+</blockquote>
+</div>
+<div id="Sum4.4" class="section level2" number="4.4">
+<h2><span class="header-section-number">4.4</span> Percent of sites with species at least once and mean group size</h2>
+<p>Now we will do something a little more complicated: calculate the percent of sites with species (<code>REPORT_AS</code>) at least once in a season and mean group size. This is calculated for species that occur at &gt; 10 feeder sites.</p>
+<p>This summary statistics needs to be done on a zero-fill data matrix to correct for the number of sites an individual could have been seen but was not. To do this, we will use the <code>Range_prov</code> or <code>Range_blockcode</code> table, wand the sampling <code>Events</code> table (see <a href="Zero3.html#Zero3">Chapter 3</a>).</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="Sum4.html#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Region</span></span>
+<span id="cb31-2"><a href="Sum4.html#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Create regional table outside loop</span></span>
+<span id="cb31-3"><a href="Sum4.html#cb31-3" aria-hidden="true" tabindex="-1"></a>per.site.region<span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">matrix</span>(<span class="at">data =</span> <span class="cn">NA</span>, <span class="at">nrow =</span> <span class="dv">1</span>, <span class="at">ncol =</span> <span class="dv">5</span>, <span class="at">byrow =</span> <span class="cn">FALSE</span>, <span class="at">dimnames =</span> <span class="cn">NULL</span>))</span>
+<span id="cb31-4"><a href="Sum4.html#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(per.site.region) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Region&quot;</span>, <span class="st">&quot;Period&quot;</span>, <span class="st">&quot;MeanGroup&quot;</span>, <span class="st">&quot;PercentSite&quot;</span>, <span class="st">&quot;Species&quot;</span>)</span>
+<span id="cb31-5"><a href="Sum4.html#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(per.site.region, <span class="at">file =</span> <span class="fu">paste</span>(out.dir,<span class="st">&quot;% sites with species at least once in season and mean group size_region.csv&quot;</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">append =</span> <span class="cn">FALSE</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">sep =</span> <span class="st">&quot;,&quot;</span>)</span>
+<span id="cb31-6"><a href="Sum4.html#cb31-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-7"><a href="Sum4.html#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Read in your tables from the Output folder</span></span>
+<span id="cb31-8"><a href="Sum4.html#cb31-8" aria-hidden="true" tabindex="-1"></a>range<span class="ot">&lt;-</span><span class="fu">fread</span>(<span class="st">&quot;Output/Range_prov.csv&quot;</span>) </span>
+<span id="cb31-9"><a href="Sum4.html#cb31-9" aria-hidden="true" tabindex="-1"></a>events<span class="ot">&lt;-</span><span class="fu">fread</span>(<span class="st">&quot;Output/Events.csv&quot;</span>)</span>
+<span id="cb31-10"><a href="Sum4.html#cb31-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-11"><a href="Sum4.html#cb31-11" aria-hidden="true" tabindex="-1"></a>sp.list<span class="ot">&lt;-</span><span class="fu">unique</span>(data<span class="sc">$</span>REPORT_AS)</span>
+<span id="cb31-12"><a href="Sum4.html#cb31-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-13"><a href="Sum4.html#cb31-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Regional species loop </span></span>
+<span id="cb31-14"><a href="Sum4.html#cb31-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(n <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(sp.list)) {</span>
+<span id="cb31-15"><a href="Sum4.html#cb31-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb31-16"><a href="Sum4.html#cb31-16" aria-hidden="true" tabindex="-1"></a>   <span class="co"># n&lt;-1 #for testing each species</span></span>
+<span id="cb31-17"><a href="Sum4.html#cb31-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-18"><a href="Sum4.html#cb31-18" aria-hidden="true" tabindex="-1"></a>events1<span class="ot">&lt;-</span><span class="cn">NULL</span> <span class="co">#clear previous dataframe</span></span>
+<span id="cb31-19"><a href="Sum4.html#cb31-19" aria-hidden="true" tabindex="-1"></a>events1<span class="ot">&lt;-</span>events <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(loc_id, sub_id, day, month, year, Period)<span class="sc">%&gt;%</span> <span class="fu">filter</span>(year<span class="sc">!=</span><span class="st">&quot;NA&quot;</span>) </span>
+<span id="cb31-20"><a href="Sum4.html#cb31-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-21"><a href="Sum4.html#cb31-21" aria-hidden="true" tabindex="-1"></a>  sp.data <span class="ot">&lt;-</span><span class="cn">NULL</span> <span class="co">#clear previous dataframe</span></span>
+<span id="cb31-22"><a href="Sum4.html#cb31-22" aria-hidden="true" tabindex="-1"></a>  sp.data <span class="ot">&lt;-</span> <span class="fu">filter</span>(data, REPORT_AS <span class="sc">==</span> sp.list[n]) <span class="sc">%&gt;%</span></span>
+<span id="cb31-23"><a href="Sum4.html#cb31-23" aria-hidden="true" tabindex="-1"></a>      <span class="fu">droplevels</span>()</span>
+<span id="cb31-24"><a href="Sum4.html#cb31-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-25"><a href="Sum4.html#cb31-25" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">nrow</span>(sp.data)<span class="sc">&gt;</span><span class="dv">0</span>){ <span class="co">#only continue if there is data</span></span>
+<span id="cb31-26"><a href="Sum4.html#cb31-26" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb31-27"><a href="Sum4.html#cb31-27" aria-hidden="true" tabindex="-1"></a>min.year<span class="ot">&lt;-</span><span class="fu">min</span>(sp.data<span class="sc">$</span>year)</span>
+<span id="cb31-28"><a href="Sum4.html#cb31-28" aria-hidden="true" tabindex="-1"></a>max.year<span class="ot">&lt;-</span><span class="fu">max</span>(sp.data<span class="sc">$</span>year)  </span>
+<span id="cb31-29"><a href="Sum4.html#cb31-29" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb31-30"><a href="Sum4.html#cb31-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter events data using the sp.data min and max year</span></span>
+<span id="cb31-31"><a href="Sum4.html#cb31-31" aria-hidden="true" tabindex="-1"></a>events1<span class="ot">&lt;-</span>events1 <span class="sc">%&gt;%</span> <span class="fu">filter</span>(year<span class="sc">&gt;=</span>min.year <span class="sc">&amp;</span> year<span class="sc">&lt;=</span>max.year)</span>
+<span id="cb31-32"><a href="Sum4.html#cb31-32" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb31-33"><a href="Sum4.html#cb31-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge sp.data to events data</span></span>
+<span id="cb31-34"><a href="Sum4.html#cb31-34" aria-hidden="true" tabindex="-1"></a>sp.data<span class="ot">&lt;-</span>dplyr<span class="sc">::</span><span class="fu">left_join</span>(events1, sp.data, <span class="at">by=</span><span class="fu">c</span>(<span class="st">&quot;loc_id&quot;</span>, <span class="st">&quot;sub_id&quot;</span>, <span class="st">&quot;day&quot;</span>, <span class="st">&quot;month&quot;</span>, <span class="st">&quot;year&quot;</span>, <span class="st">&quot;Period&quot;</span>))</span>
+<span id="cb31-35"><a href="Sum4.html#cb31-35" aria-hidden="true" tabindex="-1"></a>sp.data<span class="ot">&lt;-</span>sp.data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(loc_id <span class="sc">!=</span> <span class="st">&quot;NA&quot;</span>) <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>Prov, <span class="sc">-</span>region)</span>
+<span id="cb31-36"><a href="Sum4.html#cb31-36" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb31-37"><a href="Sum4.html#cb31-37" aria-hidden="true" tabindex="-1"></a>range.data<span class="ot">&lt;-</span><span class="cn">NULL</span> <span class="co">#clear previous dataframe</span></span>
+<span id="cb31-38"><a href="Sum4.html#cb31-38" aria-hidden="true" tabindex="-1"></a>range.data<span class="ot">&lt;-</span><span class="fu">try</span>(range <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(Prov, loc_id, region, Prov, sp.list[n]), <span class="at">silent=</span>T) </span>
+<span id="cb31-39"><a href="Sum4.html#cb31-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-40"><a href="Sum4.html#cb31-40" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">class</span>(range.data) <span class="sc">!=</span><span class="st">&quot;try-error&quot;</span>){</span>
+<span id="cb31-41"><a href="Sum4.html#cb31-41" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb31-42"><a href="Sum4.html#cb31-42" aria-hidden="true" tabindex="-1"></a><span class="co"># Join tables</span></span>
+<span id="cb31-43"><a href="Sum4.html#cb31-43" aria-hidden="true" tabindex="-1"></a>  sp.data<span class="ot">&lt;-</span><span class="fu">left_join</span>(sp.data, range.data, <span class="at">by=</span><span class="st">&quot;loc_id&quot;</span>)</span>
+<span id="cb31-44"><a href="Sum4.html#cb31-44" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb31-45"><a href="Sum4.html#cb31-45" aria-hidden="true" tabindex="-1"></a><span class="co">#remove blocks that should not be included in the zero count</span></span>
+<span id="cb31-46"><a href="Sum4.html#cb31-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colnames</span>(sp.data)[<span class="fu">colnames</span>(sp.data) <span class="sc">==</span> sp.list[n]] <span class="ot">&lt;-</span> <span class="st">&quot;sp&quot;</span></span>
+<span id="cb31-47"><a href="Sum4.html#cb31-47" aria-hidden="true" tabindex="-1"></a>  sp.data<span class="ot">&lt;-</span>sp.data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(sp<span class="sc">&gt;=</span><span class="dv">1</span>)</span>
+<span id="cb31-48"><a href="Sum4.html#cb31-48" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb31-49"><a href="Sum4.html#cb31-49" aria-hidden="true" tabindex="-1"></a><span class="co"># Zero fill the &#39;how_many&#39; column</span></span>
+<span id="cb31-50"><a href="Sum4.html#cb31-50" aria-hidden="true" tabindex="-1"></a>  sp.data<span class="sc">$</span>how_many[<span class="fu">is.na</span>(sp.data<span class="sc">$</span>how_many)] <span class="ot">&lt;-</span> <span class="dv">0</span> </span>
+<span id="cb31-51"><a href="Sum4.html#cb31-51" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb31-52"><a href="Sum4.html#cb31-52" aria-hidden="true" tabindex="-1"></a><span class="co"># Now we can start building the summary statistics</span></span>
+<span id="cb31-53"><a href="Sum4.html#cb31-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-54"><a href="Sum4.html#cb31-54" aria-hidden="true" tabindex="-1"></a><span class="co"># Determine the number of distinct locations and the mean group size each location </span></span>
+<span id="cb31-55"><a href="Sum4.html#cb31-55" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter the data to include only species that have at least once per site, and seen at &gt; 10 sites. </span></span>
+<span id="cb31-56"><a href="Sum4.html#cb31-56" aria-hidden="true" tabindex="-1"></a>per.site.region<span class="ot">&lt;-</span>sp.data <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(region, Period) <span class="sc">%&gt;%</span> </span>
+<span id="cb31-57"><a href="Sum4.html#cb31-57" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(<span class="at">loc_id_sp =</span> <span class="fu">ifelse</span>(how_many<span class="sc">==</span><span class="dv">0</span>, <span class="cn">NA</span>, loc_id)) <span class="sc">%&gt;%</span></span>
+<span id="cb31-58"><a href="Sum4.html#cb31-58" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize</span>(<span class="at">tot.site=</span><span class="fu">n_distinct</span>(loc_id), <span class="at">n.site.sp=</span><span class="fu">n_distinct</span>(loc_id_sp), <span class="at">sp.sum=</span><span class="fu">sum</span>(how_many), <span class="at">mean.group=</span><span class="fu">mean</span>(how_many)) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(sp.sum <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(tot.site<span class="sc">&gt;=</span><span class="dv">10</span>) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">per.site=</span>((n.site.sp<span class="dv">-1</span>)<span class="sc">/</span>tot.site)<span class="sc">*</span><span class="dv">100</span>) <span class="sc">%&gt;%</span> <span class="co">#subtract 1 for NAs</span></span>
+<span id="cb31-59"><a href="Sum4.html#cb31-59" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>sp.sum, <span class="sc">-</span>n.site.sp, <span class="sc">-</span>tot.site)</span>
+<span id="cb31-60"><a href="Sum4.html#cb31-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-61"><a href="Sum4.html#cb31-61" aria-hidden="true" tabindex="-1"></a>  per.site.region<span class="sc">$</span>SpeciesCode<span class="ot">&lt;-</span>sp.list[n]</span>
+<span id="cb31-62"><a href="Sum4.html#cb31-62" aria-hidden="true" tabindex="-1"></a>  per.site.region<span class="ot">&lt;-</span><span class="fu">as.data.frame</span>(per.site.region)</span>
+<span id="cb31-63"><a href="Sum4.html#cb31-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-64"><a href="Sum4.html#cb31-64" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(<span class="fu">format</span>(per.site.region, <span class="at">digits=</span><span class="dv">3</span>), <span class="at">file =</span> <span class="fu">paste</span>(out.dir,<span class="st">&quot;% sites with species at least once in season and mean group size_region.csv&quot;</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">col.name =</span> <span class="cn">FALSE</span>, <span class="at">append =</span> <span class="cn">TRUE</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">sep =</span> <span class="st">&quot;,&quot;</span>)</span>
+<span id="cb31-65"><a href="Sum4.html#cb31-65" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb31-66"><a href="Sum4.html#cb31-66" aria-hidden="true" tabindex="-1"></a>} <span class="co"># end try catch </span></span>
+<span id="cb31-67"><a href="Sum4.html#cb31-67" aria-hidden="true" tabindex="-1"></a>  } <span class="co"># end if nrow&gt;0</span></span>
+<span id="cb31-68"><a href="Sum4.html#cb31-68" aria-hidden="true" tabindex="-1"></a>    } <span class="co">#end species loop</span></span>
+<span id="cb31-69"><a href="Sum4.html#cb31-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-70"><a href="Sum4.html#cb31-70" aria-hidden="true" tabindex="-1"></a><span class="do">########################################</span></span>
+<span id="cb31-71"><a href="Sum4.html#cb31-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-72"><a href="Sum4.html#cb31-72" aria-hidden="true" tabindex="-1"></a><span class="co"># Province</span></span>
+<span id="cb31-73"><a href="Sum4.html#cb31-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-74"><a href="Sum4.html#cb31-74" aria-hidden="true" tabindex="-1"></a><span class="co"># Create provincial table outside loop</span></span>
+<span id="cb31-75"><a href="Sum4.html#cb31-75" aria-hidden="true" tabindex="-1"></a>per.site.prov<span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">matrix</span>(<span class="at">data =</span> <span class="cn">NA</span>, <span class="at">nrow =</span> <span class="dv">1</span>, <span class="at">ncol =</span> <span class="dv">5</span>, <span class="at">byrow =</span> <span class="cn">FALSE</span>, <span class="at">dimnames =</span> <span class="cn">NULL</span>))</span>
+<span id="cb31-76"><a href="Sum4.html#cb31-76" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(per.site.prov) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Prov&quot;</span>, <span class="st">&quot;Period&quot;</span>, <span class="st">&quot;MeanGroup&quot;</span>, <span class="st">&quot;PercentSite&quot;</span>, <span class="st">&quot;Species&quot;</span>)</span>
+<span id="cb31-77"><a href="Sum4.html#cb31-77" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(per.site.prov, <span class="at">file =</span> <span class="fu">paste</span>(out.dir,<span class="st">&quot;% sites with species at least once in season and mean group size_prov.csv&quot;</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">append =</span> <span class="cn">FALSE</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">sep =</span> <span class="st">&quot;,&quot;</span>)</span>
+<span id="cb31-78"><a href="Sum4.html#cb31-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-79"><a href="Sum4.html#cb31-79" aria-hidden="true" tabindex="-1"></a>range<span class="ot">&lt;-</span><span class="fu">fread</span>(<span class="st">&quot;Output/Range_prov.csv&quot;</span>)</span>
+<span id="cb31-80"><a href="Sum4.html#cb31-80" aria-hidden="true" tabindex="-1"></a>events<span class="ot">&lt;-</span><span class="fu">fread</span>(<span class="st">&quot;Output/Events.csv&quot;</span>)</span>
+<span id="cb31-81"><a href="Sum4.html#cb31-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-82"><a href="Sum4.html#cb31-82" aria-hidden="true" tabindex="-1"></a>sp.list<span class="ot">&lt;-</span><span class="fu">unique</span>(data<span class="sc">$</span>REPORT_AS)</span>
+<span id="cb31-83"><a href="Sum4.html#cb31-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-84"><a href="Sum4.html#cb31-84" aria-hidden="true" tabindex="-1"></a><span class="co"># Provincial species loop</span></span>
+<span id="cb31-85"><a href="Sum4.html#cb31-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-86"><a href="Sum4.html#cb31-86" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(n <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(sp.list)) {</span>
+<span id="cb31-87"><a href="Sum4.html#cb31-87" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb31-88"><a href="Sum4.html#cb31-88" aria-hidden="true" tabindex="-1"></a>   <span class="co"># n&lt;-1 #for testing each species</span></span>
+<span id="cb31-89"><a href="Sum4.html#cb31-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-90"><a href="Sum4.html#cb31-90" aria-hidden="true" tabindex="-1"></a>events1<span class="ot">&lt;-</span><span class="cn">NULL</span> <span class="co">#clear previous dataframe</span></span>
+<span id="cb31-91"><a href="Sum4.html#cb31-91" aria-hidden="true" tabindex="-1"></a>events1<span class="ot">&lt;-</span>events <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(loc_id, sub_id, day, month, year, Period)<span class="sc">%&gt;%</span> <span class="fu">filter</span>(year<span class="sc">!=</span><span class="st">&quot;NA&quot;</span>)</span>
+<span id="cb31-92"><a href="Sum4.html#cb31-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-93"><a href="Sum4.html#cb31-93" aria-hidden="true" tabindex="-1"></a>  sp.data <span class="ot">&lt;-</span><span class="cn">NULL</span> </span>
+<span id="cb31-94"><a href="Sum4.html#cb31-94" aria-hidden="true" tabindex="-1"></a>  sp.data <span class="ot">&lt;-</span> <span class="fu">filter</span>(data, REPORT_AS <span class="sc">==</span> sp.list[n]) <span class="sc">%&gt;%</span></span>
+<span id="cb31-95"><a href="Sum4.html#cb31-95" aria-hidden="true" tabindex="-1"></a>      <span class="fu">droplevels</span>()</span>
+<span id="cb31-96"><a href="Sum4.html#cb31-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-97"><a href="Sum4.html#cb31-97" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">nrow</span>(sp.data)<span class="sc">&gt;</span><span class="dv">0</span>){ <span class="co">#only continue if there is data</span></span>
+<span id="cb31-98"><a href="Sum4.html#cb31-98" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb31-99"><a href="Sum4.html#cb31-99" aria-hidden="true" tabindex="-1"></a>min.year<span class="ot">&lt;-</span><span class="fu">min</span>(sp.data<span class="sc">$</span>year)</span>
+<span id="cb31-100"><a href="Sum4.html#cb31-100" aria-hidden="true" tabindex="-1"></a>max.year<span class="ot">&lt;-</span><span class="fu">max</span>(sp.data<span class="sc">$</span>year)  </span>
+<span id="cb31-101"><a href="Sum4.html#cb31-101" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb31-102"><a href="Sum4.html#cb31-102" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter events data using the sp.data min and max year</span></span>
+<span id="cb31-103"><a href="Sum4.html#cb31-103" aria-hidden="true" tabindex="-1"></a>events1<span class="ot">&lt;-</span>events1 <span class="sc">%&gt;%</span> <span class="fu">filter</span>(year<span class="sc">&gt;=</span>min.year <span class="sc">&amp;</span> year<span class="sc">&lt;=</span>max.year)</span>
+<span id="cb31-104"><a href="Sum4.html#cb31-104" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb31-105"><a href="Sum4.html#cb31-105" aria-hidden="true" tabindex="-1"></a><span class="co"># First merge to events data</span></span>
+<span id="cb31-106"><a href="Sum4.html#cb31-106" aria-hidden="true" tabindex="-1"></a>sp.data<span class="ot">&lt;-</span>dplyr<span class="sc">::</span><span class="fu">left_join</span>(events1, sp.data, <span class="at">by=</span><span class="fu">c</span>(<span class="st">&quot;loc_id&quot;</span>, <span class="st">&quot;sub_id&quot;</span>, <span class="st">&quot;day&quot;</span>, <span class="st">&quot;month&quot;</span>, <span class="st">&quot;year&quot;</span>, <span class="st">&quot;Period&quot;</span>))</span>
+<span id="cb31-107"><a href="Sum4.html#cb31-107" aria-hidden="true" tabindex="-1"></a>sp.data<span class="ot">&lt;-</span>sp.data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(loc_id <span class="sc">!=</span> <span class="st">&quot;NA&quot;</span>) <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>Prov, <span class="sc">-</span>region)</span>
+<span id="cb31-108"><a href="Sum4.html#cb31-108" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb31-109"><a href="Sum4.html#cb31-109" aria-hidden="true" tabindex="-1"></a>  range.data<span class="ot">&lt;-</span><span class="cn">NULL</span></span>
+<span id="cb31-110"><a href="Sum4.html#cb31-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-111"><a href="Sum4.html#cb31-111" aria-hidden="true" tabindex="-1"></a><span class="co"># Some oddly labeled species are not in the block list. We therefore need a trycath to catch these errors so that the loop doesn&#39;t get broken.     </span></span>
+<span id="cb31-112"><a href="Sum4.html#cb31-112" aria-hidden="true" tabindex="-1"></a>  range.data<span class="ot">&lt;-</span><span class="fu">try</span>(range <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(Prov, loc_id, region, Prov, sp.list[n]), <span class="at">silent=</span><span class="cn">TRUE</span>)</span>
+<span id="cb31-113"><a href="Sum4.html#cb31-113" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb31-114"><a href="Sum4.html#cb31-114" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">class</span>(range.data) <span class="sc">!=</span><span class="st">&quot;try-error&quot;</span>){</span>
+<span id="cb31-115"><a href="Sum4.html#cb31-115" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb31-116"><a href="Sum4.html#cb31-116" aria-hidden="true" tabindex="-1"></a><span class="co"># Join tables</span></span>
+<span id="cb31-117"><a href="Sum4.html#cb31-117" aria-hidden="true" tabindex="-1"></a>  sp.data<span class="ot">&lt;-</span><span class="fu">left_join</span>(sp.data, range.data, <span class="at">by=</span><span class="st">&quot;loc_id&quot;</span>)</span>
+<span id="cb31-118"><a href="Sum4.html#cb31-118" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb31-119"><a href="Sum4.html#cb31-119" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove blocks that should not be included in the zero count</span></span>
+<span id="cb31-120"><a href="Sum4.html#cb31-120" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colnames</span>(sp.data)[<span class="fu">colnames</span>(sp.data) <span class="sc">==</span> sp.list[n]] <span class="ot">&lt;-</span> <span class="st">&quot;sp&quot;</span></span>
+<span id="cb31-121"><a href="Sum4.html#cb31-121" aria-hidden="true" tabindex="-1"></a>  sp.data<span class="ot">&lt;-</span>sp.data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(sp<span class="sc">&gt;=</span><span class="dv">1</span>)</span>
+<span id="cb31-122"><a href="Sum4.html#cb31-122" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb31-123"><a href="Sum4.html#cb31-123" aria-hidden="true" tabindex="-1"></a><span class="co"># Zero fill the &#39;how_many&#39; column</span></span>
+<span id="cb31-124"><a href="Sum4.html#cb31-124" aria-hidden="true" tabindex="-1"></a>  sp.data<span class="sc">$</span>how_many[<span class="fu">is.na</span>(sp.data<span class="sc">$</span>how_many)] <span class="ot">&lt;-</span> <span class="dv">0</span> </span>
+<span id="cb31-125"><a href="Sum4.html#cb31-125" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb31-126"><a href="Sum4.html#cb31-126" aria-hidden="true" tabindex="-1"></a><span class="co"># Now we can start building the summary statistics</span></span>
+<span id="cb31-127"><a href="Sum4.html#cb31-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-128"><a href="Sum4.html#cb31-128" aria-hidden="true" tabindex="-1"></a><span class="co"># Determine the number of distinct locations and the mean group size each location  </span></span>
+<span id="cb31-129"><a href="Sum4.html#cb31-129" aria-hidden="true" tabindex="-1"></a>  per.site.prov<span class="ot">&lt;-</span>sp.data <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Prov, Period) <span class="sc">%&gt;%</span> </span>
+<span id="cb31-130"><a href="Sum4.html#cb31-130" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(<span class="at">loc_id_sp =</span> <span class="fu">ifelse</span>(how_many<span class="sc">==</span><span class="dv">0</span>, <span class="cn">NA</span>, loc_id)) <span class="sc">%&gt;%</span></span>
+<span id="cb31-131"><a href="Sum4.html#cb31-131" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize</span>(<span class="at">tot.site=</span><span class="fu">n_distinct</span>(loc_id), <span class="at">n.site.sp=</span><span class="fu">n_distinct</span>(loc_id_sp), <span class="at">sp.sum=</span><span class="fu">sum</span>(how_many), <span class="at">mean.group=</span><span class="fu">mean</span>(how_many)) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(sp.sum <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(tot.site<span class="sc">&gt;=</span><span class="dv">10</span>) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">per.site=</span>((n.site.sp<span class="dv">-1</span>)<span class="sc">/</span>tot.site)<span class="sc">*</span><span class="dv">100</span>) <span class="sc">%&gt;%</span> <span class="co">#subtract 1 for NAs</span></span>
+<span id="cb31-132"><a href="Sum4.html#cb31-132" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>sp.sum, <span class="sc">-</span>n.site.sp, <span class="sc">-</span>tot.site)</span>
+<span id="cb31-133"><a href="Sum4.html#cb31-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-134"><a href="Sum4.html#cb31-134" aria-hidden="true" tabindex="-1"></a>  per.site.prov<span class="sc">$</span>SpeciesCode<span class="ot">&lt;-</span>sp.list[n]</span>
+<span id="cb31-135"><a href="Sum4.html#cb31-135" aria-hidden="true" tabindex="-1"></a>  per.site.prov<span class="ot">&lt;-</span><span class="fu">as.data.frame</span>(per.site.prov)</span>
+<span id="cb31-136"><a href="Sum4.html#cb31-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-137"><a href="Sum4.html#cb31-137" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(<span class="fu">format</span>(per.site.prov, <span class="at">digits=</span><span class="dv">3</span>), <span class="at">file =</span> <span class="fu">paste</span>(out.dir,<span class="st">&quot;% sites with species at least once in season and mean group size_prov.csv&quot;</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">col.name =</span> <span class="cn">FALSE</span>, <span class="at">append =</span> <span class="cn">TRUE</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">sep =</span> <span class="st">&quot;,&quot;</span>)</span>
+<span id="cb31-138"><a href="Sum4.html#cb31-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-139"><a href="Sum4.html#cb31-139" aria-hidden="true" tabindex="-1"></a>} <span class="co">#end try catch</span></span>
+<span id="cb31-140"><a href="Sum4.html#cb31-140" aria-hidden="true" tabindex="-1"></a>  } <span class="co"># end if nrow&gt;0</span></span>
+<span id="cb31-141"><a href="Sum4.html#cb31-141" aria-hidden="true" tabindex="-1"></a>    } <span class="co">#end species loop</span></span>
+<span id="cb31-142"><a href="Sum4.html#cb31-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-143"><a href="Sum4.html#cb31-143" aria-hidden="true" tabindex="-1"></a><span class="do">########################################</span></span>
+<span id="cb31-144"><a href="Sum4.html#cb31-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-145"><a href="Sum4.html#cb31-145" aria-hidden="true" tabindex="-1"></a><span class="co"># National</span></span>
+<span id="cb31-146"><a href="Sum4.html#cb31-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-147"><a href="Sum4.html#cb31-147" aria-hidden="true" tabindex="-1"></a><span class="co"># Create provincial table outside loop</span></span>
+<span id="cb31-148"><a href="Sum4.html#cb31-148" aria-hidden="true" tabindex="-1"></a>per.site.nat<span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">matrix</span>(<span class="at">data =</span> <span class="cn">NA</span>, <span class="at">nrow =</span> <span class="dv">1</span>, <span class="at">ncol =</span> <span class="dv">4</span>, <span class="at">byrow =</span> <span class="cn">FALSE</span>, <span class="at">dimnames =</span> <span class="cn">NULL</span>))</span>
+<span id="cb31-149"><a href="Sum4.html#cb31-149" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(per.site.nat) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Period&quot;</span>, <span class="st">&quot;MeanGroup&quot;</span>, <span class="st">&quot;PercentSite&quot;</span>, <span class="st">&quot;Species&quot;</span>)</span>
+<span id="cb31-150"><a href="Sum4.html#cb31-150" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(per.site.nat, <span class="at">file =</span> <span class="fu">paste</span>(out.dir,<span class="st">&quot;% sites with species at least once in season and mean group size_nat.csv&quot;</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">append =</span> <span class="cn">FALSE</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">sep =</span> <span class="st">&quot;,&quot;</span>)</span>
+<span id="cb31-151"><a href="Sum4.html#cb31-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-152"><a href="Sum4.html#cb31-152" aria-hidden="true" tabindex="-1"></a>range<span class="ot">&lt;-</span><span class="fu">fread</span>(<span class="st">&quot;Output/Range_prov.csv&quot;</span>)</span>
+<span id="cb31-153"><a href="Sum4.html#cb31-153" aria-hidden="true" tabindex="-1"></a>events<span class="ot">&lt;-</span><span class="fu">fread</span>(<span class="st">&quot;Output/Events.csv&quot;</span>)</span>
+<span id="cb31-154"><a href="Sum4.html#cb31-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-155"><a href="Sum4.html#cb31-155" aria-hidden="true" tabindex="-1"></a>sp.list<span class="ot">&lt;-</span><span class="fu">unique</span>(data<span class="sc">$</span>REPORT_AS)</span>
+<span id="cb31-156"><a href="Sum4.html#cb31-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-157"><a href="Sum4.html#cb31-157" aria-hidden="true" tabindex="-1"></a><span class="co"># Provincial species loop</span></span>
+<span id="cb31-158"><a href="Sum4.html#cb31-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-159"><a href="Sum4.html#cb31-159" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(n <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(sp.list)) {</span>
+<span id="cb31-160"><a href="Sum4.html#cb31-160" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb31-161"><a href="Sum4.html#cb31-161" aria-hidden="true" tabindex="-1"></a>   <span class="co"># n&lt;-1 #for testing each species</span></span>
+<span id="cb31-162"><a href="Sum4.html#cb31-162" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb31-163"><a href="Sum4.html#cb31-163" aria-hidden="true" tabindex="-1"></a>events1<span class="ot">&lt;-</span><span class="cn">NULL</span> <span class="co">#clear previous dataframe</span></span>
+<span id="cb31-164"><a href="Sum4.html#cb31-164" aria-hidden="true" tabindex="-1"></a>events1<span class="ot">&lt;-</span>events <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(loc_id, sub_id, day, month, year, Period)<span class="sc">%&gt;%</span> <span class="fu">filter</span>(year<span class="sc">!=</span><span class="st">&quot;NA&quot;</span>)</span>
+<span id="cb31-165"><a href="Sum4.html#cb31-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-166"><a href="Sum4.html#cb31-166" aria-hidden="true" tabindex="-1"></a>  sp.data <span class="ot">&lt;-</span><span class="cn">NULL</span> </span>
+<span id="cb31-167"><a href="Sum4.html#cb31-167" aria-hidden="true" tabindex="-1"></a>  sp.data <span class="ot">&lt;-</span> <span class="fu">filter</span>(data, REPORT_AS <span class="sc">==</span> sp.list[n]) <span class="sc">%&gt;%</span></span>
+<span id="cb31-168"><a href="Sum4.html#cb31-168" aria-hidden="true" tabindex="-1"></a>      <span class="fu">droplevels</span>()</span>
+<span id="cb31-169"><a href="Sum4.html#cb31-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-170"><a href="Sum4.html#cb31-170" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">nrow</span>(sp.data)<span class="sc">&gt;</span><span class="dv">0</span>){ <span class="co">#only continue if there is data</span></span>
+<span id="cb31-171"><a href="Sum4.html#cb31-171" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb31-172"><a href="Sum4.html#cb31-172" aria-hidden="true" tabindex="-1"></a>min.year<span class="ot">&lt;-</span><span class="fu">min</span>(sp.data<span class="sc">$</span>year)</span>
+<span id="cb31-173"><a href="Sum4.html#cb31-173" aria-hidden="true" tabindex="-1"></a>max.year<span class="ot">&lt;-</span><span class="fu">max</span>(sp.data<span class="sc">$</span>year)  </span>
+<span id="cb31-174"><a href="Sum4.html#cb31-174" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb31-175"><a href="Sum4.html#cb31-175" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter events data using the sp.data min and max year</span></span>
+<span id="cb31-176"><a href="Sum4.html#cb31-176" aria-hidden="true" tabindex="-1"></a>events1<span class="ot">&lt;-</span>events1 <span class="sc">%&gt;%</span> <span class="fu">filter</span>(year<span class="sc">&gt;=</span>min.year <span class="sc">&amp;</span> year<span class="sc">&lt;=</span>max.year)</span>
+<span id="cb31-177"><a href="Sum4.html#cb31-177" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb31-178"><a href="Sum4.html#cb31-178" aria-hidden="true" tabindex="-1"></a><span class="co"># First merge to events data</span></span>
+<span id="cb31-179"><a href="Sum4.html#cb31-179" aria-hidden="true" tabindex="-1"></a>sp.data<span class="ot">&lt;-</span>dplyr<span class="sc">::</span><span class="fu">left_join</span>(events1, sp.data, <span class="at">by=</span><span class="fu">c</span>(<span class="st">&quot;loc_id&quot;</span>, <span class="st">&quot;sub_id&quot;</span>, <span class="st">&quot;day&quot;</span>, <span class="st">&quot;month&quot;</span>, <span class="st">&quot;year&quot;</span>, <span class="st">&quot;Period&quot;</span>))</span>
+<span id="cb31-180"><a href="Sum4.html#cb31-180" aria-hidden="true" tabindex="-1"></a>sp.data<span class="ot">&lt;-</span>sp.data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(loc_id <span class="sc">!=</span> <span class="st">&quot;NA&quot;</span>) <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>Prov, <span class="sc">-</span>region)</span>
+<span id="cb31-181"><a href="Sum4.html#cb31-181" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb31-182"><a href="Sum4.html#cb31-182" aria-hidden="true" tabindex="-1"></a>  range.data<span class="ot">&lt;-</span><span class="cn">NULL</span></span>
+<span id="cb31-183"><a href="Sum4.html#cb31-183" aria-hidden="true" tabindex="-1"></a>  range.data<span class="ot">&lt;-</span><span class="fu">try</span>(range <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(Prov, loc_id, region, Prov, sp.list[n]), <span class="at">silent=</span>T)</span>
+<span id="cb31-184"><a href="Sum4.html#cb31-184" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb31-185"><a href="Sum4.html#cb31-185" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">class</span>(range.data) <span class="sc">!=</span><span class="st">&quot;try-error&quot;</span>){</span>
+<span id="cb31-186"><a href="Sum4.html#cb31-186" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb31-187"><a href="Sum4.html#cb31-187" aria-hidden="true" tabindex="-1"></a><span class="co"># Join tables</span></span>
+<span id="cb31-188"><a href="Sum4.html#cb31-188" aria-hidden="true" tabindex="-1"></a>  sp.data<span class="ot">&lt;-</span><span class="fu">left_join</span>(sp.data, range.data, <span class="at">by=</span><span class="st">&quot;loc_id&quot;</span>)</span>
+<span id="cb31-189"><a href="Sum4.html#cb31-189" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb31-190"><a href="Sum4.html#cb31-190" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove blocks that should not be included in the zero count</span></span>
+<span id="cb31-191"><a href="Sum4.html#cb31-191" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colnames</span>(sp.data)[<span class="fu">colnames</span>(sp.data) <span class="sc">==</span> sp.list[n]] <span class="ot">&lt;-</span> <span class="st">&quot;sp&quot;</span></span>
+<span id="cb31-192"><a href="Sum4.html#cb31-192" aria-hidden="true" tabindex="-1"></a>  sp.data<span class="ot">&lt;-</span>sp.data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(sp<span class="sc">&gt;=</span><span class="dv">1</span>)</span>
+<span id="cb31-193"><a href="Sum4.html#cb31-193" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb31-194"><a href="Sum4.html#cb31-194" aria-hidden="true" tabindex="-1"></a><span class="co"># Zero fill the &#39;how_many&#39; column</span></span>
+<span id="cb31-195"><a href="Sum4.html#cb31-195" aria-hidden="true" tabindex="-1"></a>  sp.data<span class="sc">$</span>how_many[<span class="fu">is.na</span>(sp.data<span class="sc">$</span>how_many)] <span class="ot">&lt;-</span> <span class="dv">0</span> </span>
+<span id="cb31-196"><a href="Sum4.html#cb31-196" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb31-197"><a href="Sum4.html#cb31-197" aria-hidden="true" tabindex="-1"></a><span class="co"># Now we can start building the summary statistics</span></span>
+<span id="cb31-198"><a href="Sum4.html#cb31-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-199"><a href="Sum4.html#cb31-199" aria-hidden="true" tabindex="-1"></a><span class="co"># Determine the number of distinct locations and the mean group size each location  </span></span>
+<span id="cb31-200"><a href="Sum4.html#cb31-200" aria-hidden="true" tabindex="-1"></a>  per.site.nat<span class="ot">&lt;-</span>sp.data <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Period) <span class="sc">%&gt;%</span> </span>
+<span id="cb31-201"><a href="Sum4.html#cb31-201" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(<span class="at">loc_id_sp =</span> <span class="fu">ifelse</span>(how_many<span class="sc">==</span><span class="dv">0</span>, <span class="cn">NA</span>, loc_id)) <span class="sc">%&gt;%</span></span>
+<span id="cb31-202"><a href="Sum4.html#cb31-202" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize</span>(<span class="at">tot.site=</span><span class="fu">n_distinct</span>(loc_id), <span class="at">n.site.sp=</span><span class="fu">n_distinct</span>(loc_id_sp), <span class="at">sp.sum=</span><span class="fu">sum</span>(how_many), <span class="at">mean.group=</span><span class="fu">mean</span>(how_many)) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(sp.sum <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(tot.site<span class="sc">&gt;=</span><span class="dv">10</span>) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">per.site=</span>((n.site.sp<span class="dv">-1</span>)<span class="sc">/</span>tot.site)<span class="sc">*</span><span class="dv">100</span>) <span class="sc">%&gt;%</span> <span class="co">#subtract 1 for NAs</span></span>
+<span id="cb31-203"><a href="Sum4.html#cb31-203" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>sp.sum, <span class="sc">-</span>n.site.sp, <span class="sc">-</span>tot.site)</span>
+<span id="cb31-204"><a href="Sum4.html#cb31-204" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-205"><a href="Sum4.html#cb31-205" aria-hidden="true" tabindex="-1"></a>  per.site.nat<span class="sc">$</span>SpeciesCode<span class="ot">&lt;-</span>sp.list[n]</span>
+<span id="cb31-206"><a href="Sum4.html#cb31-206" aria-hidden="true" tabindex="-1"></a>  per.site.nat<span class="ot">&lt;-</span><span class="fu">as.data.frame</span>(per.site.nat)</span>
+<span id="cb31-207"><a href="Sum4.html#cb31-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-208"><a href="Sum4.html#cb31-208" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(<span class="fu">format</span>(per.site.nat, <span class="at">digits=</span><span class="dv">3</span>), <span class="at">file =</span> <span class="fu">paste</span>(out.dir,<span class="st">&quot;% sites with species at least once in season and mean group size_nat.csv&quot;</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">col.name =</span> <span class="cn">FALSE</span>, <span class="at">append =</span> <span class="cn">TRUE</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">sep =</span> <span class="st">&quot;,&quot;</span>)</span>
+<span id="cb31-209"><a href="Sum4.html#cb31-209" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb31-210"><a href="Sum4.html#cb31-210" aria-hidden="true" tabindex="-1"></a>} <span class="co">#end try catch</span></span>
+<span id="cb31-211"><a href="Sum4.html#cb31-211" aria-hidden="true" tabindex="-1"></a>  } <span class="co"># end if nrow&gt;0</span></span>
+<span id="cb31-212"><a href="Sum4.html#cb31-212" aria-hidden="true" tabindex="-1"></a>    } <span class="co">#end species loop</span></span></code></pre></div>
+</div>
+<div id="Sum4.5" class="section level2" number="4.5">
+<h2><span class="header-section-number">4.5</span> Top 10 Species</h2>
+<p>The last summary statistic we will derive is the Top 10 Species each year based on the % of feeders and the mean group size, separately. To do this, we will use the output tables from the previous analysis.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="Sum4.html#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the tables if they are not in your working environment</span></span>
+<span id="cb32-2"><a href="Sum4.html#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="Sum4.html#cb32-3" aria-hidden="true" tabindex="-1"></a>per.site.region<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">&quot;Output/ % sites with species at least once in season and mean group size_region.csv&quot;</span>)</span>
+<span id="cb32-4"><a href="Sum4.html#cb32-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb32-5"><a href="Sum4.html#cb32-5" aria-hidden="true" tabindex="-1"></a>per.site.prov<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">&quot;Output/ % sites with species at least once in season and mean group size_prov.csv&quot;</span>)</span>
+<span id="cb32-6"><a href="Sum4.html#cb32-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb32-7"><a href="Sum4.html#cb32-7" aria-hidden="true" tabindex="-1"></a>per.site.nat<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">&quot;Output/ % sites with species at least once in season and mean group size_nat.csv&quot;</span>)</span>
+<span id="cb32-8"><a href="Sum4.html#cb32-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-9"><a href="Sum4.html#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Top 10 species based on % feeders</span></span>
+<span id="cb32-10"><a href="Sum4.html#cb32-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Region</span></span>
+<span id="cb32-11"><a href="Sum4.html#cb32-11" aria-hidden="true" tabindex="-1"></a>top10.per.reg<span class="ot">&lt;-</span>per.site.region <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>MeanGroup) <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Period, Region) <span class="sc">%&gt;%</span> <span class="fu">slice_max</span>(<span class="at">order_by =</span> PercentSite, <span class="at">n =</span> <span class="dv">10</span>) </span>
+<span id="cb32-12"><a href="Sum4.html#cb32-12" aria-hidden="true" tabindex="-1"></a>top10.per.reg<span class="ot">&lt;-</span><span class="fu">as.data.frame</span>(top10.per.reg)</span>
+<span id="cb32-13"><a href="Sum4.html#cb32-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-14"><a href="Sum4.html#cb32-14" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(<span class="fu">format</span>(top10.per.reg, <span class="at">digits=</span><span class="dv">3</span>), <span class="at">file =</span> <span class="fu">paste</span>(out.dir,<span class="st">&quot;Top 10 species percent feeders_region.csv&quot;</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">col.name =</span> <span class="cn">TRUE</span>, <span class="at">append =</span> <span class="cn">FALSE</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">sep =</span> <span class="st">&quot;,&quot;</span>)</span>
+<span id="cb32-15"><a href="Sum4.html#cb32-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-16"><a href="Sum4.html#cb32-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Prov</span></span>
+<span id="cb32-17"><a href="Sum4.html#cb32-17" aria-hidden="true" tabindex="-1"></a>top10.per.prov<span class="ot">&lt;-</span>per.site.prov <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>MeanGroup) <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Period, Prov) <span class="sc">%&gt;%</span> <span class="fu">slice_max</span>(<span class="at">order_by =</span> PercentSite, <span class="at">n =</span> <span class="dv">10</span>) </span>
+<span id="cb32-18"><a href="Sum4.html#cb32-18" aria-hidden="true" tabindex="-1"></a>top10.per.prov<span class="ot">&lt;-</span><span class="fu">as.data.frame</span>(top10.per.prov)</span>
+<span id="cb32-19"><a href="Sum4.html#cb32-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-20"><a href="Sum4.html#cb32-20" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(<span class="fu">format</span>(top10.per.prov, <span class="at">digits=</span><span class="dv">3</span>), <span class="at">file =</span> <span class="fu">paste</span>(out.dir,<span class="st">&quot;Top 10 species percent feeders_prov.csv&quot;</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">col.name =</span> <span class="cn">TRUE</span>, <span class="at">append =</span> <span class="cn">FALSE</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">sep =</span> <span class="st">&quot;,&quot;</span>)</span>
+<span id="cb32-21"><a href="Sum4.html#cb32-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-22"><a href="Sum4.html#cb32-22" aria-hidden="true" tabindex="-1"></a><span class="co"># National </span></span>
+<span id="cb32-23"><a href="Sum4.html#cb32-23" aria-hidden="true" tabindex="-1"></a>top10.per.nat<span class="ot">&lt;-</span>per.site.nat <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>MeanGroup) <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Period) <span class="sc">%&gt;%</span> <span class="fu">slice_max</span>(<span class="at">order_by =</span> PercentSite, <span class="at">n =</span> <span class="dv">10</span>) </span>
+<span id="cb32-24"><a href="Sum4.html#cb32-24" aria-hidden="true" tabindex="-1"></a>top10.per.nat<span class="ot">&lt;-</span><span class="fu">as.data.frame</span>(top10.per.nat)</span>
+<span id="cb32-25"><a href="Sum4.html#cb32-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-26"><a href="Sum4.html#cb32-26" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(<span class="fu">format</span>(top10.per.nat, <span class="at">digits=</span><span class="dv">3</span>), <span class="at">file =</span> <span class="fu">paste</span>(out.dir,<span class="st">&quot;Top 10 species percent feeders_nat.csv&quot;</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">col.name =</span> <span class="cn">TRUE</span>, <span class="at">append =</span> <span class="cn">FALSE</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">sep =</span> <span class="st">&quot;,&quot;</span>)</span>
+<span id="cb32-27"><a href="Sum4.html#cb32-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-28"><a href="Sum4.html#cb32-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Top 10 species based on MeanGroup size</span></span>
+<span id="cb32-29"><a href="Sum4.html#cb32-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Region</span></span>
+<span id="cb32-30"><a href="Sum4.html#cb32-30" aria-hidden="true" tabindex="-1"></a>top10.mean.reg<span class="ot">&lt;-</span>per.site.region <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>PercentSite) <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Period, Region) <span class="sc">%&gt;%</span> <span class="fu">slice_max</span>(<span class="at">order_by =</span> MeanGroup, <span class="at">n =</span> <span class="dv">10</span>) </span>
+<span id="cb32-31"><a href="Sum4.html#cb32-31" aria-hidden="true" tabindex="-1"></a>top10.mean.reg<span class="ot">&lt;-</span><span class="fu">as.data.frame</span>(top10.mean.reg)</span>
+<span id="cb32-32"><a href="Sum4.html#cb32-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-33"><a href="Sum4.html#cb32-33" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(<span class="fu">format</span>(top10.mean.reg, <span class="at">digits=</span><span class="dv">3</span>), <span class="at">file =</span> <span class="fu">paste</span>(out.dir,<span class="st">&quot;Top 10 species mean group feeders_region.csv&quot;</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">col.name =</span> <span class="cn">TRUE</span>, <span class="at">append =</span> <span class="cn">FALSE</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">sep =</span> <span class="st">&quot;,&quot;</span>)</span>
+<span id="cb32-34"><a href="Sum4.html#cb32-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-35"><a href="Sum4.html#cb32-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Prov</span></span>
+<span id="cb32-36"><a href="Sum4.html#cb32-36" aria-hidden="true" tabindex="-1"></a>top10.mean.prov<span class="ot">&lt;-</span>per.site.prov <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>PercentSite) <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Period, Prov) <span class="sc">%&gt;%</span> <span class="fu">slice_max</span>(<span class="at">order_by =</span> MeanGroup, <span class="at">n =</span> <span class="dv">10</span>) </span>
+<span id="cb32-37"><a href="Sum4.html#cb32-37" aria-hidden="true" tabindex="-1"></a>top10.mean.prov<span class="ot">&lt;-</span><span class="fu">as.data.frame</span>(top10.mean.prov)</span>
+<span id="cb32-38"><a href="Sum4.html#cb32-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-39"><a href="Sum4.html#cb32-39" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(<span class="fu">format</span>(top10.mean.prov, <span class="at">digits=</span><span class="dv">3</span>), <span class="at">file =</span> <span class="fu">paste</span>(out.dir,<span class="st">&quot;Top 10 species mean group feeders_prov.csv&quot;</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">col.name =</span> <span class="cn">TRUE</span>, <span class="at">append =</span> <span class="cn">FALSE</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">sep =</span> <span class="st">&quot;,&quot;</span>)</span>
+<span id="cb32-40"><a href="Sum4.html#cb32-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-41"><a href="Sum4.html#cb32-41" aria-hidden="true" tabindex="-1"></a><span class="co"># National </span></span>
+<span id="cb32-42"><a href="Sum4.html#cb32-42" aria-hidden="true" tabindex="-1"></a>top10.mean.nat<span class="ot">&lt;-</span>per.site.nat <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>PercentSite) <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Period) <span class="sc">%&gt;%</span> <span class="fu">slice_max</span>(<span class="at">order_by =</span> MeanGroup, <span class="at">n =</span> <span class="dv">10</span>) </span>
+<span id="cb32-43"><a href="Sum4.html#cb32-43" aria-hidden="true" tabindex="-1"></a>top10.mean.nat<span class="ot">&lt;-</span><span class="fu">as.data.frame</span>(top10.mean.nat)</span>
+<span id="cb32-44"><a href="Sum4.html#cb32-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-45"><a href="Sum4.html#cb32-45" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(<span class="fu">format</span>(top10.mean.nat, <span class="at">digits=</span><span class="dv">3</span>), <span class="at">file =</span> <span class="fu">paste</span>(out.dir,<span class="st">&quot;Top 10 species mean group feeders_nat.csv&quot;</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">col.name =</span> <span class="cn">TRUE</span>, <span class="at">append =</span> <span class="cn">FALSE</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">sep =</span> <span class="st">&quot;,&quot;</span>)</span></code></pre></div>
+</div>
+<div id="Sum4.6" class="section level2" number="4.6">
+<h2><span class="header-section-number">4.6</span> Plot Species Means</h2>
+<p>Now that we have generated the datatables, let’s plot some data of interest.</p>
+<p>First, lets look at changes in the mean number of species over time. This can be done regionally, provincially, and/ or nationally with only slight changes to the code below. Also, you can simply change the <code>filter</code> to whichever species you want to plot over time.</p>
+<blockquote>
+<p>Notice that the <code>REPORT_AS</code> is now labled as <code>Species</code> in the output tables.</p>
+</blockquote>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="Sum4.html#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the tables if they are not in your working environment</span></span>
+<span id="cb33-2"><a href="Sum4.html#cb33-2" aria-hidden="true" tabindex="-1"></a>per.site.region<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">&quot;Output/ % sites with species at least once in season and mean group size_region.csv&quot;</span>)</span>
+<span id="cb33-3"><a href="Sum4.html#cb33-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb33-4"><a href="Sum4.html#cb33-4" aria-hidden="true" tabindex="-1"></a>per.site.prov<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">&quot;Output/ % sites with species at least once in season and mean group size_prov.csv&quot;</span>)</span>
+<span id="cb33-5"><a href="Sum4.html#cb33-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb33-6"><a href="Sum4.html#cb33-6" aria-hidden="true" tabindex="-1"></a>per.site.nat<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">&quot;Output/ % sites with species at least once in season and mean group size_nat.csv&quot;</span>)</span>
+<span id="cb33-7"><a href="Sum4.html#cb33-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-8"><a href="Sum4.html#cb33-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-9"><a href="Sum4.html#cb33-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter for the species of interest </span></span>
+<span id="cb33-10"><a href="Sum4.html#cb33-10" aria-hidden="true" tabindex="-1"></a>sp.mean<span class="ot">&lt;-</span>per.site.region <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Species<span class="sc">==</span><span class="st">&quot;amecro&quot;</span>)</span>
+<span id="cb33-11"><a href="Sum4.html#cb33-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-12"><a href="Sum4.html#cb33-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the mean number</span></span>
+<span id="cb33-13"><a href="Sum4.html#cb33-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sp.mean, <span class="fu">aes</span>(Period, MeanGroup))<span class="sc">+</span></span>
+<span id="cb33-14"><a href="Sum4.html#cb33-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">colour=</span>Region), <span class="at">size=</span><span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb33-15"><a href="Sum4.html#cb33-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()<span class="sc">+</span></span>
+<span id="cb33-16"><a href="Sum4.html#cb33-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">20</span>))<span class="sc">+</span></span>
+<span id="cb33-17"><a href="Sum4.html#cb33-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Mean number per site&quot;</span>)</span></code></pre></div>
+<p><img src="04-PFWSummaryStats_files/figure-html/spmean%20plot-1.png" width="672" /></p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="Sum4.html#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the % feeders </span></span>
+<span id="cb34-2"><a href="Sum4.html#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sp.mean, <span class="fu">aes</span>(Period, PercentSite))<span class="sc">+</span></span>
+<span id="cb34-3"><a href="Sum4.html#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">colour=</span>Region), <span class="at">size=</span><span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb34-4"><a href="Sum4.html#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()<span class="sc">+</span></span>
+<span id="cb34-5"><a href="Sum4.html#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">20</span>))<span class="sc">+</span></span>
+<span id="cb34-6"><a href="Sum4.html#cb34-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;% feeder sites&quot;</span>)</span></code></pre></div>
+<p><img src="04-PFWSummaryStats_files/figure-html/spmean%20plot-2.png" width="672" /></p>
+<p>Next we are going to summarize effort in <a href="Effort5.html#Effort5">Chapter 5</a>.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="Zero3.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="Effort5.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
