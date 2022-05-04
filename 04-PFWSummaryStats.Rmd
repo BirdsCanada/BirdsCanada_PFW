@@ -165,29 +165,41 @@ write.table(format(tot.sp.nat, digits=3), file = paste(out.dir,"Average number o
 
 ## Average group size when the species is present {#Sum4.4}
 
-This summary statistic captures the mean group size of species for sites and year when it is present. It is therefore not a zero-filled data matrix. 
+This summary statistic captures the geometric mean group size of species for sites and year when it is present. It is therefore not a zero-filled data matrix. 
 
 ```{r MeanGroup, message=FALSE, eval=FALSE}
 
+# define the geometric mean function
+gmean <- function(x) exp(mean(log(x)))
+
 # Region
-mean.sp<-data %>% group_by(Period, region, REPORT_AS) %>% 
-  summarise(mean.group=mean(how_many))
+nsite<-data %>% group_by(Period, region) %>%   summarize(nloc=n_distinct(loc_id)) %>% filter(nloc>=10)  %>% select(-nloc)
+  
+mean.sp<-right_join(data, nsite, by=c("Period", "region")) 
+
+mean.sp<-mean.sp %>% group_by(Period, region, REPORT_AS) %>% summarise(mean.group=gmean(how_many))
 
 mean.sp<-cast(mean.sp, REPORT_AS+region~Period, value="mean.group")
 
 write.table(format(mean.sp, digits=3), file = paste(out.dir,"Mean group size of species_region.csv"), row.names = FALSE, col.name = TRUE, append = FALSE, quote = FALSE, sep = ",")
 
 # Provincial 
-mean.sp<-data %>% group_by(Period, Prov, REPORT_AS) %>% 
-  summarise(mean.group=mean(how_many))
+nsite<-data %>% group_by(Period, Prov) %>%   summarize(nloc=n_distinct(loc_id)) %>% filter(nloc>=10)  %>% select(-nloc)
+  
+mean.sp<-right_join(data, nsite, by=c("Period", "Prov")) 
 
-mean.sp<-cast(mean.sp, REPORT_AS+Prov~Period, value="mean.group")
+mean.sp<-mean.sp %>% group_by(Period, Prov, REPORT_AS) %>% summarise(mean.group=gmean(how_many))
+
+mean.sp<-cast(mean.sp, REPORT_AS+region~Period, value="mean.group")
 
 write.table(format(mean.sp, digits=3), file = paste(out.dir,"Mean group size of species_prov.csv"), row.names = FALSE, col.name = TRUE, append = FALSE, quote = FALSE, sep = ",")
 
 # National
-mean.sp<-data %>% group_by(Period, REPORT_AS) %>% 
-  summarise(mean.group=mean(how_many))
+nsite<-data %>% group_by(Period) %>%   summarize(nloc=n_distinct(loc_id)) %>% filter(nloc>=10) %>% select(-nloc)
+  
+mean.sp<-right_join(data, nsite, by=c("Period")) 
+
+mean.sp<-mean.sp %>% group_by(Period, REPORT_AS) %>% summarise(mean.group=gmean(how_many))
 
 mean.sp<-cast(mean.sp, REPORT_AS~Period, value="mean.group")
 
