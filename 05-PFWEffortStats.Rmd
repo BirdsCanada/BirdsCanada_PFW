@@ -20,8 +20,9 @@ Using the sampling `Events` tables we are going to generate some effort based su
 ```{r load packages, message=FALSE, warning=FALSE}
 require(tidyverse)
 require(reshape)
-library(ggpubr)
-detach("package:plyr")
+require(ggpubr)
+
+#detach("package:plyr")
 
 out.dir <- paste("Output/")
 dat.dir <- paste("Data/")
@@ -47,7 +48,6 @@ eff<-left_join(event, blk, by=c("loc_id", "Prov"))
 First we will summarize the number of `loc_id` monitored in a year, regionally, provincially, and nationally. We will also plot these outputs since it is easy and interesting to look at. 
 
 ```{r Eff1, massage=FALSE}
-library(ggpubr)
 
 loc_id_reg<-eff %>% group_by(region, Period) %>% summarize (n_loc = n_distinct(loc_id)) %>% drop_na()
 

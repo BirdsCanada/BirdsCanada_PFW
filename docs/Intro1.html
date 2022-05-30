@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 1 Introduction | Project FeederWatch: A Data Users Guide</title>
   <meta name="description" content="PWF data maniputations and statical summaries" />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 1 Introduction | Project FeederWatch: A Data Users Guide" />
   <meta property="og:type" content="book" />
-  <meta property="og:url" content="https://github.com/DMEthier/PFW.git" />
   <meta property="og:image" content="https://github.com/DMEthier/PFW.git/PFWbanner.png" />
   <meta property="og:description" content="PWF data maniputations and statical summaries" />
   <meta name="github-repo" content="DMEthier/PFW" />
@@ -32,7 +31,6 @@
   
 <link rel="prev" href="index.html"/>
 <link rel="next" href="Start2.html"/>
-<script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -50,8 +48,9 @@
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -154,11 +153,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3" data-path="Zero3.html"><a href="Zero3.html"><i class="fa fa-check"></i><b>3</b> Zero-fill Matrix</a>
 <ul>
 <li class="chapter" data-level="3.1" data-path="Zero3.html"><a href="Zero3.html#Zero3.1"><i class="fa fa-check"></i><b>3.1</b> Load Filtered Data</a></li>
-<li class="chapter" data-level="3.2" data-path="Zero3.html"><a href="Zero3.html#Zero3.2"><i class="fa fa-check"></i><b>3.2</b> Species Range</a>
-<ul>
-<li class="chapter" data-level="3.2.1" data-path="Zero3.html"><a href="Zero3.html#Zero3.2.1"><i class="fa fa-check"></i><b>3.2.1</b> Provinical Range Matrix</a></li>
-<li class="chapter" data-level="3.2.2" data-path="Zero3.html"><a href="Zero3.html#Zero3.2.2"><i class="fa fa-check"></i><b>3.2.2</b> Atlas Block Range Matrix</a></li>
-</ul></li>
+<li class="chapter" data-level="3.2" data-path="Zero3.html"><a href="Zero3.html#Zero3.2"><i class="fa fa-check"></i><b>3.2</b> Species Range</a></li>
 <li class="chapter" data-level="3.3" data-path="Zero3.html"><a href="Zero3.html#Zero3.3"><i class="fa fa-check"></i><b>3.3</b> Sampling Events</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="Sum4.html"><a href="Sum4.html"><i class="fa fa-check"></i><b>4</b> Summary Statistics</a>
@@ -200,15 +195,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="Intro1" class="section level1" number="1">
-<h1><span class="header-section-number">Chapter 1</span> Introduction</h1>
-<div id="intro1.1" class="section level2" number="1.1">
-<h2><span class="header-section-number">1.1</span> Project FeederWatch</h2>
+<div id="Intro1" class="section level1 hasAnchor" number="1">
+<h1><span class="header-section-number">Chapter 1</span> Introduction<a href="Intro1.html#Intro1" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="intro1.1" class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> Project FeederWatch<a href="Intro1.html#intro1.1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Welcome to Project FeederWatch!</p>
 <p>Since 1987, the Cornell Lab of Ornithology and Birds Canada (formerly Bird Studies Canada) have partnered on Project FeederWatch to mobilize thousands of citizen scientists across North America to count birds in their backyards over the winter. Specifically, FeederWatch is a winter-long (November-April) survey of birds that visit feeders at backyards, nature centers, community areas, and other locales. Participants periodically count the birds they see at their feeders and send their counts to <a href="https://feederwatch.org/">Project FeederWatch</a>. Decades of data provide a comprehensive look at continental wintertime populations of feeder birds over the late 20th and early 21st centuries—including some compelling stories of range expansions and contractions, populations in flux, and birds adapting to changing environments.</p>
 </div>
-<div id="intro1.2" class="section level2" number="1.2">
-<h2><span class="header-section-number">1.2</span> Goal</h2>
+<div id="intro1.2" class="section level2 hasAnchor" number="1.2">
+<h2><span class="header-section-number">1.2</span> Goal<a href="Intro1.html#intro1.2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Our goal of this online ‘handbook’ is to demonstrate how to use the R statistical programming language (<a href="https://www.r-project.org/" class="uri">https://www.r-project.org/</a>) to import, clean, and explore raw Project FeederWatch (PFW) data through visualizations and summaries, and run various analytic procedures. We hope the contents will be useful to researchers interested in PFW data. While this handbook is focused on Canadian PFW data, it could easily be used for US data with minor changes to the R code examples. If you have suggestions for additional examples, please let us know by emailing <a href="mailto:dethier@birdscanada.org" class="email">dethier@birdscanada.org</a>.</p>
 <p>If you have specific questions about Project FeederWatch, please reach out to our Program Leads:</p>
 <blockquote>
@@ -216,19 +211,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 U.S: <a href="mailto:feederwatch@cornell.edu" class="email">feederwatch@cornell.edu</a></p>
 </blockquote>
 </div>
-<div id="intro1.3" class="section level2" number="1.3">
-<h2><span class="header-section-number">1.3</span> Getting Involved</h2>
+<div id="intro1.3" class="section level2 hasAnchor" number="1.3">
+<h2><span class="header-section-number">1.3</span> Getting Involved<a href="Intro1.html#intro1.3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Project FeederWatch is supported almost entirely by its participants. The annual participation fees cover materials, staff support, web design, data analysis, and the year-end report (Winter Bird Highlights). Without the support of our participants, this project wouldn’t be possible.</p>
 <p>As a program that engages participants across the US and Canada, we strive to ensure that Project FeederWatch is accessible and welcoming to every person. FeederWatch is conducted by people of all skill levels and backgrounds, including children, families, individuals, classrooms, retired persons, youth groups, nature centers, and bird clubs.</p>
 <p>Please join the project for the country in which you reside: <a href="https://www.birdscanada.org/you-can-help/project-feederwatch/">Canada</a> or <a href="https://join.birds.cornell.edu/page/33514/donate/1?ea.tracking.id=WEB">U.S</a></p>
 <p>Thank you for your contribution and participation!</p>
 </div>
-<div id="intro1.4" class="section level2" number="1.4">
-<h2><span class="header-section-number">1.4</span> Prerequisites</h2>
+<div id="intro1.4" class="section level2 hasAnchor" number="1.4">
+<h2><span class="header-section-number">1.4</span> Prerequisites<a href="Intro1.html#intro1.4" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>This book assumes that you have a basic understanding of R. Regardless of whether you are new to R or not, we highly recommend that you become familiar with ‘R for Data Science’ by Garrett Grolemund and Hadley Wickham (<a href="http://r4ds.had.co.nz/" class="uri">http://r4ds.had.co.nz/</a>). Their book covers how to import, visualize, and summarize data in R using the tidyverse collection of R packages (<a href="https://www.tidyverse.org/" class="uri">https://www.tidyverse.org/</a>). It also provides an invaluable framework for organizing your workflow to create clean, reproducible code (<a href="http://r4ds.had.co.nz/workflow-projects.html" class="uri">http://r4ds.had.co.nz/workflow-projects.html</a>). We follow their lead by, wherever possible, using the tidyverse framework throughout this book.</p>
 </div>
-<div id="intro1.5" class="section level2" number="1.5">
-<h2><span class="header-section-number">1.5</span> Acknowledgements</h2>
+<div id="intro1.5" class="section level2 hasAnchor" number="1.5">
+<h2><span class="header-section-number">1.5</span> Acknowledgements<a href="Intro1.html#intro1.5" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Project FeederWatch is a joint project of the <a href="https://www.birds.cornell.edu/home/">Cornell Lab of Ornithology</a> and <a href="https://www.birdscanada.org/">Birds Canada</a>. Project FeederWatch is sponsored in the U.S. and Canada by <a href="https://www.wbu.com/?utm_source=Cornell+Lab+eNews&amp;utm_campaign=cb85f4fa3c-PFW+eNews%3A+project+reminders_COPY_01&amp;utm_medium=email&amp;utm_term=0_47588b5758-cb85f4fa3c-">Wild Birds Unlimited</a> and in Canada by <a href="https://armstrongbirdfood.com/?utm_source=Cornell%20Lab%20eNews&amp;utm_campaign=cb85f4fa3c-PFW%20eNews%3A%20project%20reminders_COPY_01&amp;utm_medium=email&amp;utm_term=0_47588b5758-cb85f4fa3c-">Armstrong Bird Food</a>. Many people have contributed to the success of PFW including its founder Erica Dunn, who also designed its protocol. Thank you to David Bonter and Emma Greig at Cornell and Kerrie Wilcox at Birds Canada for organizing and managing PFW over the years. Thanks to David Bonter, Emma Greig, Denis Lepage for managing the Feederwatch database. The text in this document was adapted from The Cornell Lab <a href="https://feederwatch.org/">Project FeederWatch</a> webpage. Funding provided by Environment and Climate Change Canada made the publication of this online resource possible. Thank you!</p>
 
 </div>

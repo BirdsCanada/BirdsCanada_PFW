@@ -15,6 +15,9 @@ Using the sampling `Events` tables we are going to generate some effort based su
 ```r
 require(tidyverse)
 require(reshape)
+require(ggpubr)
+
+#detach("package:plyr")
 
 out.dir <- paste("Output/")
 dat.dir <- paste("Data/")
@@ -31,7 +34,7 @@ We will merge the `Events` table with part of the `Range` table first so that we
 ```r
 blk<-blk %>% dplyr::select(loc_id, Prov, region, BlockCode) %>% distinct(loc_id, .keep_all = TRUE)
 
-eff<-left_join(event, blk, by="loc_id")
+eff<-left_join(event, blk, by=c("loc_id", "Prov"))
 ```
 
 ## Number of Sites Monitored {#Effort5.1}
@@ -44,7 +47,8 @@ loc_id_reg<-eff %>% group_by(region, Period) %>% summarize (n_loc = n_distinct(l
 ```
 
 ```
-## `summarise()` has grouped output by 'region'. You can override using the `.groups` argument.
+## `summarise()` has grouped output by 'region'. You can override using the
+## `.groups` argument.
 ```
 
 ```r
@@ -60,11 +64,16 @@ ggplot(loc_id_reg, aes(x=Period, y=n_loc))+
 <img src="05-PFWEffortStats_files/figure-html/Eff1-1.png" width="672" />
 
 ```r
+ggsave(paste(out.dir, "reg_eff.pdf", sep=""), width = 11, height = 8, device = "pdf")
+while (!is.null(dev.list()))  dev.off()
+
+
 loc_id_prov<-eff %>% group_by(Prov, Period) %>% summarize (n_loc = n_distinct(loc_id)) %>%  drop_na()
 ```
 
 ```
-## `summarise()` has grouped output by 'Prov'. You can override using the `.groups` argument.
+## `summarise()` has grouped output by 'Prov'. You can override using the
+## `.groups` argument.
 ```
 
 ```r
@@ -75,11 +84,10 @@ ggplot(loc_id_prov, aes(x=Period, y=n_loc))+
   ylab("Number of count sites (log)")+
   ggtitle("Provincial")+
   scale_y_log10()
-```
 
-<img src="05-PFWEffortStats_files/figure-html/Eff1-2.png" width="672" />
+ggsave(paste(out.dir, "prov_eff.pdf", sep=""), width = 11, height = 8, device = "pdf")
+while (!is.null(dev.list()))  dev.off()
 
-```r
 loc_id_nat<-eff %>% group_by(Period) %>% summarize (n_loc = n_distinct(loc_id)) %>% drop_na()
 
 ggplot(loc_id_nat, aes(x=Period, y=n_loc))+
@@ -90,11 +98,10 @@ ggplot(loc_id_nat, aes(x=Period, y=n_loc))+
   ggtitle("National")+
   geom_point(aes(x=2020, y=2172), colour="red", size=5)+
   annotate("text", x = 2017, y = 2200, label = "COVID-19", colour="red", size = 5)
-```
 
-<img src="05-PFWEffortStats_files/figure-html/Eff1-3.png" width="672" />
+ggsave(paste(out.dir, "nat_eff.pdf", sep=""), width = 11, height = 8, device = "pdf")
+while (!is.null(dev.list()))  dev.off()
 
-```r
 write.table(format(loc_id_reg, digits=4), file = paste(out.dir,"Site Effort_reg.csv"), row.names = FALSE, col.name = TRUE, append = FALSE, quote = FALSE, sep = ",")
 
 write.table(format(loc_id_prov, digits=4), file = paste(out.dir,"Site Effort_prov.csv"), row.names = FALSE, col.name = TRUE, append = FALSE, quote = FALSE, sep = ",")

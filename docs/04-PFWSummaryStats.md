@@ -163,7 +163,7 @@ This summary statistic captures the geometric mean group size of species for sit
 gmean <- function(x) exp(mean(log(x)))
 
 # Region
-nsite<-data %>% group_by(Period, region) %>%   summarize(nloc=n_distinct(loc_id)) %>% filter(nloc>=10)  %>% select(-nloc)
+nsite<-data %>% group_by(Period, region) %>%   summarize(nloc=n_distinct(loc_id)) %>% filter(nloc>=10)  %>% dplyr::select(-nloc)
   
 mean.sp<-right_join(data, nsite, by=c("Period", "region")) 
 
@@ -174,7 +174,7 @@ mean.sp<-cast(mean.sp, REPORT_AS+region~Period, value="mean.group")
 write.table(format(mean.sp, digits=3), file = paste(out.dir,"Mean group size of species_region.csv"), row.names = FALSE, col.name = TRUE, append = FALSE, quote = FALSE, sep = ",")
 
 # Provincial 
-nsite<-data %>% group_by(Period, Prov) %>%   summarize(nloc=n_distinct(loc_id)) %>% filter(nloc>=10)  %>% select(-nloc)
+nsite<-data %>% group_by(Period, Prov) %>%   summarize(nloc=n_distinct(loc_id)) %>% filter(nloc>=10)  %>% dplyr::select(-nloc)
   
 mean.sp<-right_join(data, nsite, by=c("Period", "Prov")) 
 
@@ -185,7 +185,7 @@ mean.sp<-cast(mean.sp, REPORT_AS+region~Period, value="mean.group")
 write.table(format(mean.sp, digits=3), file = paste(out.dir,"Mean group size of species_prov.csv"), row.names = FALSE, col.name = TRUE, append = FALSE, quote = FALSE, sep = ",")
 
 # National
-nsite<-data %>% group_by(Period) %>%   summarize(nloc=n_distinct(loc_id)) %>% filter(nloc>=10) %>% select(-nloc)
+nsite<-data %>% group_by(Period) %>%   summarize(nloc=n_distinct(loc_id)) %>% filter(nloc>=10) %>% dplyr::select(-nloc)
   
 mean.sp<-right_join(data, nsite, by=c("Period")) 
 
@@ -212,6 +212,7 @@ write.table(per.site.region, file = paste(out.dir,"% sites with species at least
 
 # Read in your tables from the Output folder
 range<-fread("Output/Range_prov.csv") 
+range<-data.frame(range)
 events<-fread("Output/Events.csv")
 
 sp.list<-unique(data$REPORT_AS)
@@ -238,15 +239,15 @@ events1<-events1 %>% filter(year>=min.year & year<=max.year)
   
 # Merge sp.data to events data
 sp.data<-dplyr::left_join(events1, sp.data, by=c("loc_id", "sub_id", "day", "month", "year", "Period"))
-sp.data<-sp.data %>% filter(loc_id != "NA") %>% dplyr::select(-Prov, -region)
+sp.data<-sp.data %>% filter(loc_id != "NA") 
   
 range.data<-NULL #clear previous dataframe
-range.data<-try(range %>% dplyr::select(Prov, loc_id, region, Prov, sp.list[n]), silent=T) 
+range.data<-try(range %>% dplyr::select(Prov, sp.list[n]), silent=T) 
 
 if(class(range.data) !="try-error"){
   
 # Join tables
-  sp.data<-left_join(sp.data, range.data, by="loc_id")
+  sp.data<-left_join(sp.data, range.data, by="Prov")
   
 #remove blocks that should not be included in the zero count
   colnames(sp.data)[colnames(sp.data) == sp.list[n]] <- "sp"
@@ -282,6 +283,7 @@ names(per.site.prov) <- c("Prov", "Period", "MeanGroup", "PercentSite", "Species
 write.table(per.site.prov, file = paste(out.dir,"% sites with species at least once in season and mean group size_prov.csv"), row.names = FALSE, append = FALSE, quote = FALSE, sep = ",")
 
 range<-fread("Output/Range_prov.csv")
+range<-data.frame(range)
 events<-fread("Output/Events.csv")
 
 sp.list<-unique(data$REPORT_AS)
@@ -293,7 +295,7 @@ for(n in 1:length(sp.list)) {
    # n<-1 #for testing each species
 
 events1<-NULL #clear previous dataframe
-events1<-events %>% dplyr::select(loc_id, sub_id, day, month, year, Period)%>% filter(year!="NA") %>% filter(month %in% c(12, 1, 2))
+events1<-events %>% dplyr::select(loc_id, sub_id, day, month, year, Period)%>% filter(year!="NA") 
 
   sp.data <-NULL 
   sp.data <- filter(data, REPORT_AS == sp.list[n]) %>%
@@ -309,17 +311,17 @@ events1<-events1 %>% filter(year>=min.year & year<=max.year)
   
 # First merge to events data
 sp.data<-dplyr::left_join(events1, sp.data, by=c("loc_id", "sub_id", "day", "month", "year", "Period"))
-sp.data<-sp.data %>% filter(loc_id != "NA") %>% dplyr::select(-Prov, -region)
-  
+sp.data<-sp.data %>% filter(loc_id != "NA") 
+
   range.data<-NULL
 
 # Some oddly labeled species are not in the block list. We therefore need a trycath to catch these errors so that the loop doesn't get broken.     
-  range.data<-try(range %>% dplyr::select(Prov, loc_id, region, Prov, sp.list[n]), silent=TRUE)
+  range.data<-try(range %>% dplyr::select(Prov, sp.list[n]), silent=TRUE)
   
 if(class(range.data) !="try-error"){
   
 # Join tables
-  sp.data<-left_join(sp.data, range.data, by="loc_id")
+  sp.data<-left_join(sp.data, range.data, by="Prov")
   
 # Remove blocks that should not be included in the zero count
   colnames(sp.data)[colnames(sp.data) == sp.list[n]] <- "sp"
@@ -354,6 +356,7 @@ names(per.site.nat) <- c("Period", "MeanGroup", "PercentSite", "Species")
 write.table(per.site.nat, file = paste(out.dir,"% sites with species at least once in season and mean group size_nat.csv"), row.names = FALSE, append = FALSE, quote = FALSE, sep = ",")
 
 range<-fread("Output/Range_prov.csv")
+range<-data.frame(range)
 events<-fread("Output/Events.csv")
 
 sp.list<-unique(data$REPORT_AS)
@@ -381,15 +384,15 @@ events1<-events1 %>% filter(year>=min.year & year<=max.year)
   
 # First merge to events data
 sp.data<-dplyr::left_join(events1, sp.data, by=c("loc_id", "sub_id", "day", "month", "year", "Period"))
-sp.data<-sp.data %>% filter(loc_id != "NA") %>% dplyr::select(-Prov, -region)
+sp.data<-sp.data %>% filter(loc_id != "NA") 
   
   range.data<-NULL
-  range.data<-try(range %>% dplyr::select(Prov, loc_id, region, Prov, sp.list[n]), silent=T)
+  range.data<-try(range %>% dplyr::select(Prov, sp.list[n]), silent=T)
   
 if(class(range.data) !="try-error"){
   
 # Join tables
-  sp.data<-left_join(sp.data, range.data, by="loc_id")
+  sp.data<-left_join(sp.data, range.data, by="Prov")
   
 # Remove blocks that should not be included in the zero count
   colnames(sp.data)[colnames(sp.data) == sp.list[n]] <- "sp"

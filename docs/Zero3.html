@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 3 Zero-fill Matrix | Project FeederWatch: A Data Users Guide</title>
   <meta name="description" content="PWF data maniputations and statical summaries" />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 3 Zero-fill Matrix | Project FeederWatch: A Data Users Guide" />
   <meta property="og:type" content="book" />
-  <meta property="og:url" content="https://github.com/DMEthier/PFW.git" />
   <meta property="og:image" content="https://github.com/DMEthier/PFW.git/PFWbanner.png" />
   <meta property="og:description" content="PWF data maniputations and statical summaries" />
   <meta name="github-repo" content="DMEthier/PFW" />
@@ -32,7 +31,6 @@
   
 <link rel="prev" href="Start2.html"/>
 <link rel="next" href="Sum4.html"/>
-<script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -50,8 +48,9 @@
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -154,11 +153,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3" data-path="Zero3.html"><a href="Zero3.html"><i class="fa fa-check"></i><b>3</b> Zero-fill Matrix</a>
 <ul>
 <li class="chapter" data-level="3.1" data-path="Zero3.html"><a href="Zero3.html#Zero3.1"><i class="fa fa-check"></i><b>3.1</b> Load Filtered Data</a></li>
-<li class="chapter" data-level="3.2" data-path="Zero3.html"><a href="Zero3.html#Zero3.2"><i class="fa fa-check"></i><b>3.2</b> Species Range</a>
-<ul>
-<li class="chapter" data-level="3.2.1" data-path="Zero3.html"><a href="Zero3.html#Zero3.2.1"><i class="fa fa-check"></i><b>3.2.1</b> Provinical Range Matrix</a></li>
-<li class="chapter" data-level="3.2.2" data-path="Zero3.html"><a href="Zero3.html#Zero3.2.2"><i class="fa fa-check"></i><b>3.2.2</b> Atlas Block Range Matrix</a></li>
-</ul></li>
+<li class="chapter" data-level="3.2" data-path="Zero3.html"><a href="Zero3.html#Zero3.2"><i class="fa fa-check"></i><b>3.2</b> Species Range</a></li>
 <li class="chapter" data-level="3.3" data-path="Zero3.html"><a href="Zero3.html#Zero3.3"><i class="fa fa-check"></i><b>3.3</b> Sampling Events</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="Sum4.html"><a href="Sum4.html"><i class="fa fa-check"></i><b>4</b> Summary Statistics</a>
@@ -200,8 +195,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="Zero3" class="section level1" number="3">
-<h1><span class="header-section-number">Chapter 3</span> Zero-fill Matrix</h1>
+<div id="Zero3" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">Chapter 3</span> Zero-fill Matrix<a href="Zero3.html#Zero3" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>Many analyses require that you have records not only of when/where species were detected, but also where they were not detected. PFW contains records of species presence, however, we can infer species absence when a species was not detected during a survey, if the survey was done within the bounds of the species range.</p>
 <blockquote>
 <p>Let’s start this Chapter by reloading our libraries and resetting our working directories in the event you took a break and are starting a new session with your newly filtered and cleaned data set.</p>
@@ -217,8 +212,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb16-9"><a href="Zero3.html#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-10"><a href="Zero3.html#cb16-10" aria-hidden="true" tabindex="-1"></a>out.dir <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">&quot;Output/&quot;</span>)</span>
 <span id="cb16-11"><a href="Zero3.html#cb16-11" aria-hidden="true" tabindex="-1"></a>dat.dir <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">&quot;Data/&quot;</span>)</span></code></pre></div>
-<div id="Zero3.1" class="section level2" number="3.1">
-<h2><span class="header-section-number">3.1</span> Load Filtered Data</h2>
+<div id="Zero3.1" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> Load Filtered Data<a href="Zero3.html#Zero3.1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>First we will load each of the filtered and cleaned PFW dataset into your working Environment under a different dateframe name.</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="Zero3.html#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Old data</span></span>
 <span id="cb17-2"><a href="Zero3.html#cb17-2" aria-hidden="true" tabindex="-1"></a>dat1<span class="ot">&lt;-</span><span class="fu">fread</span>(<span class="st">&quot;Data/PFW_Canada_1988-1995.csv&quot;</span>)</span>
@@ -229,26 +224,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb17-7"><a href="Zero3.html#cb17-7" aria-hidden="true" tabindex="-1"></a>dat6<span class="ot">&lt;-</span><span class="fu">fread</span>(<span class="st">&quot;Data/PFW_Canada_2015-2020.csv&quot;</span>)</span>
 <span id="cb17-8"><a href="Zero3.html#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-9"><a href="Zero3.html#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="co">#New data</span></span>
-<span id="cb17-10"><a href="Zero3.html#cb17-10" aria-hidden="true" tabindex="-1"></a>dat7<span class="ot">&lt;-</span><span class="fu">fread</span>(<span class="st">&quot;Data/PFW_Canada_2020-2021.csv&quot;</span>)</span></code></pre></div>
+<span id="cb17-10"><a href="Zero3.html#cb17-10" aria-hidden="true" tabindex="-1"></a>dat7<span class="ot">&lt;-</span><span class="fu">fread</span>(<span class="st">&quot;Data/PFW_Canada_2020-2021.csv&quot;</span>)</span>
+<span id="cb17-11"><a href="Zero3.html#cb17-11" aria-hidden="true" tabindex="-1"></a>dat8<span class="ot">&lt;-</span><span class="fu">fread</span>(<span class="st">&quot;Data/PFW_Canada_2021-2022.csv&quot;</span>)</span></code></pre></div>
 <p>Notice that the newest dateset provided by Cornell Labs is missing the <code>plus_code</code> (i.e., dat7 has one fewer column). We will add this column in the right spot to make the bind possible.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="Zero3.html#cb18-1" aria-hidden="true" tabindex="-1"></a>dat7<span class="ot">&lt;-</span><span class="fu">add_column</span>(dat7, <span class="at">plus_code =</span> <span class="dv">0</span>, <span class="at">.after =</span> <span class="dv">12</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="Zero3.html#cb18-1" aria-hidden="true" tabindex="-1"></a>dat7<span class="ot">&lt;-</span><span class="fu">add_column</span>(dat7, <span class="at">plus_code =</span> <span class="dv">0</span>, <span class="at">.after =</span> <span class="dv">12</span>)</span>
+<span id="cb18-2"><a href="Zero3.html#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="Zero3.html#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Data directly from Cornell formatted slightly differently. </span></span>
+<span id="cb18-4"><a href="Zero3.html#cb18-4" aria-hidden="true" tabindex="-1"></a>dat8<span class="ot">&lt;-</span>dat8 <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>alt_full_spp_code, <span class="sc">-</span>user_id, <span class="sc">-</span>observer_id, <span class="sc">-</span>housing_density, <span class="sc">-</span>no_birds)</span></code></pre></div>
 <p>Bind and write your full Canadian PFW dataset to the <code>Data</code> directory for use later in the analysis</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="Zero3.html#cb19-1" aria-hidden="true" tabindex="-1"></a>data<span class="ot">&lt;-</span><span class="fu">rbind</span>(dat1, dat2, dat3, dat4, dat5, dat6, dat7)</span>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="Zero3.html#cb19-1" aria-hidden="true" tabindex="-1"></a>data<span class="ot">&lt;-</span><span class="fu">rbind</span>(dat1, dat2, dat3, dat4, dat5, dat6, dat7, dat8)</span>
 <span id="cb19-2"><a href="Zero3.html#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-3"><a href="Zero3.html#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(data, <span class="fu">paste</span>(dat.dir,<span class="st">&quot;PFW_Canada_All.csv&quot;</span>, <span class="at">sep=</span><span class="st">&quot;&quot;</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">col.name =</span> <span class="cn">TRUE</span>, <span class="at">append =</span> <span class="cn">FALSE</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">sep =</span> <span class="st">&quot;,&quot;</span>)</span></code></pre></div>
 </div>
-<div id="Zero3.2" class="section level2" number="3.2">
-<h2><span class="header-section-number">3.2</span> Species Range</h2>
+<div id="Zero3.2" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> Species Range<a href="Zero3.html#Zero3.2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We will zero-fill the data two different ways. Why? because one way is used for standardized reporting by Cornell and Birds Canada, and the second way is more biologically appropriate and should be adopted for research purposes.</p>
 <p>For reporting purposes, we will zero-fill the data matrix based on Province (or State). Specifically, if a species was detected &gt;10 time in the past 10 years within a specific Province, it will be considered in range.</p>
 <p>First, lets create the zero-fill range file for each Province. First, we creating a master list that links all <code>loc_id</code> from PFW to Province, the we determine if a species was detected &gt;=10 times. This is done using a loop, which creates a Range output table. Note that we use the <code>REPORT_AS</code> for the species ID field, <em>not</em> <code>species_code</code> (which would at first glance seems to make sense, but in the long run it doesn’t work out. Trust me!).</p>
-<div id="Zero3.2.1" class="section level3" number="3.2.1">
-<h3><span class="header-section-number">3.2.1</span> Provinical Range Matrix</h3>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="Zero3.html#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Using the past 10 years of data to assign range limits for species</span></span>
 <span id="cb20-2"><a href="Zero3.html#cb20-2" aria-hidden="true" tabindex="-1"></a>dat<span class="ot">&lt;-</span>data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(year<span class="sc">&gt;=</span><span class="dv">2010</span>)</span>
 <span id="cb20-3"><a href="Zero3.html#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-4"><a href="Zero3.html#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove duplicated and NA</span></span>
-<span id="cb20-5"><a href="Zero3.html#cb20-5" aria-hidden="true" tabindex="-1"></a>master<span class="ot">&lt;-</span>dat <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(loc_id, latitude, longitude, Prov, region) <span class="sc">%&gt;%</span> <span class="fu">distinct</span>(loc_id, <span class="at">.keep_all=</span><span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(latitude <span class="sc">!=</span> <span class="st">&quot;NA&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(longitude <span class="sc">!=</span> <span class="st">&quot;NA&quot;</span>)</span>
+<span id="cb20-5"><a href="Zero3.html#cb20-5" aria-hidden="true" tabindex="-1"></a>master<span class="ot">&lt;-</span>dat <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(Prov) <span class="sc">%&gt;%</span> <span class="fu">distinct</span>() </span>
 <span id="cb20-6"><a href="Zero3.html#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-7"><a href="Zero3.html#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Write table to your output director for safe keeping. You will use the master list later. </span></span>
 <span id="cb20-8"><a href="Zero3.html#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(master, <span class="at">file =</span> <span class="fu">paste</span>(out.dir, <span class="st">&quot;master_prov.csv&quot;</span>, <span class="at">sep=</span><span class="st">&quot;&quot;</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">sep =</span> <span class="st">&quot;,&quot;</span>)</span>
@@ -286,174 +283,31 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb20-40"><a href="Zero3.html#cb20-40" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-41"><a href="Zero3.html#cb20-41" aria-hidden="true" tabindex="-1"></a><span class="co"># Write your new range table to an output file</span></span>
 <span id="cb20-42"><a href="Zero3.html#cb20-42" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(master, <span class="at">file =</span> <span class="fu">paste</span>(out.dir, <span class="st">&quot;Range_prov.csv&quot;</span>, <span class="at">sep=</span><span class="st">&quot;&quot;</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">sep =</span> <span class="st">&quot;,&quot;</span>)</span></code></pre></div>
-<p>The output table you just created contains location information <code>loc_id</code>, <code>latitude</code>, <code>logitude</code>, <code>Prov</code>, and <code>region</code> and a column for each species id (i.e., <code>REPORT_AS</code>). Each row under the species id indicates if the Atlas Block is within range (1) or is out of range (0).</p>
+<p>Each row under the species id indicates if the Atlas Block is within range (1) or is out of range (0).</p>
 </div>
-<div id="Zero3.2.2" class="section level3" number="3.2.2">
-<h3><span class="header-section-number">3.2.2</span> Atlas Block Range Matrix</h3>
-<p>Now lets create the zero-fill range matrix in a more biologically meaningful way. We will define the species range a little more precisely using the Canadian Breeding Bird Atlas blocks (100 × 100 km). This file is located in the <code>Data</code> folder on GitHub or can be requested directly from Birds Canada. If a species has been detected in an Atlas Block &gt;10 times in the past 10 years it will be considered in range.</p>
-<p>Let’s start by creating a master list that links all <code>loc_id</code> from PFW to an Atlas Block code. This is done in several steps which are annotated in the code.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="Zero3.html#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Loading the Atlas Blocks </span></span>
-<span id="cb21-2"><a href="Zero3.html#cb21-2" aria-hidden="true" tabindex="-1"></a>blocks <span class="ot">&lt;-</span> <span class="fu">readOGR</span>(<span class="at">dsn=</span><span class="st">&quot;Data&quot;</span>, <span class="at">layer=</span><span class="st">&quot;NationalBlocks&quot;</span>)</span>
-<span id="cb21-3"><a href="Zero3.html#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-4"><a href="Zero3.html#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove duplicated from the master list</span></span>
-<span id="cb21-5"><a href="Zero3.html#cb21-5" aria-hidden="true" tabindex="-1"></a>master<span class="ot">&lt;-</span>data <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(loc_id, latitude, longitude, Prov, region) <span class="sc">%&gt;%</span> <span class="fu">distinct</span>(loc_id, <span class="at">.keep_all=</span><span class="cn">TRUE</span>)</span>
-<span id="cb21-6"><a href="Zero3.html#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-7"><a href="Zero3.html#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove NAs</span></span>
-<span id="cb21-8"><a href="Zero3.html#cb21-8" aria-hidden="true" tabindex="-1"></a>pts<span class="ot">&lt;-</span>master <span class="sc">%&gt;%</span> <span class="fu">filter</span>(latitude <span class="sc">!=</span> <span class="st">&quot;NA&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(longitude <span class="sc">!=</span> <span class="st">&quot;NA&quot;</span>)</span>
-<span id="cb21-9"><a href="Zero3.html#cb21-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-10"><a href="Zero3.html#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Make list into spatial coordinates</span></span>
-<span id="cb21-11"><a href="Zero3.html#cb21-11" aria-hidden="true" tabindex="-1"></a>pts <span class="ot">&lt;-</span> <span class="fu">SpatialPoints</span>(<span class="at">coords =</span> <span class="fu">cbind</span>(pts<span class="sc">$</span>longitude, pts<span class="sc">$</span>latitude))</span>
-<span id="cb21-12"><a href="Zero3.html#cb21-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-13"><a href="Zero3.html#cb21-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Project to the appropriate datum</span></span>
-<span id="cb21-14"><a href="Zero3.html#cb21-14" aria-hidden="true" tabindex="-1"></a><span class="fu">proj4string</span>(pts) <span class="ot">&lt;-</span> <span class="fu">CRS</span>(<span class="st">&quot;+proj=longlat +datum=WGS84 +no_defs&quot;</span>) </span>
-<span id="cb21-15"><a href="Zero3.html#cb21-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-16"><a href="Zero3.html#cb21-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Project points to be the same datum as the National Blocks layers</span></span>
-<span id="cb21-17"><a href="Zero3.html#cb21-17" aria-hidden="true" tabindex="-1"></a>pts_proj <span class="ot">&lt;-</span> <span class="fu">spTransform</span>(pts, <span class="fu">CRS</span>(<span class="st">&quot;+proj=longlat +datum=NAD83 +no_defs&quot;</span>))</span>
-<span id="cb21-18"><a href="Zero3.html#cb21-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-19"><a href="Zero3.html#cb21-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Overlay the PFW points on Atlas blocks layer, and extract the block codes</span></span>
-<span id="cb21-20"><a href="Zero3.html#cb21-20" aria-hidden="true" tabindex="-1"></a>pts_blk <span class="ot">&lt;-</span> <span class="fu">over</span>(pts_proj, blocks[,<span class="st">&quot;BLOCK_ID_e&quot;</span>])</span>
-<span id="cb21-21"><a href="Zero3.html#cb21-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-22"><a href="Zero3.html#cb21-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Assign the Atlas Block code back to the lat/long coordinate list</span></span>
-<span id="cb21-23"><a href="Zero3.html#cb21-23" aria-hidden="true" tabindex="-1"></a>master<span class="sc">$</span>BlockCode<span class="ot">&lt;-</span>pts_blk<span class="sc">$</span>BLOCK_ID_e</span>
-<span id="cb21-24"><a href="Zero3.html#cb21-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-25"><a href="Zero3.html#cb21-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Make distinct again, first time may not have worked.</span></span>
-<span id="cb21-26"><a href="Zero3.html#cb21-26" aria-hidden="true" tabindex="-1"></a>master<span class="ot">&lt;-</span>master <span class="sc">%&gt;%</span> <span class="fu">distinct</span>(loc_id, <span class="at">.keep_all=</span><span class="cn">TRUE</span>)</span></code></pre></div>
-<p>Next we assign the BCR codes to the <code>master</code> table for future use.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="Zero3.html#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Loading the bcr polygon </span></span>
-<span id="cb22-2"><a href="Zero3.html#cb22-2" aria-hidden="true" tabindex="-1"></a>bcr <span class="ot">&lt;-</span> <span class="fu">readOGR</span>(<span class="at">dsn=</span><span class="st">&quot;Data&quot;</span>, <span class="at">layer=</span><span class="st">&quot;bcrPolygon&quot;</span>)</span>
-<span id="cb22-3"><a href="Zero3.html#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-4"><a href="Zero3.html#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove duplicated</span></span>
-<span id="cb22-5"><a href="Zero3.html#cb22-5" aria-hidden="true" tabindex="-1"></a>coords<span class="ot">&lt;-</span>data <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(loc_id, latitude, longitude) <span class="sc">%&gt;%</span> <span class="fu">distinct</span>(loc_id, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>) </span>
-<span id="cb22-6"><a href="Zero3.html#cb22-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-7"><a href="Zero3.html#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove NAs</span></span>
-<span id="cb22-8"><a href="Zero3.html#cb22-8" aria-hidden="true" tabindex="-1"></a>coords<span class="ot">&lt;-</span>coords <span class="sc">%&gt;%</span> <span class="fu">filter</span>(latitude <span class="sc">!=</span> <span class="st">&quot;NA&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(longitude <span class="sc">!=</span> <span class="st">&quot;NA&quot;</span>)</span>
-<span id="cb22-9"><a href="Zero3.html#cb22-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-10"><a href="Zero3.html#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Make list into spatial coordinates</span></span>
-<span id="cb22-11"><a href="Zero3.html#cb22-11" aria-hidden="true" tabindex="-1"></a>points <span class="ot">&lt;-</span> <span class="fu">SpatialPoints</span>(<span class="at">coords =</span> <span class="fu">cbind</span>(coords<span class="sc">$</span>longitude, coords<span class="sc">$</span>latitude))</span>
-<span id="cb22-12"><a href="Zero3.html#cb22-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-13"><a href="Zero3.html#cb22-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Project to the appropriate datum</span></span>
-<span id="cb22-14"><a href="Zero3.html#cb22-14" aria-hidden="true" tabindex="-1"></a><span class="fu">proj4string</span>(points) <span class="ot">&lt;-</span> <span class="fu">CRS</span>(<span class="st">&quot;+proj=longlat +datum=WGS84 +no_defs&quot;</span>) </span>
-<span id="cb22-15"><a href="Zero3.html#cb22-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-16"><a href="Zero3.html#cb22-16" aria-hidden="true" tabindex="-1"></a><span class="co">#Because some points fall outside the bcr polygon, we need to assign them to the nearest polygon</span></span>
-<span id="cb22-17"><a href="Zero3.html#cb22-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-18"><a href="Zero3.html#cb22-18" aria-hidden="true" tabindex="-1"></a><span class="co"># transform to sf objects</span></span>
-<span id="cb22-19"><a href="Zero3.html#cb22-19" aria-hidden="true" tabindex="-1"></a>psf <span class="ot">&lt;-</span> sf<span class="sc">::</span><span class="fu">st_as_sf</span>(points) <span class="sc">%&gt;%</span> </span>
-<span id="cb22-20"><a href="Zero3.html#cb22-20" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">ID_point =</span> coords<span class="sc">$</span>loc_id)</span>
-<span id="cb22-21"><a href="Zero3.html#cb22-21" aria-hidden="true" tabindex="-1"></a>polsf <span class="ot">&lt;-</span> sf<span class="sc">::</span><span class="fu">st_as_sf</span>(bcr)</span>
-<span id="cb22-22"><a href="Zero3.html#cb22-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-23"><a href="Zero3.html#cb22-23" aria-hidden="true" tabindex="-1"></a><span class="co"># remove points inside polygons</span></span>
-<span id="cb22-24"><a href="Zero3.html#cb22-24" aria-hidden="true" tabindex="-1"></a>sf<span class="sc">::</span><span class="fu">sf_use_s2</span>(<span class="cn">FALSE</span>)</span>
-<span id="cb22-25"><a href="Zero3.html#cb22-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-26"><a href="Zero3.html#cb22-26" aria-hidden="true" tabindex="-1"></a><span class="co"># find nearest poly</span></span>
-<span id="cb22-27"><a href="Zero3.html#cb22-27" aria-hidden="true" tabindex="-1"></a>nearest <span class="ot">&lt;-</span> polsf[sf<span class="sc">::</span><span class="fu">st_nearest_feature</span>(psf, polsf) ,] <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">id_point =</span> psf<span class="sc">$</span>ID_point)</span>
-<span id="cb22-28"><a href="Zero3.html#cb22-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-29"><a href="Zero3.html#cb22-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Assign the Atlas Block code back to the lat/long coordinate list</span></span>
-<span id="cb22-30"><a href="Zero3.html#cb22-30" aria-hidden="true" tabindex="-1"></a>coords<span class="sc">$</span>bcr<span class="ot">&lt;-</span>nearest<span class="sc">$</span>bcr</span>
-<span id="cb22-31"><a href="Zero3.html#cb22-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-32"><a href="Zero3.html#cb22-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge back with the main data file </span></span>
-<span id="cb22-33"><a href="Zero3.html#cb22-33" aria-hidden="true" tabindex="-1"></a>coords<span class="ot">&lt;-</span>coords <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>latitude, <span class="sc">-</span>longitude)</span>
-<span id="cb22-34"><a href="Zero3.html#cb22-34" aria-hidden="true" tabindex="-1"></a>master<span class="ot">&lt;-</span><span class="fu">left_join</span>(master, coords, <span class="at">by=</span><span class="fu">c</span>(<span class="st">&quot;loc_id&quot;</span>))</span>
-<span id="cb22-35"><a href="Zero3.html#cb22-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-36"><a href="Zero3.html#cb22-36" aria-hidden="true" tabindex="-1"></a>master<span class="ot">&lt;-</span>master <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">bcr=</span><span class="fu">ifelse</span>(bcr<span class="sc">==</span><span class="dv">22</span><span class="sc">|</span>bcr<span class="sc">==</span><span class="dv">23</span>, <span class="dv">13</span>, bcr))</span>
-<span id="cb22-37"><a href="Zero3.html#cb22-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-38"><a href="Zero3.html#cb22-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Write table to your output director for safe keeping. You will use the master list later. </span></span>
-<span id="cb22-39"><a href="Zero3.html#cb22-39" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(master, <span class="at">file =</span> <span class="fu">paste</span>(out.dir, <span class="st">&quot;master_blockcode.csv&quot;</span>, <span class="at">sep=</span><span class="st">&quot;&quot;</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">sep =</span> <span class="st">&quot;,&quot;</span>)</span></code></pre></div>
-<p>Now we will use PFW data from the past 10 years to determine the species range. This is done in several steps which are annotated in the code.</p>
-<p>First we assign the National Atlas Block Codes.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="Zero3.html#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Start by loading the Atlas Blocks if you haven&#39;t already</span></span>
-<span id="cb23-2"><a href="Zero3.html#cb23-2" aria-hidden="true" tabindex="-1"></a>blocks <span class="ot">&lt;-</span> <span class="fu">readOGR</span>(<span class="at">dsn=</span><span class="st">&quot;Data&quot;</span>, <span class="at">layer=</span><span class="st">&quot;NationalBlocks&quot;</span>)</span>
-<span id="cb23-3"><a href="Zero3.html#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(blocks)</span>
-<span id="cb23-4"><a href="Zero3.html#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-5"><a href="Zero3.html#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Using the past 10 years of data to assign range limits for species</span></span>
-<span id="cb23-6"><a href="Zero3.html#cb23-6" aria-hidden="true" tabindex="-1"></a>dat<span class="ot">&lt;-</span><span class="fu">rbind</span>(dat5, dat6, dat7)</span>
-<span id="cb23-7"><a href="Zero3.html#cb23-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-8"><a href="Zero3.html#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove duplicated</span></span>
-<span id="cb23-9"><a href="Zero3.html#cb23-9" aria-hidden="true" tabindex="-1"></a>coords<span class="ot">&lt;-</span>dat <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(latitude, longitude) <span class="sc">%&gt;%</span> <span class="fu">distinct</span>() <span class="co">#keep distinct</span></span>
-<span id="cb23-10"><a href="Zero3.html#cb23-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-11"><a href="Zero3.html#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove NAs</span></span>
-<span id="cb23-12"><a href="Zero3.html#cb23-12" aria-hidden="true" tabindex="-1"></a>coords<span class="ot">&lt;-</span>coords <span class="sc">%&gt;%</span> <span class="fu">filter</span>(latitude <span class="sc">!=</span> <span class="st">&quot;NA&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(longitude <span class="sc">!=</span> <span class="st">&quot;NA&quot;</span>)</span>
-<span id="cb23-13"><a href="Zero3.html#cb23-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-14"><a href="Zero3.html#cb23-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Make list into spatial coordinates</span></span>
-<span id="cb23-15"><a href="Zero3.html#cb23-15" aria-hidden="true" tabindex="-1"></a>points <span class="ot">&lt;-</span> <span class="fu">SpatialPoints</span>(<span class="at">coords =</span> <span class="fu">cbind</span>(coords<span class="sc">$</span>longitude, coords<span class="sc">$</span>latitude))</span>
-<span id="cb23-16"><a href="Zero3.html#cb23-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-17"><a href="Zero3.html#cb23-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Project to the appropriate datum</span></span>
-<span id="cb23-18"><a href="Zero3.html#cb23-18" aria-hidden="true" tabindex="-1"></a><span class="fu">proj4string</span>(points) <span class="ot">&lt;-</span> <span class="fu">CRS</span>(<span class="st">&quot;+proj=longlat +datum=WGS84 +no_defs&quot;</span>) </span>
-<span id="cb23-19"><a href="Zero3.html#cb23-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-20"><a href="Zero3.html#cb23-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Project points to be the same datum as the National Blocks layers</span></span>
-<span id="cb23-21"><a href="Zero3.html#cb23-21" aria-hidden="true" tabindex="-1"></a>points_proj <span class="ot">&lt;-</span> <span class="fu">spTransform</span>(points, <span class="fu">CRS</span>(<span class="st">&quot;+proj=longlat +datum=NAD83 +no_defs&quot;</span>))</span>
-<span id="cb23-22"><a href="Zero3.html#cb23-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-23"><a href="Zero3.html#cb23-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Overlay the PFW points on Atlas blocks layer, and extract the block codes</span></span>
-<span id="cb23-24"><a href="Zero3.html#cb23-24" aria-hidden="true" tabindex="-1"></a>points_blk <span class="ot">&lt;-</span> <span class="fu">over</span>(points_proj, blocks[,<span class="st">&quot;BLOCK_ID_e&quot;</span>])</span>
-<span id="cb23-25"><a href="Zero3.html#cb23-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-26"><a href="Zero3.html#cb23-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Assign the Atlas Block code back to the lat/long coordinate list </span></span>
-<span id="cb23-27"><a href="Zero3.html#cb23-27" aria-hidden="true" tabindex="-1"></a>coords<span class="sc">$</span>BlockCode<span class="ot">&lt;-</span>points_blk<span class="sc">$</span>BLOCK_ID_e</span>
-<span id="cb23-28"><a href="Zero3.html#cb23-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-29"><a href="Zero3.html#cb23-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge back with the main data file </span></span>
-<span id="cb23-30"><a href="Zero3.html#cb23-30" aria-hidden="true" tabindex="-1"></a>dat<span class="ot">&lt;-</span><span class="fu">merge</span>(dat, coords, <span class="at">by=</span><span class="fu">c</span>(<span class="st">&quot;latitude&quot;</span>, <span class="st">&quot;longitude&quot;</span>))</span></code></pre></div>
-<p>Now that we have merged the PFW location data from the past 10 years with the Atlas Block codes, we can determine if a species was detected in a block &gt;=10 times. As before, this is done using a loop, which creates a Range output table.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="Zero3.html#cb24-1" aria-hidden="true" tabindex="-1"></a>master<span class="ot">&lt;-</span><span class="cn">NULL</span></span>
-<span id="cb24-2"><a href="Zero3.html#cb24-2" aria-hidden="true" tabindex="-1"></a>master<span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;Output/master_blockcode.csv&quot;</span>)</span>
-<span id="cb24-3"><a href="Zero3.html#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-4"><a href="Zero3.html#cb24-4" aria-hidden="true" tabindex="-1"></a>sp.list<span class="ot">&lt;-</span><span class="fu">unique</span>(data<span class="sc">$</span>REPORT_AS) <span class="co"># n = 303 in this example</span></span>
-<span id="cb24-5"><a href="Zero3.html#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-6"><a href="Zero3.html#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a species loop</span></span>
-<span id="cb24-7"><a href="Zero3.html#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(m <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(sp.list)) {</span>
-<span id="cb24-8"><a href="Zero3.html#cb24-8" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb24-9"><a href="Zero3.html#cb24-9" aria-hidden="true" tabindex="-1"></a> <span class="co"># m&lt;-1 #for testing each species</span></span>
-<span id="cb24-10"><a href="Zero3.html#cb24-10" aria-hidden="true" tabindex="-1"></a>   </span>
-<span id="cb24-11"><a href="Zero3.html#cb24-11" aria-hidden="true" tabindex="-1"></a>  sp.data <span class="ot">&lt;-</span><span class="cn">NULL</span> </span>
-<span id="cb24-12"><a href="Zero3.html#cb24-12" aria-hidden="true" tabindex="-1"></a>  sp.data <span class="ot">&lt;-</span> <span class="fu">filter</span>(dat, REPORT_AS <span class="sc">==</span> sp.list[m]) <span class="sc">%&gt;%</span></span>
-<span id="cb24-13"><a href="Zero3.html#cb24-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">droplevels</span>()</span>
-<span id="cb24-14"><a href="Zero3.html#cb24-14" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb24-15"><a href="Zero3.html#cb24-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Change to length</span></span>
-<span id="cb24-16"><a href="Zero3.html#cb24-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Count number of observation in each Atlas Block  </span></span>
-<span id="cb24-17"><a href="Zero3.html#cb24-17" aria-hidden="true" tabindex="-1"></a>  sp.data<span class="ot">&lt;-</span>sp.data <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(BlockCode) <span class="sc">%&gt;%</span></span>
-<span id="cb24-18"><a href="Zero3.html#cb24-18" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">summarize</span>(<span class="at">nobs=</span><span class="fu">length</span>(how_many)) <span class="sc">%&gt;%</span> </span>
-<span id="cb24-19"><a href="Zero3.html#cb24-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">count=</span><span class="fu">ifelse</span>(nobs<span class="sc">&gt;=</span><span class="dv">5</span>, <span class="dv">1</span>, <span class="dv">0</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb24-20"><a href="Zero3.html#cb24-20" aria-hidden="true" tabindex="-1"></a>   dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>nobs)</span>
-<span id="cb24-21"><a href="Zero3.html#cb24-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-22"><a href="Zero3.html#cb24-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colnames</span>(sp.data)[<span class="fu">colnames</span>(sp.data) <span class="sc">==</span> <span class="st">&quot;count&quot;</span>] <span class="ot">&lt;-</span> sp.list[m]</span>
-<span id="cb24-23"><a href="Zero3.html#cb24-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-24"><a href="Zero3.html#cb24-24" aria-hidden="true" tabindex="-1"></a><span class="co">#Optional: if there are less than 2 Atlas Blocks containing a record of a species, remove. Considered rare and/or out of range. </span></span>
-<span id="cb24-25"><a href="Zero3.html#cb24-25" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb24-26"><a href="Zero3.html#cb24-26" aria-hidden="true" tabindex="-1"></a><span class="co"># if(nrow(sp.data)&lt;2){</span></span>
-<span id="cb24-27"><a href="Zero3.html#cb24-27" aria-hidden="true" tabindex="-1"></a><span class="co">#    sp.data&lt;-NULL</span></span>
-<span id="cb24-28"><a href="Zero3.html#cb24-28" aria-hidden="true" tabindex="-1"></a><span class="co">#  }else{</span></span>
-<span id="cb24-29"><a href="Zero3.html#cb24-29" aria-hidden="true" tabindex="-1"></a>master<span class="ot">&lt;-</span><span class="fu">left_join</span>(master, sp.data, <span class="at">by =</span> <span class="st">&quot;BlockCode&quot;</span> )</span>
-<span id="cb24-30"><a href="Zero3.html#cb24-30" aria-hidden="true" tabindex="-1"></a><span class="co">#  } #end if statement</span></span>
-<span id="cb24-31"><a href="Zero3.html#cb24-31" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb24-32"><a href="Zero3.html#cb24-32" aria-hidden="true" tabindex="-1"></a>} <span class="co">#end sp.list loop</span></span>
-<span id="cb24-33"><a href="Zero3.html#cb24-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-34"><a href="Zero3.html#cb24-34" aria-hidden="true" tabindex="-1"></a>master[<span class="fu">is.na</span>(master)]<span class="ot">=</span><span class="dv">0</span></span>
-<span id="cb24-35"><a href="Zero3.html#cb24-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-36"><a href="Zero3.html#cb24-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Write your new range table to an output file</span></span>
-<span id="cb24-37"><a href="Zero3.html#cb24-37" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(master, <span class="at">file =</span> <span class="fu">paste</span>(out.dir, <span class="st">&quot;Range_blockcode.csv&quot;</span>, <span class="at">sep=</span><span class="st">&quot;&quot;</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">sep =</span> <span class="st">&quot;,&quot;</span>)</span></code></pre></div>
-<p>The output table you just created contains location information <code>loc_id</code>, <code>latitude</code>, <code>logitude</code>, <code>Prov</code>, <code>region</code>, <code>BlockCode</code> and <code>bcr</code> and a column for each species id (i.e., <code>REPORT_AS</code>). Each row under the species id indicates if the Atlas Block is within range (1) or is out of range (0).</p>
-</div>
-</div>
-<div id="Zero3.3" class="section level2" number="3.3">
-<h2><span class="header-section-number">3.3</span> Sampling Events</h2>
+<div id="Zero3.3" class="section level2 hasAnchor" number="3.3">
+<h2><span class="header-section-number">3.3</span> Sampling Events<a href="Zero3.html#Zero3.3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Now that we have a handle on the winter distribution/range of each species, we need to know when each PFW site was sampled. This way we only add a zero-count for a site that was being watched. This is done for each <code>sub_id</code> which covers the two-day count period.</p>
 <p>First we create new effort fields. The first sums the number of half days the feeder site was watched (max = 4) and the second changes the effort hours into a factor.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="Zero3.html#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the full data table. This step is repetitive. </span></span>
-<span id="cb25-2"><a href="Zero3.html#cb25-2" aria-hidden="true" tabindex="-1"></a>data<span class="ot">&lt;-</span><span class="fu">rbind</span>(dat1, dat2, dat3, dat4, dat5, dat6, dat7)</span>
-<span id="cb25-3"><a href="Zero3.html#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-4"><a href="Zero3.html#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create effort days field (max = 4)</span></span>
-<span id="cb25-5"><a href="Zero3.html#cb25-5" aria-hidden="true" tabindex="-1"></a>data<span class="ot">&lt;-</span>data <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Effort_days =</span> (day1_am <span class="sc">+</span>day1_pm <span class="sc">+</span>day2_am <span class="sc">+</span>day2_pm)<span class="sc">/</span><span class="dv">2</span>)</span>
-<span id="cb25-6"><a href="Zero3.html#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-7"><a href="Zero3.html#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Create effort hours field that is a factor</span></span>
-<span id="cb25-8"><a href="Zero3.html#cb25-8" aria-hidden="true" tabindex="-1"></a>data<span class="ot">&lt;-</span>data <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Effort_hrs =</span> <span class="fu">as.factor</span>(effort_hrs_atleast))</span>
-<span id="cb25-9"><a href="Zero3.html#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(data<span class="sc">$</span>Effort_hrs)<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="st">&quot;0_1&quot;</span>, <span class="st">&quot;1_4&quot;</span>, <span class="st">&quot;4_8&quot;</span>, <span class="st">&quot;&gt;8&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="Zero3.html#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the full data table. This step is repetitive. </span></span>
+<span id="cb21-2"><a href="Zero3.html#cb21-2" aria-hidden="true" tabindex="-1"></a>data<span class="ot">&lt;-</span><span class="fu">rbind</span>(dat1, dat2, dat3, dat4, dat5, dat6, dat7, dat8)</span>
+<span id="cb21-3"><a href="Zero3.html#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="Zero3.html#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create effort days field (max = 4)</span></span>
+<span id="cb21-5"><a href="Zero3.html#cb21-5" aria-hidden="true" tabindex="-1"></a>data<span class="ot">&lt;-</span>data <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Effort_days =</span> (day1_am <span class="sc">+</span>day1_pm <span class="sc">+</span>day2_am <span class="sc">+</span>day2_pm)<span class="sc">/</span><span class="dv">2</span>)</span>
+<span id="cb21-6"><a href="Zero3.html#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="Zero3.html#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Create effort hours field that is a factor</span></span>
+<span id="cb21-8"><a href="Zero3.html#cb21-8" aria-hidden="true" tabindex="-1"></a>data<span class="ot">&lt;-</span>data <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Effort_hrs =</span> <span class="fu">as.factor</span>(effort_hrs_atleast))</span>
+<span id="cb21-9"><a href="Zero3.html#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(data<span class="sc">$</span>Effort_hrs)<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="st">&quot;0_1&quot;</span>, <span class="st">&quot;1_4&quot;</span>, <span class="st">&quot;4_8&quot;</span>, <span class="st">&quot;&gt;8&quot;</span>)</span></code></pre></div>
 <p>Now we are ready to create the full sampling events layer using the filtered Canadian PFW dataset.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="Zero3.html#cb26-1" aria-hidden="true" tabindex="-1"></a>event.data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
-<span id="cb26-2"><a href="Zero3.html#cb26-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(loc_id, sub_id, latitude, longitude, month, day, year, Period, Effort_days, Effort_hrs, Prov) <span class="sc">%&gt;%</span></span>
-<span id="cb26-3"><a href="Zero3.html#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(loc_id, sub_id, latitude, longitude, month, day, year, Period, Effort_days, Effort_hrs, Prov) <span class="sc">%&gt;%</span></span>
-<span id="cb26-4"><a href="Zero3.html#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb26-5"><a href="Zero3.html#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb26-6"><a href="Zero3.html#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>()</span>
-<span id="cb26-7"><a href="Zero3.html#cb26-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-8"><a href="Zero3.html#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="co"># write your new sampling events table to an Output folder</span></span>
-<span id="cb26-9"><a href="Zero3.html#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(event.data, <span class="fu">paste</span>(out.dir,<span class="st">&quot;Events.csv&quot;</span>, <span class="at">sep=</span><span class="st">&quot;&quot;</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">col.name =</span> <span class="cn">TRUE</span>, <span class="at">append =</span> <span class="cn">FALSE</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">sep =</span> <span class="st">&quot;,&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="Zero3.html#cb22-1" aria-hidden="true" tabindex="-1"></a>event.data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb22-2"><a href="Zero3.html#cb22-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(loc_id, sub_id, latitude, longitude, month, day, year, Period, Effort_days, Effort_hrs, Prov) <span class="sc">%&gt;%</span></span>
+<span id="cb22-3"><a href="Zero3.html#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(loc_id, sub_id, latitude, longitude, month, day, year, Period, Effort_days, Effort_hrs, Prov) <span class="sc">%&gt;%</span></span>
+<span id="cb22-4"><a href="Zero3.html#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb22-5"><a href="Zero3.html#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb22-6"><a href="Zero3.html#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>()</span>
+<span id="cb22-7"><a href="Zero3.html#cb22-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-8"><a href="Zero3.html#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="co"># write your new sampling events table to an Output folder</span></span>
+<span id="cb22-9"><a href="Zero3.html#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(event.data, <span class="fu">paste</span>(out.dir,<span class="st">&quot;Events.csv&quot;</span>, <span class="at">sep=</span><span class="st">&quot;&quot;</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">col.name =</span> <span class="cn">TRUE</span>, <span class="at">append =</span> <span class="cn">FALSE</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">sep =</span> <span class="st">&quot;,&quot;</span>)</span></code></pre></div>
 <p>Now you have the tables that you need to zero-fill your data matrix. We can now start creating data summaries in <a href="Sum4.html#Sum4">Chapter 4</a>.</p>
 
 </div>
