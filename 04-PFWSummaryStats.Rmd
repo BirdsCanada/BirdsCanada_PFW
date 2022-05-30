@@ -173,7 +173,7 @@ This summary statistic captures the geometric mean group size of species for sit
 gmean <- function(x) exp(mean(log(x)))
 
 # Region
-nsite<-data %>% group_by(Period, region) %>%   summarize(nloc=n_distinct(loc_id)) %>% filter(nloc>=10)  %>% select(-nloc)
+nsite<-data %>% group_by(Period, region) %>%   summarize(nloc=n_distinct(loc_id)) %>% filter(nloc>=10)  %>% dplyr::select(-nloc)
   
 mean.sp<-right_join(data, nsite, by=c("Period", "region")) 
 
@@ -184,7 +184,7 @@ mean.sp<-cast(mean.sp, REPORT_AS+region~Period, value="mean.group")
 write.table(format(mean.sp, digits=3), file = paste(out.dir,"Mean group size of species_region.csv"), row.names = FALSE, col.name = TRUE, append = FALSE, quote = FALSE, sep = ",")
 
 # Provincial 
-nsite<-data %>% group_by(Period, Prov) %>%   summarize(nloc=n_distinct(loc_id)) %>% filter(nloc>=10)  %>% select(-nloc)
+nsite<-data %>% group_by(Period, Prov) %>%   summarize(nloc=n_distinct(loc_id)) %>% filter(nloc>=10)  %>% dplyr::select(-nloc)
   
 mean.sp<-right_join(data, nsite, by=c("Period", "Prov")) 
 
@@ -195,7 +195,7 @@ mean.sp<-cast(mean.sp, REPORT_AS+region~Period, value="mean.group")
 write.table(format(mean.sp, digits=3), file = paste(out.dir,"Mean group size of species_prov.csv"), row.names = FALSE, col.name = TRUE, append = FALSE, quote = FALSE, sep = ",")
 
 # National
-nsite<-data %>% group_by(Period) %>%   summarize(nloc=n_distinct(loc_id)) %>% filter(nloc>=10) %>% select(-nloc)
+nsite<-data %>% group_by(Period) %>%   summarize(nloc=n_distinct(loc_id)) %>% filter(nloc>=10) %>% dplyr::select(-nloc)
   
 mean.sp<-right_join(data, nsite, by=c("Period")) 
 
@@ -223,6 +223,7 @@ write.table(per.site.region, file = paste(out.dir,"% sites with species at least
 
 # Read in your tables from the Output folder
 range<-fread("Output/Range_prov.csv") 
+range<-data.frame(range)
 events<-fread("Output/Events.csv")
 
 sp.list<-unique(data$REPORT_AS)
@@ -293,6 +294,7 @@ names(per.site.prov) <- c("Prov", "Period", "MeanGroup", "PercentSite", "Species
 write.table(per.site.prov, file = paste(out.dir,"% sites with species at least once in season and mean group size_prov.csv"), row.names = FALSE, append = FALSE, quote = FALSE, sep = ",")
 
 range<-fread("Output/Range_prov.csv")
+range<-data.frame(range)
 events<-fread("Output/Events.csv")
 
 sp.list<-unique(data$REPORT_AS)
@@ -365,6 +367,7 @@ names(per.site.nat) <- c("Period", "MeanGroup", "PercentSite", "Species")
 write.table(per.site.nat, file = paste(out.dir,"% sites with species at least once in season and mean group size_nat.csv"), row.names = FALSE, append = FALSE, quote = FALSE, sep = ",")
 
 range<-fread("Output/Range_prov.csv")
+range<-data.frame(range)
 events<-fread("Output/Events.csv")
 
 sp.list<-unique(data$REPORT_AS)

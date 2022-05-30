@@ -47,19 +47,23 @@ dat6<-fread("Data/PFW_Canada_2015-2020.csv")
 
 #New data
 dat7<-fread("Data/PFW_Canada_2020-2021.csv")
+dat8<-fread("Data/PFW_Canada_2021-2022.csv")
 ```
 
 Notice that the newest dateset provided by Cornell Labs is missing the `plus_code` (i.e., dat7 has one fewer column). We will add this column in the right spot to make the bind possible. 
 
 ```{r filter8, eval = FALSE}
 dat7<-add_column(dat7, plus_code = 0, .after = 12)
+
+#Data directly from Cornell formatted slightly differently. 
+dat8<-dat8 %>% dplyr::select(-alt_full_spp_code, -user_id, -observer_id, -housing_density, -no_birds)
 ```
 
 Bind and write your full Canadian PFW dataset to the `Data` directory for use later in the analysis
 
 ```{r datasave, eval = FALSE}
 
-data<-rbind(dat1, dat2, dat3, dat4, dat5, dat6, dat7)
+data<-rbind(dat1, dat2, dat3, dat4, dat5, dat6, dat7, dat8)
 
 write.table(data, paste(dat.dir,"PFW_Canada_All.csv", sep=""), row.names = FALSE, col.name = TRUE, append = FALSE, quote = FALSE, sep = ",")
 
@@ -301,7 +305,7 @@ First we create new effort fields. The first sums the number of half days the fe
 
 ```{r effort, eval = FALSE}
 # Create the full data table. This step is repetitive. 
-data<-rbind(dat1, dat2, dat3, dat4, dat5, dat6, dat7)
+data<-rbind(dat1, dat2, dat3, dat4, dat5, dat6, dat7, dat8)
 
 # Create effort days field (max = 4)
 data<-data %>% mutate(Effort_days = (day1_am +day1_pm +day2_am +day2_pm)/2)

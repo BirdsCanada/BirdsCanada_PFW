@@ -20,6 +20,8 @@ Using the sampling `Events` tables we are going to generate some effort based su
 ```{r load packages, message=FALSE, warning=FALSE}
 require(tidyverse)
 require(reshape)
+library(ggpubr)
+detach("package:plyr")
 
 out.dir <- paste("Output/")
 dat.dir <- paste("Data/")
@@ -36,7 +38,7 @@ We will merge the `Events` table with part of the `Range` table first so that we
 ```{r merge, message=FALSE}
 blk<-blk %>% dplyr::select(loc_id, Prov, region, BlockCode) %>% distinct(loc_id, .keep_all = TRUE)
 
-eff<-left_join(event, blk, by="loc_id")
+eff<-left_join(event, blk, by=c("loc_id", "Prov"))
 
 ```
 
@@ -45,6 +47,7 @@ eff<-left_join(event, blk, by="loc_id")
 First we will summarize the number of `loc_id` monitored in a year, regionally, provincially, and nationally. We will also plot these outputs since it is easy and interesting to look at. 
 
 ```{r Eff1, massage=FALSE}
+library(ggpubr)
 
 loc_id_reg<-eff %>% group_by(region, Period) %>% summarize (n_loc = n_distinct(loc_id)) %>% drop_na()
 
@@ -56,6 +59,10 @@ ggplot(loc_id_reg, aes(x=Period, y=n_loc))+
   ggtitle("Regional")+
   scale_y_log10()
 
+ggsave(paste(out.dir, "reg_eff.pdf", sep=""), width = 11, height = 8, device = "pdf")
+while (!is.null(dev.list()))  dev.off()
+
+
 loc_id_prov<-eff %>% group_by(Prov, Period) %>% summarize (n_loc = n_distinct(loc_id)) %>%  drop_na()
 
 ggplot(loc_id_prov, aes(x=Period, y=n_loc))+
@@ -65,6 +72,9 @@ ggplot(loc_id_prov, aes(x=Period, y=n_loc))+
   ylab("Number of count sites (log)")+
   ggtitle("Provincial")+
   scale_y_log10()
+
+ggsave(paste(out.dir, "prov_eff.pdf", sep=""), width = 11, height = 8, device = "pdf")
+while (!is.null(dev.list()))  dev.off()
 
 loc_id_nat<-eff %>% group_by(Period) %>% summarize (n_loc = n_distinct(loc_id)) %>% drop_na()
 
@@ -76,6 +86,9 @@ ggplot(loc_id_nat, aes(x=Period, y=n_loc))+
   ggtitle("National")+
   geom_point(aes(x=2020, y=2172), colour="red", size=5)+
   annotate("text", x = 2017, y = 2200, label = "COVID-19", colour="red", size = 5)
+
+ggsave(paste(out.dir, "nat_eff.pdf", sep=""), width = 11, height = 8, device = "pdf")
+while (!is.null(dev.list()))  dev.off()
 
 write.table(format(loc_id_reg, digits=4), file = paste(out.dir,"Site Effort_reg.csv"), row.names = FALSE, col.name = TRUE, append = FALSE, quote = FALSE, sep = ",")
 
