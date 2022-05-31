@@ -223,7 +223,7 @@ for(n in 1:length(sp.list)) {
    # n<-1 #for testing each species
 
 events1<-NULL #clear previous dataframe
-events1<-events %>% dplyr::select(loc_id, sub_id, day, month, year, Period)%>% filter(year!="NA") 
+events1<-events %>% dplyr::select(loc_id, sub_id, day, month, year, Period, Prov, region)%>% filter(year!="NA") 
 
   sp.data <-NULL #clear previous dataframe
   sp.data <- filter(data, REPORT_AS == sp.list[n]) %>%
@@ -238,7 +238,7 @@ max.year<-max(sp.data$year)
 events1<-events1 %>% filter(year>=min.year & year<=max.year)
   
 # Merge sp.data to events data
-sp.data<-dplyr::left_join(events1, sp.data, by=c("loc_id", "sub_id", "day", "month", "year", "Period"))
+sp.data<-dplyr::left_join(events1, sp.data, by=c("loc_id", "sub_id", "day", "month", "year", "Period", "Prov", "region"))
 sp.data<-sp.data %>% filter(loc_id != "NA") 
   
 range.data<-NULL #clear previous dataframe
@@ -295,7 +295,7 @@ for(n in 1:length(sp.list)) {
    # n<-1 #for testing each species
 
 events1<-NULL #clear previous dataframe
-events1<-events %>% dplyr::select(loc_id, sub_id, day, month, year, Period)%>% filter(year!="NA") 
+events1<-events %>% dplyr::select(loc_id, sub_id, day, month, year, Period, Prov, region)%>% filter(year!="NA") 
 
   sp.data <-NULL 
   sp.data <- filter(data, REPORT_AS == sp.list[n]) %>%
@@ -310,7 +310,7 @@ max.year<-max(sp.data$year)
 events1<-events1 %>% filter(year>=min.year & year<=max.year)
   
 # First merge to events data
-sp.data<-dplyr::left_join(events1, sp.data, by=c("loc_id", "sub_id", "day", "month", "year", "Period"))
+sp.data<-dplyr::left_join(events1, sp.data, by=c("loc_id", "sub_id", "day", "month", "year", "Period", "Prov", "region"))
 sp.data<-sp.data %>% filter(loc_id != "NA") 
 
   range.data<-NULL
@@ -368,7 +368,7 @@ for(n in 1:length(sp.list)) {
    # n<-1 #for testing each species
   
 events1<-NULL #clear previous dataframe
-events1<-events %>% dplyr::select(loc_id, sub_id, day, month, year, Period)%>% filter(year!="NA")
+events1<-events %>% dplyr::select(loc_id, sub_id, day, month, year, Period, Prov, region)%>% filter(year!="NA")
 
   sp.data <-NULL 
   sp.data <- filter(data, REPORT_AS == sp.list[n]) %>%
@@ -383,7 +383,7 @@ max.year<-max(sp.data$year)
 events1<-events1 %>% filter(year>=min.year & year<=max.year)
   
 # First merge to events data
-sp.data<-dplyr::left_join(events1, sp.data, by=c("loc_id", "sub_id", "day", "month", "year", "Period"))
+sp.data<-dplyr::left_join(events1, sp.data, by=c("loc_id", "sub_id", "day", "month", "year", "Period", "Prov", "region"))
 sp.data<-sp.data %>% filter(loc_id != "NA") 
   
   range.data<-NULL

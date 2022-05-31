@@ -145,8 +145,8 @@ Now we are ready to create the full sampling events layer using the filtered Can
 
 ```r
 event.data <- data %>%
-  dplyr::select(loc_id, sub_id, latitude, longitude, month, day, year, Period, Effort_days, Effort_hrs, Prov) %>%
-  group_by(loc_id, sub_id, latitude, longitude, month, day, year, Period, Effort_days, Effort_hrs, Prov) %>%
+  dplyr::select(loc_id, sub_id, latitude, longitude, month, day, year, Period, Effort_days, Effort_hrs, Prov, region) %>%
+  group_by(loc_id, sub_id, latitude, longitude, month, day, year, Period, Effort_days, Effort_hrs, Prov, region) %>%
   distinct() %>%
   ungroup() %>%
   as.data.frame()
