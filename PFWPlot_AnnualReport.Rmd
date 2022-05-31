@@ -1,0 +1,156 @@
+---
+title: "PFWPlots_AnnualReport"
+author: "Danielle Ethier"
+date: "11/01/2022"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+This script is not part of the PFW R user guide. It was created to automate graphs for Kerrie's reports. This script, however, uses outputs from the PFW user guide, found in the `Outputs` folder. 
+
+Start by loading packages and the 
+```{r load packages}
+
+require(tidyverse)
+require(ggplot2)
+require("gridExtra")
+
+out.dir <- paste("Output/")
+dat.dir <- paste("Data/")
+plot.dir<- paste("Plot/")
+
+```
+
+Load data from `Output` folder. 
+```{r data}
+
+regionP<-read.csv("Output/ % sites with species at least once in season and mean group size_region.csv")
+  
+provP<-read.csv("Output/ % sites with species at least once in season and mean group size_prov.csv")
+  
+natP<-read.csv("Output/ % sites with species at least once in season and mean group size_nat.csv")
+
+
+```
+
+Add column to the national summary and append it to the regional and provincial datatables.
+```{r nat}
+
+nat_Pp<-add_column(natP, Prov="Canada", .after=0)
+provP<-rbind(provP, nat_Pp)
+provP<-provP %>% filter(Species != "NA")
+# Relevel group factors 
+provP$Prov <- factor(provP$Prov,                 
+                         levels = c("BC", "AB", "SK", "MB", "ON", "QC", "NB", "NS", "PE", "NL", "North", "Canada"))
+
+
+nat_Pr<-add_column(natP, Region="Canada", .after=0)
+regionP<-rbind(regionP, nat_Pr)
+regionP<-regionP %>% filter(Species!="NA")
+# Relevel group factors 
+regionP$Region <- factor(regionP$Region,                 
+                         levels = c("BC", "PR", "ON", "QC", "AT", "Canada"))
+
+
+```
+
+Add common names from plotting and taxon order
+
+```{r names}
+
+sp<-read.csv("Data/PFW_species_codes.csv")
+sp<-sp %>% dplyr::select(REPORT_AS, PRIMARY_COM_NAME, TAXON_ORDER) %>% distinct(REPORT_AS, .keep_all=TRUE)
+
+provP<-left_join(provP, sp, by = c("Species"="REPORT_AS"))
+provP<-provP %>% arrange(TAXON_ORDER)
+provP$Period<-as.numeric(provP$Period)
+
+regionP<-left_join(regionP, sp, by = c("Species"="REPORT_AS"))
+regionP<-regionP %>% arrange(TAXON_ORDER)
+regionP$Period<-as.numeric(regionP$Period)
+
+
+```
+
+Prepare list of species for loop and create plots. 
+
+```{r species}
+
+##Regional Summary
+sp.list<-unique(regionP$PRIMARY_COM_NAME)
+
+#Regional species loop 
+for(n in 1:length(sp.list)) {
+  
+   # n<-1 #for testing each species
+
+  #Provincial Zero-fill  
+  sp.data1 <-NULL #clear previous dataframe
+  sp.data1 <- filter(regionP, PRIMARY_COM_NAME == sp.list[n]) %>%
+      droplevels()
+  sp.data1<-sp.data1 %>% drop_na(Region)
+  
+if(nrow(sp.data1)>40){ #only continue if there is sufficient data
+  
+pdf(paste(plot.dir, sp.list[n], "_ProvZeroFill",".pdf", sep=""), onefile = TRUE, height = 10, width = 8, paper = "letter")
+
+  # Plot the mean number
+top.plot1<-ggplot(sp.data1, aes(Period, MeanGroup))+
+  geom_line(aes(colour=Region), size=1, show.legend = FALSE)+
+  theme_classic()+
+  theme(text=element_text(size=16))+
+  theme(axis.text.x = element_text(angle = 90))+
+  ylab("Mean number per site")+
+  xlab("")+
+  ggtitle(sp.list[n]) 
+
+# Plot the % feeders 
+bottom.plot1<-ggplot(sp.data1, aes(Period, PercentSite))+
+  geom_line(aes(colour=Region), size=1)+
+  theme_classic()+
+  xlab("Period")+
+  theme(axis.text.x = element_text(angle = 90))+
+  theme(text=element_text(size=16))+
+  ylab("% feeder sites")+
+  theme(legend.position = "bottom")+
+  theme(legend.title = element_blank())+
+  guides(colour = guide_legend(nrow = 1))
+ 
+
+grid.arrange(top.plot1, bottom.plot1)
+
+while(!is.null(dev.list())) dev.off()
+
+} #end if nrow
+    } #end species loop
+```
+
+Now plot the number of site as a means of reporting effort
+
+```{r effort}
+
+#Load the events dataset
+event<-read.csv("Output/Events.csv")
+range<-read.csv("Output/Range.csv")
+
+blk<-range %>% dplyr::select(loc_id, Prov, region, BlockCode) %>% distinct(loc_id, .keep_all = TRUE)
+
+eff<-left_join(event, blk, by="loc_id")
+
+## Number of sites monitored
+loc_id_nat<-eff %>% group_by(Period) %>% summarize (n_loc = n_distinct(loc_id)) %>% drop_na()
+
+pdf(paste(plot.dir, "Number count sites Canada.pdf", sep=""), onefile = TRUE)
+
+ggplot(loc_id_nat, aes(x=Period, y=n_loc))+
+  geom_line(size=1.5)+
+  theme_classic()+
+  theme(text=element_text(size=16))+
+  ylab("Number of count sites")+
+  geom_point(aes(x=2020, y=2172), colour="red", size=5)+
+  annotate("text", x = 2017, y = 2200, label = "COVID-19", colour="red", size = 5)
+
+while(!is.null(dev.list())) dev.off()
+
+```
