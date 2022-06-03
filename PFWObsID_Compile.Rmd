@@ -1,0 +1,100 @@
+---
+title: "ObserverID"
+author: "Danielle Ethier"
+date: '2022-06-03'
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This script is for Birds Canada staff use. It takes the outputs provided by Cornell and extracts the observer ID information for upload into the NatureCounts database. The observer IDs are not release for public use by Cornell and are therefore not provided on the website. 
+
+Load libraries
+
+```{r library}
+
+require(tidyverse)
+require(lubridate)
+require(data.table)
+require(reshape)
+require(tibble)
+
+```
+
+Load data
+
+```{r load data}
+
+pfw<-fread("Data/PFW_Canada_2021_2022.csv")
+
+```
+
+Prepare data columns
+
+```{r prep}
+
+names(pfw)<-tolower(names(pfw))
+
+pfw<-pfw %>% 
+  separate(subnational1_code, c("del1", "Prov"), sep="-", remove=FALSE) %>% 
+  dplyr::select (-del1, -subnational1_code) %>% 
+  separate(proj_period_id, c("del2", "Period"), sep="_", remove=FALSE) %>%
+  dplyr::select(-del2, -proj_period_id)
+
+```
+
+Select desired columns
+
+```{r select}
+
+pfw<-pfw %>% select(loc_id, observer_id, latitude, longitude, Prov, Period, housing_density) %>% distinct()
+
+```
+
+Write table and move the T Drive (for now) 
+
+```{r write table}
+
+write.csv(pfw, "PFW_ObsIDTable_2021_2022.csv")
+
+```
+
+Process old data. Only need to run once. 
+
+Load data
+
+```{r load data}
+
+pfw.h<-fread("Data/PFW_Locs_Observers_1988-2021.csv")
+
+```
+
+Prepare data columns
+
+```{r prep}
+
+names(pfw.h)<-tolower(names(pfw.h))
+
+pfw.h <- pfw.h %>% 
+  filter(subnational1_code %in%c("CA-ON","CA-SK","CA-BC","CA-QC","CA-MB","CA-AB","CA-NB","CA-NS","CA-NL","CA-PE","CA-YT","CA-NT")) 
+
+pfw.h<-pfw.h %>% 
+  separate(subnational1_code, c("del1", "Prov"), sep="-", remove=FALSE) %>% 
+  dplyr::select (-del1, -subnational1_code) %>% 
+  separate(proj_period_id, c("del2", "Period"), sep="_", remove=FALSE) %>%
+  dplyr::select(-del2, -proj_period_id)
+
+```
+
+Write table and move the T Drive (for now) 
+
+```{r write table}
+
+write.csv(pfw, "PFW_ObsIDTable_1988_2021.csv")
+
+```
+
