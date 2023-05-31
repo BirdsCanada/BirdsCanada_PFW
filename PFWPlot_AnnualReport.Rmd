@@ -14,7 +14,7 @@ Start by loading packages and the
 
 require(tidyverse)
 require(ggplot2)
-require("gridExtra")
+require(gridExtra)
 
 out.dir <- paste("Output/")
 dat.dir <- paste("Data/")
@@ -132,14 +132,13 @@ Now plot the number of site as a means of reporting effort
 
 #Load the events dataset
 event<-read.csv("Output/Events.csv")
-range<-read.csv("Output/Range.csv")
 
-blk<-range %>% dplyr::select(loc_id, Prov, region, BlockCode) %>% distinct(loc_id, .keep_all = TRUE)
-
-eff<-left_join(event, blk, by="loc_id")
+#range<-read.csv("Output/Range_prov.csv")
+#blk<-range %>% dplyr::select(loc_id, Prov) %>% distinct(loc_id, .keep_all = TRUE)
+#eff<-left_join(event, blk, by="loc_id")
 
 ## Number of sites monitored
-loc_id_nat<-eff %>% group_by(Period) %>% summarize (n_loc = n_distinct(loc_id)) %>% drop_na()
+loc_id_nat<-events %>% group_by(Period) %>% summarize (n_loc = n_distinct(loc_id)) %>% drop_na()
 
 pdf(paste(plot.dir, "Number count sites Canada.pdf", sep=""), onefile = TRUE)
 

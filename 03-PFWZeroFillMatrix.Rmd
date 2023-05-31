@@ -44,10 +44,11 @@ dat3<-fread("Data/PFW_Canada_2000-2005.csv")
 dat4<-fread("Data/PFW_Canada_2005-2010.csv")
 dat5<-fread("Data/PFW_Canada_2010-2015.csv")
 dat6<-fread("Data/PFW_Canada_2015-2020.csv")
-
-#New data
 dat7<-fread("Data/PFW_Canada_2020-2021.csv")
 dat8<-fread("Data/PFW_Canada_2021-2022.csv")
+
+#New data
+dat9<-fread("Data/PFW_Canada_2022-2023.csv")
 ```
 
 Notice that the newest dateset provided by Cornell Labs is missing the `plus_code` (i.e., dat7 has one fewer column). We will add this column in the right spot to make the bind possible. 
@@ -57,13 +58,14 @@ dat7<-add_column(dat7, plus_code = 0, .after = 12)
 
 #Data directly from Cornell formatted slightly differently. 
 dat8<-dat8 %>% dplyr::select(-alt_full_spp_code, -user_id, -observer_id, -housing_density, -no_birds)
+dat9<-dat9 %>% dplyr::select(-alt_full_spp_code, -user_id, -observer_id, -housing_density, -no_birds)
 ```
 
 Bind and write your full Canadian PFW dataset to the `Data` directory for use later in the analysis
 
 ```{r datasave, eval = FALSE}
 
-data<-rbind(dat1, dat2, dat3, dat4, dat5, dat6, dat7, dat8)
+data<-rbind(dat1, dat2, dat3, dat4, dat5, dat6, dat7, dat8, dat9)
 
 write.table(data, paste(dat.dir,"PFW_Canada_All.csv", sep=""), row.names = FALSE, col.name = TRUE, append = FALSE, quote = FALSE, sep = ",")
 
@@ -71,11 +73,11 @@ write.table(data, paste(dat.dir,"PFW_Canada_All.csv", sep=""), row.names = FALSE
 
 ## Species Range {#Zero3.2}
 
-We will zero-fill the data two different ways. Why? because one way is used for standardized reporting by Cornell and Birds Canada, and the second way is more biologically appropriate and should be  adopted for  research purposes. 
+We will zero-fill the data two different ways. Why? because one way is used for standardized reporting by Cornell and Birds Canada, and the second way is more biologically appropriate and should be  adopted for research purposes. 
 
 For reporting purposes, we will zero-fill the data matrix based on Province (or State). Specifically, if a species was detected >10 time in the past 10 years within a specific Province, it will be considered in range.  
 
-First, lets create the zero-fill range file for each Province. First, we creating a master list that links all `loc_id` from PFW to Province, the we determine if a species was detected >=10 times. This is done using a loop, which creates a Range output table. Note that we use the `REPORT_AS` for the species ID field, *not* `species_code` (which would at first glance seems to make sense, but in the long run it doesn't work out. Trust me!).
+First, lets create the zero-fill range file for each Province by creating a master list that links all `loc_id` from PFW to Province, the we determine if a species was detected >=10 times. This is done using a loop, which creates a Range output table. Note that we use the `REPORT_AS` for the species ID field, *not* `species_code` (which would at first glance seems to make sense, but in the long run it doesn't work out. Trust me!).
 
 ```{r zero1, eval=FALSE, message=FALSE}
 
@@ -124,7 +126,7 @@ write.table(master, file = paste(out.dir, "Range_prov.csv", sep=""), row.names =
 
 ```
 
-Each row under the species id indicates if the Atlas Block is within range (1) or is out of range (0). 
+Each row under the species id indicates if the Province is within range (1) or is out of range (0). 
 
 
 ## Sampling Events {#Zero3.3}
@@ -135,7 +137,7 @@ First we create new effort fields. The first sums the number of half days the fe
 
 ```{r effort, eval = FALSE}
 # Create the full data table. This step is repetitive. 
-data<-rbind(dat1, dat2, dat3, dat4, dat5, dat6, dat7, dat8)
+data<-rbind(dat1, dat2, dat3, dat4, dat5, dat6, dat7, dat8, dat9)
 
 # Create effort days field (max = 4)
 data<-data %>% mutate(Effort_days = (day1_am +day1_pm +day2_am +day2_pm)/2)

@@ -190,7 +190,7 @@ mean.sp<-right_join(data, nsite, by=c("Period", "Prov"))
 
 mean.sp<-mean.sp %>% group_by(Period, Prov, REPORT_AS) %>% summarise(mean.group=gmean(how_many))
 
-mean.sp<-cast(mean.sp, REPORT_AS+region~Period, value="mean.group")
+mean.sp<-cast(mean.sp, REPORT_AS+Prov~Period, value="mean.group")
 
 write.table(format(mean.sp, digits=3), file = paste(out.dir,"Mean group size of species_prov.csv"), row.names = FALSE, col.name = TRUE, append = FALSE, quote = FALSE, sep = ",")
 
@@ -249,7 +249,7 @@ max.year<-max(sp.data$year)
 events1<-events1 %>% filter(year>=min.year & year<=max.year)
   
 # Merge sp.data to events data
-sp.data<-dplyr::left_join(events1, sp.data, by=c("loc_id", "sub_id", "day", "month", "year", "Period", "Prov", "region"))
+sp.data<-dplyr::left_join(events1, sp.data, by=c("loc_id", "sub_id", "day", "month", "year", "Period", "Prov", "region"), multiple = "all")
 sp.data<-sp.data %>% filter(loc_id != "NA") 
   
 range.data<-NULL #clear previous dataframe
@@ -321,7 +321,7 @@ max.year<-max(sp.data$year)
 events1<-events1 %>% filter(year>=min.year & year<=max.year)
   
 # First merge to events data
-sp.data<-dplyr::left_join(events1, sp.data, by=c("loc_id", "sub_id", "day", "month", "year", "Period", "Prov", "region"))
+sp.data<-dplyr::left_join(events1, sp.data, by=c("loc_id", "sub_id", "day", "month", "year", "Period", "Prov", "region"), multiple = "all")
 sp.data<-sp.data %>% filter(loc_id != "NA") 
 
   range.data<-NULL
@@ -394,7 +394,7 @@ max.year<-max(sp.data$year)
 events1<-events1 %>% filter(year>=min.year & year<=max.year)
   
 # First merge to events data
-sp.data<-dplyr::left_join(events1, sp.data, by=c("loc_id", "sub_id", "day", "month", "year", "Period", "Prov", "region"))
+sp.data<-dplyr::left_join(events1, sp.data, by=c("loc_id", "sub_id", "day", "month", "year", "Period", "Prov", "region"), multiple = "all")
 sp.data<-sp.data %>% filter(loc_id != "NA") 
   
   range.data<-NULL

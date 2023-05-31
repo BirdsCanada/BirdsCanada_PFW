@@ -1,3 +1,8 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
 # Data Manipulation {#Start2}
 
 ```{r tidyr2, include = FALSE, warning = FALSE}
@@ -88,8 +93,10 @@ canada.pfw<-fread("Data/PFW_2016_2020_public.csv")
 
 #New data
 canada.pfw<-fread("Data/PFW_2021_public.csv")
-#New data 2021-2022 from Cornell. Just Canadian data for analysis. 
+
+#New data 2021-2023 from Cornell. Just Canadian data for analysis. 
 canada.pfw<-fread("Data/PFW_Canada_2021_2022.csv")
+canada.pfw<-fread("Data/PFW_Canada_2022_2023.csv")
 
 ```
 
