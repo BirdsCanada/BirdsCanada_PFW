@@ -1,0 +1,144 @@
+---
+title: "HOSP Winter Storm"
+author: "Danielle Ethier"
+date: "2023-06-01"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+Looking to see the effect of the 2022 Christmas Winter storm on HOSP. 
+
+Load data and libraries
+
+```{r load}
+
+library(tidyverse)
+
+data<-read_csv("Data/PFW_Canada_2022-2023.csv")
+
+```
+
+Start by summarizing effort per week
+
+```{r effort}
+
+effort<-data %>% group_by(floor.week) %>% summarize(nefforthours = sum(effort_hrs_atleast, na.rm = TRUE), nlocation=n_distinct(loc_id)) 
+
+ploteffort1<-ggplot(data=effort)+
+  geom_point(aes(x=floor.week, y=nefforthours, colour = "red")) +
+  geom_line(aes(x=floor.week, y=nefforthours, color = "red")) +
+  geom_point(aes(x=floor.week, y=nlocation, colour = "blue"))+
+  geom_line(aes(x=floor.week, y=nlocation, colour = "blue"))+
+  theme_classic()
+
+ploteffort1
+
+#based on effort plot I will remove the last week of data collection.
+#the data are therefore summarized between week 2022-11-12 to week 2023-04-01
+
+data<-data %>% filter(floor.week!="2023-04-08")
+
+```
+
+Create events matrix to zero fill which will also include some covariates of interest
+
+```{r events}
+
+events<-data %>% select(loc_id, year, month, day, snow_dep_atleast, housing_density) %>% distinct()
+
+```
+
+Select species of interest and explore data
+```{r HOSP}
+
+HOSP<-data %>% filter(species_code=="houspa")
+#index for floor week ordered. 
+HOSP$week <- as.integer(factor(HOSP$floor.week))
+
+HOSP<-HOSP %>% group_by(Prov, floor.week, week) %>% summarise(n_loc=n_distinct(loc_id), tot_count=sum(how_many), mean_count=mean(how_many)) %>% filter(n_loc>10)
+
+HOSP<-as.data.frame(HOSP)
+
+ggplot(data=HOSP)+
+  geom_point(aes(x=week, y=mean_count, colour=Prov))+
+  facet_wrap(~Prov, scales="free")+
+  geom_smooth(aes(x=week, y=mean_count, colour=Prov))+
+  geom_vline(xintercept = 7)+
+  theme_classic()
+
+```
+
+Mean count (zero filled) and percentage of feeders visited. Need to be seen at more than 10 locations, which removed the Atlantic Canada sites. 
+```{r covariates}
+
+HOSP<-data %>% filter(species_code=="houspa") %>% distinct()
+HOSP$week <- as.integer(factor(HOSP$floor.week))
+sp.data<-dplyr::left_join(events, HOSP, by=c("loc_id", "day", "month", "year"), multiple = "all")
+sp.data<-sp.data %>% filter(loc_id != "NA") 
+
+# Zero fill the 'how_many' column
+sp.data$how_many[is.na(sp.data$how_many)] <- 0 
+
+per.site.prov<-sp.data %>% group_by(Prov, floor.week, week) %>% 
+mutate(loc_id_sp = ifelse(how_many==0, NA, loc_id)) %>%
+summarize(tot.site=n_distinct(loc_id), n.site.sp=n_distinct(loc_id_sp), sp.sum=sum(how_many), mean.group=mean(how_many)) %>% filter(sp.sum > 0) %>% filter(tot.site>=10) %>% mutate(per.site=((n.site.sp-1)/tot.site)*100) %>% #subtract 1 for NAs
+    dplyr::select(-sp.sum, -n.site.sp, -tot.site)
+
+
+ggplot(data=per.site.prov)+
+  geom_point(aes(x=week, y=mean.group, colour=Prov))+
+  facet_wrap(~Prov, scales="free")+
+  geom_smooth(aes(x=week, y=mean.group, colour=Prov))+
+  geom_vline(xintercept = 7)+
+  theme_classic()
+
+ggplot(data=per.site.prov)+
+  geom_point(aes(x=week, y=per.site, colour=Prov))+
+  facet_wrap(~Prov, scales="free")+
+  geom_smooth(aes(x=week, y=per.site, colour=Prov))+
+  geom_vline(xintercept = 7)+
+  theme_classic()
+
+```
+
+
+Lets explore housing density to see if this makes a difference. 
+
+```{r house}
+
+sp.data<-NULL
+
+HOSP<-data %>% filter(species_code=="houspa") %>% distinct()
+HOSP$week <- as.integer(factor(HOSP$floor.week))
+sp.data<-dplyr::left_join(events, HOSP, by=c("loc_id", "day", "month", "year", "housing_density"), multiple = "all")
+sp.data<-sp.data %>% filter(loc_id != "NA") 
+sp.data<-sp.data %>% filter(housing_density != "NA") 
+sp.data$housing_density<-as.factor(sp.data$housing_density)
+
+# Zero fill the 'how_many' column
+sp.data$how_many[is.na(sp.data$how_many)] <- 0 
+
+house.sum<-sp.data %>% group_by(Prov, floor.week, week, housing_density) %>% 
+mutate(loc_id_sp = ifelse(how_many==0, NA, loc_id)) %>%
+summarize(tot.site=n_distinct(loc_id), n.site.sp=n_distinct(loc_id_sp), sp.sum=sum(how_many), mean.group=mean(how_many)) %>% filter(sp.sum > 0) %>% filter(tot.site>=10) %>% mutate(per.site=((n.site.sp-1)/tot.site)*100) %>% #subtract 1 for NAs
+    dplyr::select(-sp.sum, -n.site.sp, -tot.site)
+
+ggplot(data=house.sum)+
+  geom_point(aes(x=week, y=mean.group, colour=housing_density))+
+  facet_wrap(~Prov, scales="free")+
+  geom_smooth(aes(x=week, y=mean.group, colour=housing_density))+
+  geom_vline(xintercept = 7)+
+  theme_classic()
+
+ggplot(data=house.sum)+
+  geom_point(aes(x=week, y=per.site, colour=housing_density))+
+  facet_wrap(~Prov, scales="free")+
+ # geom_smooth(aes(x=week, y=mean.group, colour=housing_density))+
+  geom_vline(xintercept = 7)+
+  theme_classic()
+
+
+
+```
+
