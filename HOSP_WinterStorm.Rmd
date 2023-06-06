@@ -14,8 +14,10 @@ Load data and libraries
 ```{r load}
 
 library(tidyverse)
+require(lubridate)
 
-data<-read_csv("Data/PFW_Canada_2022-2023.csv")
+
+data<-read_csv("Data/PFW_Canada_2022-2023.csv") 
 
 ```
 
@@ -45,7 +47,7 @@ Create events matrix to zero fill which will also include some covariates of int
 
 ```{r events}
 
-events<-data %>% select(loc_id, year, month, day, snow_dep_atleast, housing_density) %>% distinct()
+events<-data %>% select(Prov, Period, loc_id, year, month, day, date, snow_dep_atleast, housing_density) %>% distinct()
 
 ```
 
@@ -74,17 +76,23 @@ Mean count (zero filled) and percentage of feeders visited. Need to be seen at m
 
 HOSP<-data %>% filter(species_code=="houspa") %>% distinct()
 HOSP$week <- as.integer(factor(HOSP$floor.week))
-sp.data<-dplyr::left_join(events, HOSP, by=c("loc_id", "day", "month", "year"), multiple = "all")
+
+sp.data<-dplyr::left_join(events, HOSP, by=c("Prov", "Period", "date","loc_id", "day", "month", "year"), multiple = "all")
 sp.data<-sp.data %>% filter(loc_id != "NA") 
 
 # Zero fill the 'how_many' column
 sp.data$how_many[is.na(sp.data$how_many)] <- 0 
 
+sp.data <- sp.data %>% mutate(floor.week=floor_date(sp.data$date,unit="week")+6)
+
+sp.data<- sp.data %>% group_by(Period) %>% mutate(week=as.integer(factor(floor.week)))
+
 per.site.prov<-sp.data %>% group_by(Prov, floor.week, week) %>% 
 mutate(loc_id_sp = ifelse(how_many==0, NA, loc_id)) %>%
-summarize(tot.site=n_distinct(loc_id), n.site.sp=n_distinct(loc_id_sp), sp.sum=sum(how_many), mean.group=mean(how_many)) %>% filter(sp.sum > 0) %>% filter(tot.site>=10) %>% mutate(per.site=((n.site.sp-1)/tot.site)*100) %>% #subtract 1 for NAs
+summarize(tot.site=n_distinct(loc_id), n.site.sp=n_distinct(loc_id_sp, na.rm=TRUE), sp.sum=sum(how_many), mean.group=mean(how_many)) %>% filter(sp.sum > 0) %>% filter(tot.site>=10) %>% mutate(per.site=((n.site.sp)/tot.site)*100) %>% #subtract 1 for NAs
     dplyr::select(-sp.sum, -n.site.sp, -tot.site)
 
+per.site.prov<-per.site.prov %>% filter(Prov %in% c("AB", "BC", "MB", "ON", "QC", "SK"))
 
 ggplot(data=per.site.prov)+
   geom_point(aes(x=week, y=mean.group, colour=Prov))+
@@ -111,17 +119,21 @@ sp.data<-NULL
 
 HOSP<-data %>% filter(species_code=="houspa") %>% distinct()
 HOSP$week <- as.integer(factor(HOSP$floor.week))
-sp.data<-dplyr::left_join(events, HOSP, by=c("loc_id", "day", "month", "year", "housing_density"), multiple = "all")
+sp.data<-dplyr::left_join(events, HOSP, by=c("Prov", "Period", "loc_id", "day", "month", "year", "housing_density"), multiple = "all")
 sp.data<-sp.data %>% filter(loc_id != "NA") 
 sp.data<-sp.data %>% filter(housing_density != "NA") 
 sp.data$housing_density<-as.factor(sp.data$housing_density)
 
-# Zero fill the 'how_many' column
+#zero fill 'how_many", "floor.week", "week"
 sp.data$how_many[is.na(sp.data$how_many)] <- 0 
+
+sp.data <- sp.data %>% mutate(floor.week=floor_date(sp.data$date,unit="week")+6)
+
+sp.data<- sp.data %>% group_by(Period) %>% mutate(week=as.integer(factor(floor.week)))
 
 house.sum<-sp.data %>% group_by(Prov, floor.week, week, housing_density) %>% 
 mutate(loc_id_sp = ifelse(how_many==0, NA, loc_id)) %>%
-summarize(tot.site=n_distinct(loc_id), n.site.sp=n_distinct(loc_id_sp), sp.sum=sum(how_many), mean.group=mean(how_many)) %>% filter(sp.sum > 0) %>% filter(tot.site>=10) %>% mutate(per.site=((n.site.sp-1)/tot.site)*100) %>% #subtract 1 for NAs
+summarize(tot.site=n_distinct(loc_id), n.site.sp=n_distinct(loc_id_sp), sp.sum=sum(how_many), mean.group=mean(how_many)) %>% filter(sp.sum > 0) %>% filter(tot.site>=10) %>% mutate(per.site=((n.site.sp)/tot.site)*100) %>% #subtract 1 for NAs
     dplyr::select(-sp.sum, -n.site.sp, -tot.site)
 
 ggplot(data=house.sum)+
@@ -138,7 +150,137 @@ ggplot(data=house.sum)+
   geom_vline(xintercept = 7)+
   theme_classic()
 
+```
 
+##ASSESS MULTIPLE YEARS
+
+Load data and libraries
+
+```{r load}
+
+library(tidyverse)
+
+all<-read_csv("Data/PFW_Canada_All.csv") 
 
 ```
+
+Start by summarizing effort per week
+
+```{r effort}
+
+effort<-all %>% group_by(floor.week) %>% summarize(nefforthours = sum(effort_hrs_atleast, na.rm = TRUE), nlocation=n_distinct(loc_id)) 
+
+ploteffort1<-ggplot(data=effort)+
+  geom_point(aes(x=floor.week, y=nefforthours, colour = "red")) +
+  geom_line(aes(x=floor.week, y=nefforthours, color = "red")) +
+  geom_point(aes(x=floor.week, y=nlocation, colour = "blue"))+
+  geom_line(aes(x=floor.week, y=nlocation, colour = "blue"))+
+  theme_classic()
+
+ploteffort1
+
+```
+
+Create events matrix to zero fill which will also include some covariates of interest
+
+```{r events}
+
+events<-all %>% select(Prov, Period, loc_id, year, month, day, date) %>% distinct()
+
+```
+
+Select species of interest and explore data
+```{r HOSP}
+
+HOSP<-all %>% filter(species_code=="houspa")
+
+#index for floor week ordered. 
+HOSP<- HOSP %>% group_by(Period) %>% mutate(week=as.integer(factor(floor.week)))
+
+HOSP<-HOSP %>% group_by(Prov, Period, floor.week, week) %>% summarise(n_loc=n_distinct(loc_id), tot_count=sum(how_many), mean_count=mean(how_many)) %>% filter(n_loc>10)
+
+HOSP<-as.data.frame(HOSP)
+
+ON<-HOSP %>% filter(Prov=="ON")
+
+ggplot(data=ON)+
+  geom_point(aes(x=week, y=mean_count))+
+  facet_wrap(~Period, scales="free")+
+  geom_smooth(aes(x=week, y=mean_count))+
+  geom_vline(xintercept = 7)+
+  theme_classic()
+
+BC<-HOSP %>% filter(Prov=="BC")
+
+ggplot(data=BC)+
+  geom_point(aes(x=week, y=mean_count))+
+  facet_wrap(~Period, scales="free")+
+  geom_smooth(aes(x=week, y=mean_count))+
+  geom_vline(xintercept = 7)+
+  theme_classic()
+
+```
+
+Mean count (zero filled) and percentage of feeders visited. Need to be seen at more than 10 locations, which removed the Atlantic Canada sites. 
+```{r covariates}
+
+HOSP<-all %>% filter(species_code=="houspa") %>% distinct()
+
+#index for floor week ordered. 
+HOSP<- HOSP %>% group_by(Period) %>% mutate(week=as.integer(factor(floor.week)))
+
+sp.data<-dplyr::left_join(events, HOSP, by=c("Prov", "Period", "loc_id", "day", "month", "year", "date"), multiple = "all")
+sp.data<-sp.data %>% filter(loc_id != "NA") 
+
+# Zero fill the 'how_many' column
+sp.data$how_many[is.na(sp.data$how_many)] <- 0 
+
+sp.data <- sp.data %>% mutate(floor.week=floor_date(sp.data$date,unit="week")+6)
+
+sp.data<- sp.data %>% group_by(Period) %>% mutate(week=as.integer(factor(floor.week)))
+
+#remove last floor.week
+HOSP<-HOSP %>% filter(week <=20)
+
+per.site.prov<-sp.data %>% group_by(Prov, Period, floor.week, week) %>% 
+mutate(loc_id_sp = ifelse(how_many==0, NA, loc_id)) %>%
+summarize(tot.site=n_distinct(loc_id), n.site.sp=n_distinct(loc_id_sp, na.rm=TRUE), sp.sum=sum(how_many), mean.group=mean(how_many)) %>% 
+  #filter(sp.sum > 0) %>% filter(tot.site>=10) %>%
+  mutate(per.site=((n.site.sp)/tot.site)*100) %>% #subtract 1 for NAs
+    dplyr::select(-sp.sum, -n.site.sp, -tot.site)
+
+ON.per.site<-per.site.prov %>% filter(Prov=="ON")
+
+ggplot(data=ON.per.site)+
+  geom_point(aes(x=week, y=mean.group))+
+  facet_wrap(~Period, scales="free")+
+  geom_smooth(aes(x=week, y=mean.group))+
+  geom_vline(xintercept = 7)+
+  theme_classic()
+
+ggplot(data=ON.per.site)+
+  geom_point(aes(x=week, y=per.site))+
+  facet_wrap(~Period, scales="free")+
+  geom_smooth(aes(x=week, y=per.site))+
+  geom_vline(xintercept = 7)+
+  theme_classic()
+
+BC.per.site<-per.site.prov %>% filter(Prov=="ON")
+
+ggplot(data=BC.per.site)+
+  geom_point(aes(x=week, y=mean.group))+
+  facet_wrap(~Period, scales="free")+
+  geom_smooth(aes(x=week, y=mean.group))+
+  geom_vline(xintercept = 7)+
+  theme_classic()
+
+ggplot(data=BC.per.site)+
+  geom_point(aes(x=week, y=per.site))+
+  facet_wrap(~Period, scales="free")+
+  geom_smooth(aes(x=week, y=per.site))+
+  geom_vline(xintercept = 7)+
+  theme_classic()
+
+```
+
 
