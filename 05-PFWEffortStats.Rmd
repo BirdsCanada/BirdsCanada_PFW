@@ -30,7 +30,7 @@ dat.dir <- paste("Data/")
 # Load datatables
 event<-read.csv("Output/Events.csv")
 # Recall there are two range tables. One for Atlas blocks and one for Provinces
-blk<-read.csv("Output/Range_blockcode.csv")
+#blk<-read.csv("Output/Range_blockcode.csv")
 
 ```
 
@@ -90,11 +90,11 @@ ggplot(loc_id_nat, aes(x=Period, y=n_loc))+
 ggsave(paste(out.dir, "nat_eff.pdf", sep=""), width = 11, height = 8, device = "pdf")
 while (!is.null(dev.list()))  dev.off()
 
-write.table(format(loc_id_reg, digits=4), file = paste(out.dir,"Site Effort_reg.csv"), row.names = FALSE, col.name = TRUE, append = FALSE, quote = FALSE, sep = ",")
+write.table(loc_id_reg, file = paste(out.dir,"Site Effort_reg.csv"), row.names = FALSE, col.name = TRUE, append = FALSE, quote = FALSE, sep = ",")
 
-write.table(format(loc_id_prov, digits=4), file = paste(out.dir,"Site Effort_prov.csv"), row.names = FALSE, col.name = TRUE, append = FALSE, quote = FALSE, sep = ",")
+write.table(loc_id_prov, file = paste(out.dir,"Site Effort_prov.csv"), row.names = FALSE, col.name = TRUE, append = FALSE, quote = FALSE, sep = ",")
 
-write.table(format(loc_id_nat, digits=4), file = paste(out.dir,"Site Effort_nat.csv"), row.names = FALSE, col.name = TRUE, append = FALSE, quote = FALSE, sep = ",")
+write.table(loc_id_nat, file = paste(out.dir,"Site Effort_nat.csv"), row.names = FALSE, col.name = TRUE, append = FALSE, quote = FALSE, sep = ",")
 ```
 
 ## Number of Effort Days Monitored {#Effort5.2}

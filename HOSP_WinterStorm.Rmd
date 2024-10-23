@@ -201,9 +201,9 @@ HOSP<-HOSP %>% group_by(Prov, Period, floor.week, week) %>% summarise(n_loc=n_di
 
 HOSP<-as.data.frame(HOSP)
 
-ON<-HOSP %>% filter(Prov=="ON")
+AB<-HOSP %>% filter(Prov=="AB")
 
-ggplot(data=ON)+
+ggplot(data=AB)+
   geom_point(aes(x=week, y=mean_count))+
   facet_wrap(~Period, scales="free")+
   geom_smooth(aes(x=week, y=mean_count))+
@@ -245,27 +245,57 @@ HOSP<-HOSP %>% filter(week <=20)
 per.site.prov<-sp.data %>% group_by(Prov, Period, floor.week, week) %>% 
 mutate(loc_id_sp = ifelse(how_many==0, NA, loc_id)) %>%
 summarize(tot.site=n_distinct(loc_id), n.site.sp=n_distinct(loc_id_sp, na.rm=TRUE), sp.sum=sum(how_many), mean.group=mean(how_many)) %>% 
-  #filter(sp.sum > 0) %>% filter(tot.site>=10) %>%
+  filter(sp.sum > 0) %>% filter(tot.site>=10) %>%
   mutate(per.site=((n.site.sp)/tot.site)*100) %>% #subtract 1 for NAs
     dplyr::select(-sp.sum, -n.site.sp, -tot.site)
 
-ON.per.site<-per.site.prov %>% filter(Prov=="ON")
+site.list<-unique(sp.data$Prov)
+plot.dir<- paste("Plot/")
 
-ggplot(data=ON.per.site)+
+
+for(k in length(site.list)){
+  
+  per.site<-per.site.prov %>% filter(Prov==site.list[k])
+  per.site<-per.site %>% filter(Period>2011)
+
+  
+pdf(paste(plot.dir, "Winter patterns in HOSP in ", site.list[k], ".pdf", sep=""), onefile = TRUE)
+ 
+ ggplot(data=per.site)+
   geom_point(aes(x=week, y=mean.group))+
   facet_wrap(~Period, scales="free")+
   geom_smooth(aes(x=week, y=mean.group))+
   geom_vline(xintercept = 7)+
-  theme_classic()
+  theme_classic()+
+  ylab("Mean Count")+
+  xlab("Winter Weeks")+  
+  ggtitle(paste(site.list[k], "HOSP", sep=" "))
+  
+  
+ggplot(data=per.site)+
+  geom_point(aes(x=week, y=per.site))+
+  facet_wrap(~Period, scales="free")+
+  geom_smooth(aes(x=week, y=per.site))+
+  geom_vline(xintercept = 7)+
+  theme_classic()+
+  ylab("Percent Feeders")+
+  xlab("Winter Weeks")+  
+  ggtitle(paste(site.list[k], "HOSP", sep=" "))
+ 
+ while(!is.null(dev.list())) dev.off() 
 
-ggplot(data=ON.per.site)+
+}
+ 
+
+
+
+ggplot(data=AB.per.site)+
   geom_point(aes(x=week, y=per.site))+
   facet_wrap(~Period, scales="free")+
   geom_smooth(aes(x=week, y=per.site))+
   geom_vline(xintercept = 7)+
   theme_classic()
 
-BC.per.site<-per.site.prov %>% filter(Prov=="ON")
 
 ggplot(data=BC.per.site)+
   geom_point(aes(x=week, y=mean.group))+
@@ -284,3 +314,78 @@ ggplot(data=BC.per.site)+
 ```
 
 
+
+DEJU
+
+Mean count (zero filled) and percentage of feeders visited. Need to be seen at more than 10 locations, which removed the Atlantic Canada sites. 
+```{r covariates}
+
+DEJU<-all %>% filter(species_code=="daejun") %>% distinct()
+
+#index for floor week ordered. 
+DEJU<- DEJU %>% group_by(Period) %>% mutate(week=as.integer(factor(floor.week)))
+
+sp.data<-dplyr::left_join(events, DEJU, by=c("Prov", "Period", "loc_id", "day", "month", "year", "date"), multiple = "all")
+sp.data<-sp.data %>% filter(loc_id != "NA") 
+
+# Zero fill the 'how_many' column
+sp.data$how_many[is.na(sp.data$how_many)] <- 0 
+
+sp.data <- sp.data %>% mutate(floor.week=floor_date(sp.data$date,unit="week")+6)
+
+sp.data<- sp.data %>% group_by(Period) %>% mutate(week=as.integer(factor(floor.week)))
+
+#remove last floor.week
+sp.data<-sp.data %>% filter(week <=20)
+sp.data$Period<-as.character(sp.data$Period)
+
+per.site.prov<-sp.data %>% group_by(Prov, Period, floor.week, week) %>% 
+mutate(loc_id_sp = ifelse(how_many==0, NA, loc_id)) %>%
+summarize(tot.site=n_distinct(loc_id), n.site.sp=n_distinct(loc_id_sp, na.rm=TRUE), sp.sum=sum(how_many), mean.group=mean(how_many)) %>% 
+  filter(sp.sum > 0) %>% filter(tot.site>=10) %>%
+  mutate(per.site=((n.site.sp)/tot.site)*100) %>% #subtract 1 for NAs
+    dplyr::select(-sp.sum, -n.site.sp, -tot.site)
+
+site.list<-unique(sp.data$Prov)
+plot.dir<- paste("Plot/")
+
+
+for(k in length(site.list)){
+  
+  per.site<-per.site.prov %>% filter(Prov=="QC")
+  per.site<-per.site %>% filter(Period==2023)
+  per.site<-per.site %>% group_by(week) %>% summarize(mean = mean(mean.group))
+  
+pdf(paste(plot.dir, "Winter weekly patterns in DEJU in Quebec 2022-23 Periods v2.pdf", sep=""), onefile = TRUE)
+ 
+ ggplot(data=per.site)+
+  geom_point(aes(x=week, y=mean))+
+#  facet_wrap(~Period, scales="free")+
+  geom_smooth(aes(x=week, y=mean))+
+  geom_vline(xintercept = 7)+
+  ylab("Mean Count")+
+  xlab("Winter Weeks")+
+  ggtitle("Quebec 2022/23")+
+  theme_classic()+
+  theme(text=element_text(size=20))+
+ # coord_cartesian(ylim = c(2, 6))
+ coord_cartesian(ylim = c(1.5, 4))
+  
+  
+ggplot(data=per.site)+
+  geom_point(aes(x=week, y=per.site))+
+  facet_wrap(~Period, scales="free")+
+  geom_smooth(aes(x=week, y=per.site))+
+  geom_vline(xintercept = 7)+
+  theme_classic()+
+  ylab("Percent Feeders")+
+  xlab("Winter Weeks")+  
+  ggtitle(paste(site.list[k], "DEJU", sep=" "))
+ 
+ while(!is.null(dev.list())) dev.off() 
+
+}
+ 
+write.csv(per.site, "Quebec DEJU weekly means 2018-2022.csv")
+
+```

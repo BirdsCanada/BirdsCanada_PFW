@@ -90,13 +90,12 @@ canada.pfw<-fread("Data/PFW_2001_2005_public.csv")
 canada.pfw<-fread("Data/PFW_2006_2010_public.csv")
 canada.pfw<-fread("Data/PFW_2011_2015_public.csv")
 canada.pfw<-fread("Data/PFW_2016_2020_public.csv")
-
-#New data
 canada.pfw<-fread("Data/PFW_2021_public.csv")
 
 #New data 2021-2023 from Cornell. Just Canadian data for analysis. 
 canada.pfw<-fread("Data/PFW_Canada_2021_2022.csv")
 canada.pfw<-fread("Data/PFW_Canada_2022_2023.csv")
+canada.pfw<-fread("Data/PFW_Canada_2023_2024.csv")
 
 ```
 
