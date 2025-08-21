@@ -37,9 +37,9 @@ event<-read.csv("Output/Events.csv")
 We will merge the `Events` table with part of the `Range` table first so that we have all the information we need in one dataframe. 
 
 ```{r merge, message=FALSE}
-blk<-blk %>% dplyr::select(loc_id, Prov, region, BlockCode) %>% distinct(loc_id, .keep_all = TRUE)
+#blk<-blk %>% dplyr::select(loc_id, Prov, region, BlockCode) %>% distinct(loc_id, .keep_all = TRUE)
 
-eff<-left_join(event, blk, by=c("loc_id", "Prov"))
+#eff<-left_join(event, blk, by=c("loc_id", "Prov"))
 
 ```
 
@@ -49,7 +49,7 @@ First we will summarize the number of `loc_id` monitored in a year, regionally, 
 
 ```{r Eff1, massage=FALSE}
 
-loc_id_reg<-eff %>% group_by(region, Period) %>% summarize (n_loc = n_distinct(loc_id)) %>% drop_na()
+loc_id_reg<-event %>% group_by(region, Period) %>% summarize (n_loc = n_distinct(loc_id)) %>% drop_na()
 
 ggplot(loc_id_reg, aes(x=Period, y=n_loc))+
   geom_line(aes(colour=region), size=1)+
@@ -63,7 +63,7 @@ ggsave(paste(out.dir, "reg_eff.pdf", sep=""), width = 11, height = 8, device = "
 while (!is.null(dev.list()))  dev.off()
 
 
-loc_id_prov<-eff %>% group_by(Prov, Period) %>% summarize (n_loc = n_distinct(loc_id)) %>%  drop_na()
+loc_id_prov<-event %>% group_by(Prov, Period) %>% summarize (n_loc = n_distinct(loc_id)) %>%  drop_na()
 
 ggplot(loc_id_prov, aes(x=Period, y=n_loc))+
   geom_line(aes(colour=Prov), size=1)+
@@ -76,7 +76,7 @@ ggplot(loc_id_prov, aes(x=Period, y=n_loc))+
 ggsave(paste(out.dir, "prov_eff.pdf", sep=""), width = 11, height = 8, device = "pdf")
 while (!is.null(dev.list()))  dev.off()
 
-loc_id_nat<-eff %>% group_by(Period) %>% summarize (n_loc = n_distinct(loc_id)) %>% drop_na()
+loc_id_nat<-event %>% group_by(Period) %>% summarize (n_loc = n_distinct(loc_id)) %>% drop_na()
 
 ggplot(loc_id_nat, aes(x=Period, y=n_loc))+
   geom_line(size=1.5)+
@@ -85,7 +85,7 @@ ggplot(loc_id_nat, aes(x=Period, y=n_loc))+
   ylab("Number of count sites")+
   ggtitle("National")+
   geom_point(aes(x=2020, y=2172), colour="red", size=5)+
-  annotate("text", x = 2017, y = 2200, label = "COVID-19", colour="red", size = 5)
+  annotate("text", x = 2012, y = 2200, label = "COVID-19", colour="red", size = 5)
 
 ggsave(paste(out.dir, "nat_eff.pdf", sep=""), width = 11, height = 8, device = "pdf")
 while (!is.null(dev.list()))  dev.off()
@@ -103,7 +103,7 @@ Next, we can look at the number of half days monitored. This has been consistent
 
 ```{r eff2, message=FALSE}
 
-days_reg<-eff %>% group_by(region, Period) %>% summarize (n_days = sum(Effort_days)) %>% drop_na() %>% filter(Period>=2014)
+days_reg<-event %>% group_by(region, Period) %>% summarize (n_days = sum(Effort_days)) %>% drop_na() %>% filter(Period>=2014)
 
 ggplot(days_reg, aes(x=Period, y=n_days))+
   geom_line(aes(colour=region), size=1)+
@@ -113,7 +113,7 @@ ggplot(days_reg, aes(x=Period, y=n_days))+
   ggtitle("Regional")+
   scale_y_log10()
 
-days_prov<-eff %>% group_by(Prov, Period) %>% summarize (n_days = sum(Effort_days)) %>% drop_na() %>% filter(Period>=2014)
+days_prov<-event %>% group_by(Prov, Period) %>% summarize (n_days = sum(Effort_days)) %>% drop_na() %>% filter(Period>=2014)
 
 ggplot(days_prov, aes(x=Period, y=n_days))+
   geom_line(aes(colour=Prov), size=1)+
@@ -123,7 +123,7 @@ ggplot(days_prov, aes(x=Period, y=n_days))+
   ggtitle("Provinical")+
   scale_y_log10()
 
-days_nat<-eff %>% group_by(Period) %>% summarize (n_days = sum(Effort_days)) %>% drop_na() %>% filter(Period>=2014)
+days_nat<-event %>% group_by(Period) %>% summarize (n_days = sum(Effort_days)) %>% drop_na() %>% filter(Period>=2014)
 
 ggplot(days_nat, aes(x=Period, y=n_days))+
   geom_line(size=1)+
