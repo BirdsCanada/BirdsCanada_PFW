@@ -21,8 +21,9 @@
 .Rproj.user/
 
 # Big data files
-.csv
-.pdf
+*.csv
+*.pdf
+/Data/
 
 
 # produced vignettes
