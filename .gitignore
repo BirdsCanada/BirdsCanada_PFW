@@ -24,6 +24,8 @@
 *.csv
 *.pdf
 /Data/
+/Output/
+!Data/PFW_species_codes.csv
 
 
 # produced vignettes
