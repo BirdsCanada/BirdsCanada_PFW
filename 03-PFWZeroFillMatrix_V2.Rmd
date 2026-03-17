@@ -52,9 +52,6 @@ dat<-dat %>% filter(!is.na(CommonName))
 # Remove duplicated and NA
 master<-dat %>% dplyr::select(StateProvince) %>% distinct() 
 
-# Write table to your output director for safe keeping. You will use the master list later. 
-write.table(master, file = paste(out.dir, "master_prov.csv", sep=""), row.names = FALSE, sep = ",")
-
 sp.list<-unique(dat$CommonName) #n=256 in full dataset. 
 
 # Create a species loop
