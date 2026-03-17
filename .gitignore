@@ -22,10 +22,11 @@
 
 # Big data files
 *.csv
+!Resources/species_codes.csv
+!Resources/FeederWatch_Data_Dictionary.xlsx
 *.pdf
-/Data/
 /Output/
-!Data/PFW_species_codes.csv
+/Data/
 
 
 # produced vignettes

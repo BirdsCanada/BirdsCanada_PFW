@@ -1,0 +1,129 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+# Data Manipulation {#Start2}
+
+```{r tidyr2, include = FALSE, warning = FALSE}
+
+library(knitr)
+opts_chunk$set(tidy.opts=list(width.cutoff=50), tidy = FALSE)
+
+```
+
+In this Chapter, we will import the raw data from NatureCounts and wrangle it into a format suitable for creating summary statistics. 
+
+Data can be freely accessed through the NatureCounts data download portal or directly through the naturecounts R package. The PFW is [Access Level](https://naturecounts.ca/nc/default/nc_access_levels.jsp) 3, meaning a data request form must be submitted. This is not meant to be a barrier, rather a means of keeping track of who is using the data and for what purposes.
+
+Data are formatted using a standardized schema which feeds into GBIF. This format is called the [Bird Monitoring Data Exchange (BMDE)](https://naturecounts.ca/nc/default/nc_bmde.jsp), which includes 169 core fields for capturing all metric and descriptors associated with bird observations.
+
+## Installing packages {#Start2.1}
+
+You need to load the package each time you open a new R session. 
+
+```{r load packages, eval = FALSE}
+#If you need to install the package, use the following script before loading the package. You only need to install the package once on your computer, and then it will always be available. For example: 
+
+#install.package("tidyverse")
+require(naturecounts)
+require(tidyverse)
+require(lubridate)
+require(data.table)
+require(reshape)
+require(tibble)
+require(PFW) 
+
+```
+
+## Working Directory {#Start2.2}
+
+Create folder to save the raw data and store any outputs. We will also set shortcuts to these folders for future use. 
+
+```{r create folder, eval = FALSE}
+dir.create("Data")
+dir.create("Output")
+
+out.dir <- paste("Output/")
+dat.dir <- paste("Data/")
+```
+
+## Data download and filtering {#Start2.3}
+
+Researchers seeking to conduct formal analyses using PFW data should understand the data structure, understanding the [metadata](https://naturecounts.ca/nc/default/datasets.jsp?code=PFW), grasping the data collection protocols, and being cognizant of the unique aspects of the program are all critical for conducting analyses and interpreting results in ways that provide meaningful insights. Although the data are freely available, we invite researchers to consult with researchers at the Cornell Lab of Ornithology or Birds Canada to ensure that the data are being handled and analyzed in a meaningful way.
+
+> In this example, we are going to work with all the Canadian PFW data. 
+
+The NatureCounts dataset only includes VALID = 1 records, as defined by [Bonter and Greig 2021](https://www.frontiersin.org/articles/10.3389/fevo.2021.619682/full), and as outlined below. The RecordReviewStatus is synonymous with the REVIEWED. 
+
+VALID = 0; REVIEWED = 0; Interpretation: Observation triggered a ﬂag by the automated system and awaits the review process. These observations are removed.
+
+VALID = 0; REVIEWED = 1; Interpretation: Observation triggered a ﬂag by the automated system and was reviewed; insuﬃcient evidence was provided to conﬁrm the observation. These observations are removed.
+
+VALID = 1; REVIEWED = 0; Interpretation: Observation did not trigger the automatic ﬂagging system and was accepted into the database without review.
+
+VALID = 1; REVIEWED = 1; Interpretation: Observation triggered the ﬂagging system and was approved by an expert reviewer.
+
+**Step 1: Load Data**
+
+The following sample script will download the Canadian PFW data from NatureCounts. You will need to enter your username, info, and request_id. You will be prompted for your password. If downloading the full dataset, this will take a long time. 
+
+```{r data download, eval = FALSE}
+
+canada.pfw<-nc_data_dl(collection = "PFW", username = "YOURUSERNAME", info = "My Reason for downloading the data", request_id = XXXXXX) 
+
+write.csv(canada.pfw, "Data/Canada_PFW_TODAYSDATE.csv")
+
+```
+
+**Step 2: Filter and Clean Data** 
+
+Now that you have loaded PFW data, we are going to filter and clean the data to ensure it is ready for future processing and analysis. 
+
+To eliminate biases created by extending the PFW season in some years, data are truncated to after Nov 8 (doy=312) (the earliest possible 2nd Saturday) and end Apr 3 (doy=93) (earliest possible end date). 
+
+We also include the SPECIES_CODE column so that we can take advantage of the PFW package function pfw_rollup which deals with ambiguous species records and streamlines the naming scheme of species codes. 
+
+```{r filter1, eval = FALSE}
+ canada.pfw <- canada.pfw %>%
+  mutate(date = ymd(paste(survey_year, survey_month, survey_day, sep = "/")), SEPCIES_CODE = SpeciesCode) %>%  
+  format_dates() %>% 
+  filter(doy <= 93 | doy >= 312) %>% 
+  pfw_rollup() #This is from the PFW library
+```
+
+Now we assign a `floor.week` variable which starts on Saturday (i.e., +6)
+
+```{r filter2, eval = FALSE}
+canada.pfw <- canada.pfw %>% mutate(floor.week=floor_date(canada.pfw$date,unit="week")+6)
+```
+
+We also assign `region` to the Canadian data set since several provinces are grouped for the purpose of summary statistics. 
+
+```{r filter3, eval = FALSE}
+canada.pfw <- canada.pfw %>% 
+  mutate(region = ifelse(statprov_code=="ON", "ON", ifelse (statprov_code=="BC", "BC", ifelse(statprov_code == "AB", "PR", ifelse(statprov_code=="SK", "PR", ifelse(statprov_code=="MB", "PR", ifelse(statprov_code=="QC", "QC", ifelse(statprov_code=="NB", "AT", ifelse(statprov_code=="NS", "AT", ifelse(statprov_code=="PE", "AT", ifelse(statprov_code=="NL", "AT", ifelse(statprov_code=="YT", "North", ifelse(statprov_code=="NT", "North", NA)))))))))))))
+```
+
+Last, we will select the data columns that we need for analysis. 
+
+```{r filter4, eval = FALSE}
+# 
+# canada.pfw<-canada.pfw %>% select ()
+
+```
+
+
+**Step 3: Save Data**
+
+Now that you have processed the data that you want, you can save it locally in your `Data` folder. Since we process each raw data file in sequence, each will have its own unique file name. 
+
+```{r save, eval = FALSE}
+
+min.yr<-min(canada.pfw$survey_year)
+max.yr<-max(canada.pfw$survey_year)
+  
+write.table(canada.pfw, file = paste(dat.dir,"PFW_Canada_",min.yr,"-",max.yr, ".csv", sep=""), row.names = FALSE, col.name = TRUE, append = FALSE, quote = FALSE, sep = ",")
+
+```
+

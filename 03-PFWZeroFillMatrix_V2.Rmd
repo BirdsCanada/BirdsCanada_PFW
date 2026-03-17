@@ -1,0 +1,126 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+# Zero-fill Matrix {#Zero3}
+
+```{r tidyr3, include = FALSE, warning = FALSE}
+
+library(knitr)
+opts_chunk$set(tidy.opts=list(width.cutoff=50), tidy = FALSE)
+
+```
+
+Many analyses require that you have records not only of when/where species were detected, but also where they were not detected. PFW contains records of species presence, however, we can infer species absence when a species was not detected during a survey, if the survey was done within the bounds of the species range. 
+
+> Let's start this Chapter by reloading our libraries and resetting our working directories in the event you took a break and are starting a new session with your newly filtered and cleaned data set. 
+
+```{r load packages, eval = FALSE}
+require(tidyverse)
+
+out.dir <- paste("Output/")
+dat.dir <- paste("Data/")
+
+```
+
+## Load Filtered Data {#Zero3.1}
+
+First we will load each of the filtered and cleaned PFW dataset into your working Environment under a different dateframe name.  
+
+```{r import data, eval = FALSE}
+
+data<-read.csv("Data/PFW_Canada_1988-2024.csv") #replace with your file name
+
+```
+
+## Species Range {#Zero3.2}
+
+For reporting purposes, we will zero-fill the data matrix based on Province (or State). Specifically, if a species was detected >25 time in the past 10 years within a specific Province, it will be considered in range. You can adjust these cut offs if you desire.  
+
+First, lets create the zero-fill range file for each Province by creating a master list that links all `SurveyAreaIdentifier` from PFW to Province, the we determine if a species was detected >=25 times. This is done using a loop, which creates a Range output table. Note that we use the `CommonName` for the species ID field, *not* `species_code` (which would at first glance seems to make sense, but in the long run it doesn't work out. Trust me!).
+
+```{r zero1, eval=FALSE, message=FALSE}
+
+max.year<-max(data$survey_year)
+filter.year<-max.year-10
+
+# Using the past 10 years of data to assign range limits for species
+dat<-data %>% filter(survey_year>=filter.year)
+dat<-dat %>% filter(!is.na(CommonName))
+
+# Remove duplicated and NA
+master<-dat %>% dplyr::select(StateProvince) %>% distinct() 
+
+# Write table to your output director for safe keeping. You will use the master list later. 
+write.table(master, file = paste(out.dir, "master_prov.csv", sep=""), row.names = FALSE, sep = ",")
+
+sp.list<-unique(dat$CommonName) #n=256 in full dataset. 
+
+# Create a species loop
+for(m in 1:length(sp.list)) {
+  
+ # m<-1 #for testing each species
+   
+  sp.data <-NULL 
+  sp.data <- filter(dat, CommonName == sp.list[m]) %>%
+      droplevels()
+
+# Count number of observation in each Atlas Block  
+  sp.data<-sp.data %>% group_by(StateProvince) %>%
+    dplyr::summarize(nobs=length(ObservationCount)) %>% 
+    mutate(count=ifelse(nobs>=25, 1, 0)) %>% 
+   dplyr::select(-nobs)
+
+  colnames(sp.data)[colnames(sp.data) == "count"] <- sp.list[m]
+
+master<-left_join(master, sp.data, by = "StateProvince" )
+
+} #end sp.list loop
+
+master[is.na(master)]=0
+
+# Write your new range table to an output file
+write.table(master, file = paste(out.dir, "Range_prov.csv", sep=""), row.names = FALSE, sep = ",")
+
+```
+
+Each row under the species id indicates if the Province is within range (1) or is out of range (0). 
+
+
+## Sampling Events {#Zero3.3}
+
+Now that we have a handle on the winter distribution/range of each species, we need to know when each PFW site was sampled. This way we only add a zero-count for a site that was being watched. This is done for each `SamplingEventIdentifier` which covers the two-day count period.  
+
+First we create new effort fields. The first sums the number of half days the feeder site was watched (max = 4) and the second changes the effort hours into a factor.  
+
+```{r effort, eval = FALSE}
+# Create effort days field (max = 4)
+data<-data %>% mutate(Effort_days = EffortMeasurement2 + EffortMeasurement3 + EffortMeasurement4 + EffortMeasurement5))/2
+
+data <- data %>%  rowwise() %>% 
+  mutate(Effort_days = sum(EffortMeasurement2, EffortMeasurement3, EffortMeasurement4,    EffortMeasurement5, na.rm = TRUE) / 2) %>% 
+  ungroup()
+
+# Create effort hours field that is a factor
+data<-data %>% mutate(Effort_hrs = as.factor(DurationInHours))
+
+```
+
+Now we are ready to create the full sampling events layer using the filtered Canadian PFW dataset.  
+
+```{r samplingEvents, eval = FALSE}
+
+event.data <- data %>%
+  dplyr::select(SurveyAreaIdentifier, SamplingEventIdentifier, latitude, longitude, survey_month, survey_day, survey_year, floor.week, Effort_days, Effort_hrs, StateProvince, region) %>%
+  group_by(SurveyAreaIdentifier, SamplingEventIdentifier, latitude, longitude, survey_month, survey_day, survey_year, floor.week, Effort_days, Effort_hrs, StateProvince, region) %>%
+  distinct() %>%
+  ungroup() %>%
+  as.data.frame()
+
+# write your new sampling events table to an Output folder
+write.table(event.data, paste(out.dir,"Events.csv", sep=""), row.names = FALSE, col.name = TRUE, append = FALSE, quote = FALSE, sep = ",")
+
+```
+
+Now you have the tables that you need to zero-fill your data matrix. We can now start creating data summaries in [Chapter 4](#Sum4). 

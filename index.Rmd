@@ -1,14 +1,14 @@
 --- 
-title: "Project FeederWatch: A Data Users Guide"
+title: "Project FeederWatch: A Data Users Guide for NatureCounts"
 author: "Danielle Ethier"
-date: "Version 1: March 2022"
+date: "Version 2: March 2026"
 site: bookdown::bookdown_site
 documentclass: book
 biblio-style: apalike
 link-citations: yes
-github-repo: DMEthier/PFW
-url: 'https://github.com/DMEthier/PFW.git'
-description: "PWF data maniputations and statical summaries"
+github-repo: BirdsCanada/BirdsCanada_PFW
+url: 'https://github.com/BirdsCanada/BirdsCanada_PFW'
+description: "PWF data maniputations and statical summaries for NatureCounts"
 cover-image: PFWbanner.png
 ---
 
@@ -18,5 +18,5 @@ cover-image: PFWbanner.png
 knitr::include_graphics("images/PFWbanner.png")
 ```
 
-Project FeederWatch is a continental citizen science dataset of winter bird distributions and abundances. The purpose of this workbook is to provide you with the basic tools and skills you will need to get started using the raw PFW data in R. Let's get started!
+Project FeederWatch is a continental citizen science dataset of winter bird distributions and abundances. The purpose of this workbook is to provide NatureCounts users with the basic tools and skills you will need to get started using the raw PFW data in R. Let's get started!
 
