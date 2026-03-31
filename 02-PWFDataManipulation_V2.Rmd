@@ -88,23 +88,43 @@ We also include the SPECIES_CODE column so that we can take advantage of the PFW
 
 ```{r filter1, eval = FALSE}
  canada.pfw <- canada.pfw %>%
-  mutate(date = ymd(paste(survey_year, survey_month, survey_day, sep = "/")), SEPCIES_CODE = SpeciesCode) %>%  
+  mutate(SPECIES_CODE = SpeciesCode) %>%  
   format_dates() %>% 
   filter(doy <= 93 | doy >= 312) %>% 
   pfw_rollup() #This is from the PFW library
 ```
 
-Now we assign a `floor.week` variable which starts on Saturday (i.e., +6)
+Now we assign a `floor.week` variable which starts on Saturday (i.e., +6). THis is needed for some of the weekly summaries. 
 
 ```{r filter2, eval = FALSE}
+
 canada.pfw <- canada.pfw %>% mutate(floor.week=floor_date(canada.pfw$date,unit="week")+6)
+
 ```
 
 We also assign `region` to the Canadian data set since several provinces are grouped for the purpose of summary statistics. 
 
 ```{r filter3, eval = FALSE}
+
 canada.pfw <- canada.pfw %>% 
-  mutate(region = ifelse(statprov_code=="ON", "ON", ifelse (statprov_code=="BC", "BC", ifelse(statprov_code == "AB", "PR", ifelse(statprov_code=="SK", "PR", ifelse(statprov_code=="MB", "PR", ifelse(statprov_code=="QC", "QC", ifelse(statprov_code=="NB", "AT", ifelse(statprov_code=="NS", "AT", ifelse(statprov_code=="PE", "AT", ifelse(statprov_code=="NL", "AT", ifelse(statprov_code=="YT", "North", ifelse(statprov_code=="NT", "North", NA)))))))))))))
+  mutate(region = case_when(
+    statprov_code == "ON" ~ "ON",
+    statprov_code == "BC" ~ "BC",
+    statprov_code %in% c("AB", "SK", "MB") ~ "PR",
+    statprov_code == "QC" ~ "QC",
+    statprov_code %in% c("NB", "NS", "PE", "NL") ~ "AT",
+    statprov_code %in% c("YT", "NT", "NU") ~ "North",
+    TRUE ~ NA_character_
+  ))
+
+```
+
+Since the survey period starts in one calendar year and ends in the next, we need to assign a `Period` column to the dataset. This will be the year that the survey ended.
+
+```{filter3, eval = FALSE}
+
+canada.pfw<-canada.pfw %>% mutate(Period = ifelse(survey_month >= 10, survey_year + 1, survey_year))
+
 ```
 
 Last, we will select the data columns that we need for analysis. 

@@ -47,12 +47,12 @@ filter.year<-max.year-10
 
 # Using the past 10 years of data to assign range limits for species
 dat<-data %>% filter(survey_year>=filter.year)
-dat<-dat %>% filter(!is.na(CommonName))
+dat<-dat %>% filter(!is.na(SpeciesCode))
 
 # Remove duplicated and NA
-master<-dat %>% dplyr::select(StateProvince) %>% distinct() 
+master<-dat %>% dplyr::select(statprov_code) %>% distinct() 
 
-sp.list<-unique(dat$CommonName) #n=256 in full dataset. 
+sp.list<-unique(dat$SpeciesCode) #n=256 in full dataset. 
 
 # Create a species loop
 for(m in 1:length(sp.list)) {
@@ -60,18 +60,18 @@ for(m in 1:length(sp.list)) {
  # m<-1 #for testing each species
    
   sp.data <-NULL 
-  sp.data <- filter(dat, CommonName == sp.list[m]) %>%
+  sp.data <- filter(dat, SpeciesCode == sp.list[m]) %>%
       droplevels()
 
 # Count number of observation in each Atlas Block  
-  sp.data<-sp.data %>% group_by(StateProvince) %>%
+  sp.data<-sp.data %>% group_by(statprov_code) %>%
     dplyr::summarize(nobs=length(ObservationCount)) %>% 
     mutate(count=ifelse(nobs>=25, 1, 0)) %>% 
    dplyr::select(-nobs)
 
   colnames(sp.data)[colnames(sp.data) == "count"] <- sp.list[m]
 
-master<-left_join(master, sp.data, by = "StateProvince" )
+master<-left_join(master, sp.data, by = "statprov_code" )
 
 } #end sp.list loop
 
@@ -93,7 +93,6 @@ First we create new effort fields. The first sums the number of half days the fe
 
 ```{r effort, eval = FALSE}
 # Create effort days field (max = 4)
-data<-data %>% mutate(Effort_days = EffortMeasurement2 + EffortMeasurement3 + EffortMeasurement4 + EffortMeasurement5))/2
 
 data <- data %>%  rowwise() %>% 
   mutate(Effort_days = sum(EffortMeasurement2, EffortMeasurement3, EffortMeasurement4,    EffortMeasurement5, na.rm = TRUE) / 2) %>% 
@@ -109,8 +108,8 @@ Now we are ready to create the full sampling events layer using the filtered Can
 ```{r samplingEvents, eval = FALSE}
 
 event.data <- data %>%
-  dplyr::select(SurveyAreaIdentifier, SamplingEventIdentifier, latitude, longitude, survey_month, survey_day, survey_year, floor.week, Effort_days, Effort_hrs, StateProvince, region) %>%
-  group_by(SurveyAreaIdentifier, SamplingEventIdentifier, latitude, longitude, survey_month, survey_day, survey_year, floor.week, Effort_days, Effort_hrs, StateProvince, region) %>%
+  dplyr::select(SurveyAreaIdentifier, SamplingEventIdentifier, latitude, longitude, survey_month, survey_day, survey_year, Period, floor.week, Effort_days, Effort_hrs, statprov_code, region) %>%
+  group_by(SurveyAreaIdentifier, SamplingEventIdentifier, latitude, longitude, survey_month, survey_day, survey_year, Period, floor.week, Effort_days, Effort_hrs, statprov_code, region) %>%
   distinct() %>%
   ungroup() %>%
   as.data.frame()
